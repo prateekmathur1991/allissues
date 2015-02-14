@@ -1,12 +1,10 @@
 <!Doctype html>
 <html>
 <head>
-	<title>Tic Tac Toe</title>
+	<title>All Issues</title>
     <meta http-equiv="content-type" charset="utf-8" content="text/html"/>
-	<link rel="stylesheet" href="css/main.css"  type="text/css">
-	<link rel="shortcut icon" type="image/png" href=img/favicon.png />
-	
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="css/main.css"  type="text/css" />
+	<link rel="shortcut icon" type="image/png" href="img/favicon.png" />
     
 </head>
 
@@ -17,26 +15,32 @@
     <h3>A centralized issue tracking system, for customers and dev teams</h3><a href = "about.html">Learn More</a>
 </header>
 
-<section id="login">
-	<form action="/login" method="post" id="devlogin">
-		Developer Login<br>
-		Email: <input type="email" id="devUName" required="required" />
-		Password: <input type="password" id="devPass" required="required" />
-		
-		<input type="submit" value="Log In" />
-	</form>
+<table id="login">
+	<tr>
+		<td id="devform">
+			<form action="/login" method="post" id="devlogin">
+				Developer Login<br>
+				Email: <input type="email" id="devUName" required="required" /><br>
+				Password: <input type="password" id="devPass" required="required" /><br>
+				<input type="submit" value="Log In" id="devSubmit" />
+			</form>
+		</td>
+		<td id="custform">
+			<form action="/login" method="post" id="custlogin">
+				Customer Login<br>
+				Email: <input type="email" id="custUName" required="required" /><br>
+				Password: <input type="password" id="custPass" required="required" /><br>
+				<input type="submit" value="Log In" id="custSubmit" /><br>
+			</form>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="reset_password.jsp">I forgot my password</a>
+		</td>
+	</tr>
+</table>
 	
-	<form action="/login" method="post" id="custlogin">
-		Customer Login<br>
-		Email: <input type="email" id="devUName" required="required" />
-		Password: <input type="password" id="devPass" required="required" />
-		
-		<input type="submit" value="Log In" />
-	</form>
-	
-	<a href="reset_password.jsp">I forgot my password</a>
-</section>
-
 <footer>
 	<p><b>Created by:</b> Prateek Mathur</p>
 </footer>

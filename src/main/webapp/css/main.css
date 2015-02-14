@@ -40,8 +40,9 @@ body	{
 	box-orient: vertical;
 	box-align: center;
 	
-	border-radius: 47px 47px 47px 47px;
-	-moz-border-radius: 47px 47px 47px 47px;
-	-webkit-border-radius: 47px 47px 47px 47px;
-	border: 13px solid #f00303;
+	border : 1px solid black;
+}
+
+#devform	{
+	text-align : left;
 }
