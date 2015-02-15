@@ -14,11 +14,16 @@
     along with All Issues. If not, see <http://www.gnu.org/licenses/>.
  */
 
-header, footer	{
+header	{
 	text-align : center;
 	background : #D3E3E8; 
 	font-family : "Cambria", Times, serif;
-	font-size: 20px;
+	font-size: 16px;
+}
+
+section	{
+	text-align : center;
+	background : #D3E3E8; 
 }
 
 body	{
@@ -43,6 +48,16 @@ body	{
 	border : 1px solid black;
 }
 
-#devform	{
-	text-align : left;
+#forgotpass	{
+	text-align : center;
+}
+
+th, td	{
+	text-align : right;
+	padding : 0.5rem;
+}
+
+th	{
+	font-weight : bold;
+	text-align : center;
 }

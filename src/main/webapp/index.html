@@ -12,38 +12,46 @@
 
 <header>
 	<h1>All Issues</h1>   
-    <h3>A centralized issue tracking system, for customers and dev teams</h3><a href = "about.html">Learn More</a>
+    <h3>A centralized issue tracking system, for customers and dev teams. &nbsp;  <a href="about.html">Learn More</a></h3>
 </header>
 
+<section>
+	<h3>Dont' have an account? <a href="signup.jsp">Sign Up here</a></h3>
+</section>
+
 <table id="login">
-	<tr>
-		<td id="devform">
-			<form action="/login" method="post" id="devlogin">
-				Developer Login<br>
-				Email: <input type="email" id="devUName" required="required" /><br>
-				Password: <input type="password" id="devPass" required="required" /><br>
-				<input type="submit" value="Log In" id="devSubmit" />
-			</form>
-		</td>
-		<td id="custform">
-			<form action="/login" method="post" id="custlogin">
-				Customer Login<br>
-				Email: <input type="email" id="custUName" required="required" /><br>
-				Password: <input type="password" id="custPass" required="required" /><br>
-				<input type="submit" value="Log In" id="custSubmit" /><br>
-			</form>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<a href="reset_password.jsp">I forgot my password</a>
-		</td>
-	</tr>
+	<thead>
+		<tr>
+			<th>Developer Login</th>
+			<th>Customer Login</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="2" id="forgotpass">
+				<a href="reset_password.jsp">I forgot my password</a>
+			</td>
+		</tr>
+	</tfoot>
+	<tbody>
+		<tr>
+			<td>
+				<form action="/login" method="post" id="devlogin">
+					Email: <input type="email" id="devUName" required="required" /><br>
+					Password: <input type="password" id="devPass" required="required" /><br>
+					<input type="submit" value="Log In" id="devSubmit" />
+				</form>
+			</td>
+			<td>
+				<form action="/login" method="post" id="custlogin">
+					Email: <input type="email" id="custUName" required="required" /><br>
+					Password: <input type="password" id="custPass" required="required" /><br>
+					<input type="submit" value="Log In" id="custSubmit" /><br>
+				</form>
+			</td>
+		</tr>
+	</tbody>
 </table>
 	
-<footer>
-	<p><b>Created by:</b> Prateek Mathur</p>
-</footer>
-
 </body>
 </html>
