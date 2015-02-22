@@ -14,11 +14,16 @@
     along with All Issues. If not, see <http://www.gnu.org/licenses/>.
  */
 
+body	{
+	padding : 0px;
+	margin : 0px;
+}
+
 header	{
 	text-align : center;
 	background : #D3E3E8; 
 	font-family : "Cambria", Times, serif;
-	font-size: 16px;
+	font-size : 16px;
 }
 
 section	{
@@ -28,35 +33,23 @@ section	{
 
 article	{
 	text-align : center;
-	font-family : "Cambria", Times, serif;
+	font-family : "Calibri", Times, serif;
 	font-size: 14px;
-}
-
-body	{
-	padding : 0px;
-	margin : 0px;
 }
 
 #login	{
 	margin: 1em;
 	
-	display: -moz-box;
-	-moz-box-orient: vertical;
-	-moz-box-align: center;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: flex;
 	
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-box-align: center;
-	
-	display: box;
-	box-orient: vertical;
-	box-align: center;
-	
-	border : 1px solid black;
+	justify-content : center;
 }
 
 #forgotpass	{
 	text-align : center;
+	font-family : "Calibri", Times, serif;
 }
 
 th, td	{
