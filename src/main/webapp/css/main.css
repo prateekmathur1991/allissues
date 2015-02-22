@@ -26,6 +26,12 @@ section	{
 	background : #D3E3E8; 
 }
 
+article	{
+	text-align : center;
+	font-family : "Cambria", Times, serif;
+	font-size: 14px;
+}
+
 body	{
 	padding : 0px;
 	margin : 0px;
@@ -33,13 +39,14 @@ body	{
 
 #login	{
 	margin: 1em;
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-box-align: center;
 	
 	display: -moz-box;
 	-moz-box-orient: vertical;
 	-moz-box-align: center;
+	
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-box-align: center;
 	
 	display: box;
 	box-orient: vertical;
