@@ -36,15 +36,6 @@
 		<p>Issue Description Goes here</p>
 	</section>
 	
-	<section id="comments">
-		<p style="font-weight: bold; font-size=14px">Comments:</p>
-		<p>Comments to be displayed using JSP dynamically</p>
-		<form action="/AddComment" method="post">
-			<textarea rows="5" cols="20"></textarea>
-			<input type="submit" value="Comment" />&nbsp;&nbsp; <input type="submit" value="Comment and Re-open" />
-		</form>
-	</section>
-	
 </section>
 </body>
 </html>
