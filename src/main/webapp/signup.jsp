@@ -7,6 +7,25 @@
 	<title>All Issues | Sign Up</title>
 	<link rel="shortcut icon" type="image/png" href="img/favicon.png" />
 	
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(function()	{
+			$("#registerForm").validate({
+        		rules: {
+            		confirm_password: {
+                		equalTo: "#password"
+            		}
+        		},
+				messages:	{
+					confirm_password : "Passwords do not match"
+				}
+			});
+		});
+    		
+	</script>
+	
 	<style type="text/css">
 		body	{
 			padding : 0px;
@@ -26,23 +45,7 @@
 		}
 	</style>
 	
-	<script type="text/javascript">
-		window.onload = function()	{
-			document.getElementById("password2").onchange = validatePassword;
-		}
-		
-		function validatePassword()	{
-			var pass1 = document.getElementById("password1").toString();
-			var pass2 = document.getElementById("password2").toString();
-			
-			if (pass1 != pass2)	{
-				document.getElementById("password2").setCustomValidity("Passwords do not match");
-			}
-			else	{
-				document.getElementById("password2").setCustomValidity('');
-			}
-		}
-	</script>
+	
 	
 </head>
 
@@ -55,22 +58,37 @@
 
 <section id="register">
 	<form action="/register" method="post" id="registerForm">
-		<label for="email">Enter a valid email id:</label>
-		<input type="email" id="email" required="required" /><br><br>
-		
-		<label for="firstName">Enter your first name:</label>
-		<input type="text" id="firstName" required="required" /><br><br>
-		
-		<label for="lastName">Enter your last name:</label>
-		<input type="text" id="lastName" required="required" /><br><br>
-		
-		<label for="password1">Choose a password:</label>
-		<input type="password" id="password1" required="required" /><br><br>
-		
-		<label for="password2">Confirm password:</label>
-		<input type="password" id="password2" required="required" /><br><br>
-		
-		<input type="submit" value="Submit" id="regSubmit" style="width: 107px; "/>
+		<p>
+			<label for="type">You are a:&nbsp;</label>
+			<select id="type" name="type">
+				<option selected="selected">Developer</option>
+				<option>Customer</option>
+			</select>
+		</p>
+		<p>
+			<label for="email">Enter a valid email id:</label>
+			<input type="email" id="userEmail" name="userEmail" />
+		</p>
+		<p>
+			<label for="firstName">Enter your first name:</label>
+			<input type="text" id="firstName" name="firstName" required pattern=".{2,}" title="First Name must be atleast 2 characters long" />
+		</p>
+		<p>
+			<label for="lastName">Enter your last name:</label>
+			<input type="text" id="lastName" class="userName" required pattern=".{2,}" title="Last Name must be atleast 2 characters long" />
+		</p>
+		<p>
+			<label for="password">Choose a password:</label>
+			<input type="password" id="password" name="password" required pattern=".{6,}" 
+				title="Password must be atleast 6 characters long" />
+		</p>
+		<p>
+			<label for="confirm_password">Confirm password:</label>
+			<input type="password" id="confirm_password" name="confirm_password" required />
+		</p>
+		<p>
+			<input type="submit" value="Submit" id="regSubmit" name="regSubmit" style="width: 107px; "/>
+		</p>
 	</form>
 </section>
 
