@@ -28,6 +28,18 @@ import com.googlecode.objectify.annotation.Id;
 
 @Entity
 public class Customer {
+	/**
+	 * Constructor for the Developer class, used to create a developer entity and save it in the datastore.
+	 */
+	public Customer(String email, String name, String password)	{
+		this.email = email;
+		this.name = name;
+		this.password = password;
+		
+		noOfBugsCreated = 0;
+		noOfProjects = 0;
+	}
+	
 	@Id // The @Id annotation represents that this field will be used to uniquely identify the entity in the datstore
 	/**
 	 * Email of the customer
