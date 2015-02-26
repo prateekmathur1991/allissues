@@ -46,12 +46,14 @@ public class RegisterServlet extends HttpServlet {
 		String lastName = request.getParameter("lastName");
 		String password = request.getParameter("password");
 		
+		System.out.println(accountType);
+		
 		if (accountType == "Developer")	{
-			Developer developer = new Developer(email, new String(firstName + lastName), password);
+			Developer developer = new Developer(email, firstName, lastName, password);
 			ofy().save().entity(developer).now();
 		}
 		else	{
-			Customer customer = new Customer(email, new String(firstName + lastName), password);
+			Customer customer = new Customer(email, firstName, lastName, password);
 			ofy().save().entity(customer).now();
 		}
 		

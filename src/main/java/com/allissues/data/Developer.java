@@ -32,9 +32,10 @@ public class Developer {
 	/**
 	 * Constructor for the Developer class, used to create a developer entity and save it in the datastore.
 	 */
-	public Developer(String email, String name, String password)	{
+	public Developer(String email, String firstName, String lastName,  String password)	{
 		this.email = email;
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.password = password;
 		
 		noOfBugsAssigned = 0;
@@ -48,9 +49,14 @@ public class Developer {
 	private String email;
 	
 	/**
-	 * Name of the customer
+	 * First Name of the developer
 	 */
-	private String name;
+	private String firstName;
+	
+	/**
+	 * Last name of the developer
+	 */
+	private String lastName;
 	
 	/**
 	 * Represents the user password
