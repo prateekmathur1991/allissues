@@ -48,6 +48,9 @@
 		<input type="date" id="deadline" name="deadline" />
 	</p>
 	<p>
+		<label for="assignTo">Assign this issue to:</label>
+		<input type="text" name="assignTo" id="assignTo" />
+	<p>
 		<input type="submit" value="Add Issue" id="addIssue" name="addIssue" />
 	</p>
 </form>

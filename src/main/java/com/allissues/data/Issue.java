@@ -31,6 +31,19 @@ import com.googlecode.objectify.annotation.Id;
 
 @Entity
 public class Issue {
+	/**
+	 * Public constructor for Issue
+	 */
+	public Issue(String title, String description, int priority, Customer createdBy, Developer assignedTo, String status, Date deadline)	{
+		this.title = title;
+		this.description = description;
+		this.priority = priority;
+		this.createdBy = createdBy;
+		this.assignedTo = assignedTo;
+		this.status = status;
+		this.estimatedResolutionDate = deadline;
+	}
+	
 	@Id // The @Id annotation represents that this field will be used to uniquely identify the entity in the datstore
 	/**
 	 * An ID that can uniquely identify the issue in the system

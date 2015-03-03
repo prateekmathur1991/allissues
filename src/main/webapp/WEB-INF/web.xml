@@ -32,4 +32,14 @@
     <servlet-name>CreateIssue</servlet-name>
     <url-pattern>/AddIssue</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CreateProject</display-name>
+    <servlet-name>CreateProject</servlet-name>
+    <servlet-class>com.allissues.logic.CreateProject</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateProject</servlet-name>
+    <url-pattern>/CreateProject</url-pattern>
+  </servlet-mapping>
 </web-app>

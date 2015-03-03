@@ -42,11 +42,9 @@ public class RegisterServlet extends HttpServlet {
 			ofy().save().entity(customer).now();
 		}
 		
-		Cookie loginCookie = new Cookie("email", email);
-		loginCookie.setMaxAge(30*60);
-		response.addCookie(loginCookie);
+		request.setAttribute("username", new String(firstName + " " + lastName));
 		
-		response.sendRedirect("Home.jsp");
+		request.getRequestDispatcher("Home.jsp").forward(request, response);
 	}
 
 }

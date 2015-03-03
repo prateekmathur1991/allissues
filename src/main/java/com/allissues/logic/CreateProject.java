@@ -17,47 +17,22 @@
 package com.allissues.logic;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.allissues.data.Customer;
-import com.allissues.data.Issue;
-
 /**
- * Servlet implementation class CreateIssue
+ * Servlet implementation class CreateProject
  */
-public class CreateIssue extends HttpServlet {
+public class CreateProject extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String title;
-		String description;
-		int priority;
-		Date deadline;
-		
-		Cookie [] cookies = request.getCookies();
-		String username = cookies[0].getValue();
-		
-		try {
-			title = request.getParameter("title");
-			description = request.getParameter("description");
-			priority = Integer.parseInt(request.getParameter("priority"));
-			deadline = new SimpleDateFormat("yyyy/mm/dd").parse(request.getParameter("deadline"));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-		
+		// TODO Auto-generated method stub
 	}
 
 }

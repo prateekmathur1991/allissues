@@ -1,3 +1,4 @@
+<%@page import="com.google.appengine.api.users.User"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -19,16 +20,22 @@
     		font-family: "Calibri", Times, serif;
     		text-align: center;
     	}
+    	section	{
+    		display: flex;
+    		justify-content: center;
+    	}
     </style>
 </head>
 
+
 <body>
+
 <header>
 	<h1>All Issues</h1>   
     <h3>A centralized issue tracking system, for customers and dev teams. </h3>
     
     <nav>
-    	Welcome, <a href=""></a>
+    	Welcome, <a href="profile.jsp"></a>
     </nav>
 </header>
 
@@ -43,7 +50,7 @@
 	</form>
 </section>
 
-<section id="issue">
+<section id="createIssue">
 	<a href="createissue.jsp">Create Issue</a>
 </section>
 
