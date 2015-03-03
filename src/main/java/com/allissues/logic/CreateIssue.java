@@ -20,10 +20,11 @@ public class CreateIssue extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String title = request.getParameter("title");
+		String description = request.getParameter("description");
+		int priority = Integer.parseInt(request.getParameter("priority"));
+		
 		try {
-			String title = request.getParameter("title");
-			String description = request.getParameter("description");
-			int priority = Integer.parseInt(request.getParameter("priority"));
 			Date deadline = new SimpleDateFormat("yyyy/mm/dd").parse(request.getParameter("deadline"));
 		} catch (ParseException e) {
 			e.printStackTrace();

@@ -5,6 +5,7 @@ import static com.allissues.service.OfyService.ofy;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +41,10 @@ public class RegisterServlet extends HttpServlet {
 			Customer customer = new Customer(email, firstName, lastName, password);
 			ofy().save().entity(customer).now();
 		}
+		
+		Cookie loginCookie = new Cookie("email", email);
+		loginCookie.setMaxAge(30*60);
+		response.addCookie(loginCookie);
 		
 		response.sendRedirect("Home.jsp");
 	}
