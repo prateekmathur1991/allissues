@@ -33,3 +33,4 @@ out
 .project
 .checkstyle
 eclipse-launch-profiles/
+.settings/

@@ -45,9 +45,6 @@ public class CreateIssue extends HttpServlet {
 		int priority;
 		Date deadline;
 		
-		Cookie [] cookies = request.getCookies();
-		String username = cookies[0].getValue();
-		
 		try {
 			title = request.getParameter("title");
 			description = request.getParameter("description");
