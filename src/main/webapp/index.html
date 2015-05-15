@@ -6,53 +6,69 @@
 	<link rel="stylesheet" href="css/main.css"  type="text/css" />
 	<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
 	<link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+	
+	<style>
+		body {
+			background-image: url("img/back.jpg");
+			width: 100%;
+			height: 600px;
+			background-repeat: no-repeat;
+			 -webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover; 
+		}
+	</style>
     
 </head>
 
-<body background="img/bug1.jpg">
+<body>
 
-<header>
-	<h1>All Issues</h1>   
-    <h3>A centralized issue tracking system, for customers and dev teams. &nbsp;  <a href="about.html">Learn More</a></h3>
-</header>
+<div id="imgContainer">
+</div>
 
-<section>
-	<h3>Dont' have an account? <a href="signup.jsp">Sign Up here</a></h3>
-</section>
+<!-- <div> -->
+<!-- 	<h1>All Issues</h1>    -->
+<!--     <h3>A centralized issue tracking system, for customers and dev teams. &nbsp;  <a href="about.html">Learn More</a></h3> -->
+<!-- </div> -->
 
-<table id="login">
-	<thead>
-		<tr>
-			<th>Developer Login</th>
-			<th>Customer Login</th>
-		</tr>
-	</thead>
-	<tfoot>
-		<tr>
-			<td colspan="2" id="forgotpass">
-				<a href="reset_password.html">I forgot my password</a>
-			</td>
-		</tr>
-	</tfoot>
-	<tbody>
-		<tr>
-			<td>
-				<form action="/login" method="post" id="devlogin">
-					Email: <input type="email" id="devUName" required="required" /><br>
-					Password: <input type="password" id="devPass" required="required" /><br>
-					<input type="submit" value="Log In" id="devSubmit" />
-				</form>
-			</td>
-			<td>
-				<form action="/login" method="post" id="custlogin">
-					Email: <input type="email" id="custUName" required="required" /><br>
-					Password: <input type="password" id="custPass" required="required" /><br>
-					<input type="submit" value="Log In" id="custSubmit" /><br>
-				</form>
-			</td>
-		</tr>
-	</tbody>
-</table>
+<!-- <section> -->
+<!-- 	<h3>Dont' have an account? <a href="signup.jsp">Sign Up here</a></h3> -->
+<!-- </section> -->
+
+<!-- <table id="login"> -->
+<!-- 	<thead> -->
+<!-- 		<tr> -->
+<!-- 			<th>Developer Login</th> -->
+<!-- 			<th>Customer Login</th> -->
+<!-- 		</tr> -->
+<!-- 	</thead> -->
+<!-- 	<tfoot> -->
+<!-- 		<tr> -->
+<!-- 			<td colspan="2" id="forgotpass"> -->
+<!-- 				<a href="reset_password.html">I forgot my password</a> -->
+<!-- 			</td> -->
+<!-- 		</tr> -->
+<!-- 	</tfoot> -->
+<!-- 	<tbody> -->
+<!-- 		<tr> -->
+<!-- 			<td> -->
+<!-- 				<form action="/login" method="post" id="devlogin"> -->
+<!-- 					Email: <input type="email" id="devUName" required="required" /><br> -->
+<!-- 					Password: <input type="password" id="devPass" required="required" /><br> -->
+<!-- 					<input type="submit" value="Log In" id="devSubmit" /> -->
+<!-- 				</form> -->
+<!-- 			</td> -->
+<!-- 			<td> -->
+<!-- 				<form action="/login" method="post" id="custlogin"> -->
+<!-- 					Email: <input type="email" id="custUName" required="required" /><br> -->
+<!-- 					Password: <input type="password" id="custPass" required="required" /><br> -->
+<!-- 					<input type="submit" value="Log In" id="custSubmit" /><br> -->
+<!-- 				</form> -->
+<!-- 			</td> -->
+<!-- 		</tr> -->
+<!-- 	</tbody> -->
+<!-- </table> -->
 	
 </body>
 </html>
