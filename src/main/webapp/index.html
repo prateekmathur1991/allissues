@@ -1,74 +1,158 @@
-<!Doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-	<title>All Issues</title>
-    <meta http-equiv="content-type" charset="utf-8" content="text/html"/>
-	<link rel="stylesheet" href="css/main.css"  type="text/css" />
-	<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
-	<link rel="shortcut icon" type="image/png" href="img/favicon.png" />
-	
-	<style>
-		body {
-			background-image: url("img/back.jpg");
-			width: 100%;
-			height: 600px;
-			background-repeat: no-repeat;
-			 -webkit-background-size: cover;
-			-moz-background-size: cover;
-			-o-background-size: cover;
-			background-size: cover; 
-		}
-	</style>
-    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>All Issues</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/main.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
 
-<body>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
-<div id="imgContainer">
-</div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+<!--                 <a class="navbar-brand page-scroll" href="#page-top"> -->
+<!--                     <i class="fa fa-play-circle"></i>  <span class="light">Start</span> Bootstrap -->
+<!--                 </a> -->
+            </div>
 
-<!-- <div> -->
-<!-- 	<h1>All Issues</h1>    -->
-<!--     <h3>A centralized issue tracking system, for customers and dev teams. &nbsp;  <a href="about.html">Learn More</a></h3> -->
-<!-- </div> -->
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#source">View Source</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
 
-<!-- <section> -->
-<!-- 	<h3>Dont' have an account? <a href="signup.jsp">Sign Up here</a></h3> -->
-<!-- </section> -->
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h1 class="brand-heading">All Issues</h1>
+                        <p class="intro-text">All Issues is a centralized issue tracking system for both customers and dev teams.<br></br></p>
+                        <a href="#about" class="btn btn-circle page-scroll">
+                            <i class="fa fa-angle-double-down animated"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-<!-- <table id="login"> -->
-<!-- 	<thead> -->
-<!-- 		<tr> -->
-<!-- 			<th>Developer Login</th> -->
-<!-- 			<th>Customer Login</th> -->
-<!-- 		</tr> -->
-<!-- 	</thead> -->
-<!-- 	<tfoot> -->
-<!-- 		<tr> -->
-<!-- 			<td colspan="2" id="forgotpass"> -->
-<!-- 				<a href="reset_password.html">I forgot my password</a> -->
-<!-- 			</td> -->
-<!-- 		</tr> -->
-<!-- 	</tfoot> -->
-<!-- 	<tbody> -->
-<!-- 		<tr> -->
-<!-- 			<td> -->
-<!-- 				<form action="/login" method="post" id="devlogin"> -->
-<!-- 					Email: <input type="email" id="devUName" required="required" /><br> -->
-<!-- 					Password: <input type="password" id="devPass" required="required" /><br> -->
-<!-- 					<input type="submit" value="Log In" id="devSubmit" /> -->
-<!-- 				</form> -->
-<!-- 			</td> -->
-<!-- 			<td> -->
-<!-- 				<form action="/login" method="post" id="custlogin"> -->
-<!-- 					Email: <input type="email" id="custUName" required="required" /><br> -->
-<!-- 					Password: <input type="password" id="custPass" required="required" /><br> -->
-<!-- 					<input type="submit" value="Log In" id="custSubmit" /><br> -->
-<!-- 				</form> -->
-<!-- 			</td> -->
-<!-- 		</tr> -->
-<!-- 	</tbody> -->
-<!-- </table> -->
-	
+    <!-- About Section -->
+    <section id="about" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>About All Issues</h2>
+                <p>All Issues is an online issue tracking system, that keeps track of issues and bugs in your software. All Issues acts as a liason between customers and dev team, by providing a common platform to discuss about enhancements and defects in the software.</p>
+                <p>All Issues can be be used by customers and developers alike, wherein customers can open issues in the software that can be communicated to the dev team, and the dev team can start working on the issues to fix them.</p>
+                <p>This project is fully open sourced, and is licensed under the GNU GPL license v3. The source code can be viewed <a href="https://www.github.com/prateekmathur1991/allissues.git">here.</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="source" class="content-section text-center">
+        <div class="download-section">
+            <div class="container">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h2>Open Sourced</h2>
+                    <p>All Issues if fully open source and is licensed under the GNU GPL license v3</p>
+                    <a href="https://www.github.com/prateekmathur1991/allissues.git" class="btn btn-primary btn-lg">View Source</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>Contact Start Bootstrap</h2>
+                <p>Feel free to email us to provide some feedback on our templates, give us suggestions for new templates and themes, or to just say hello!</p>
+                <p><a href="mailto:feedback@startbootstrap.com">feedback@startbootstrap.com</a>
+                </p>
+                <ul class="list-inline banner-social-buttons">
+                    <li>
+                        <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+                    </li>
+                    <li>
+                        <a href="https://plus.google.com/+Startbootstrap/posts" class="btn btn-default btn-lg"><i class="fa fa-google-plus fa-fw"></i> <span class="network-name">Google+</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p>Copyright &copy; Prateek Mathur</p>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/render.js"></script>
+
 </body>
+
 </html>
