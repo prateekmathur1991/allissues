@@ -44,3 +44,8 @@ $(function() {
 $('.navbar-collapse ul li a').click(function() {
     $('.navbar-toggle:visible').click();
 });
+
+// Adds an onclick click handler the 'Get Started' button
+$('#getStarted').click(function()	{
+	window.open("https://www.github.com/prateekmathur1991/allissues.git");
+});
