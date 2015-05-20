@@ -49,3 +49,8 @@ $('.navbar-collapse ul li a').click(function() {
 $('#getStarted').click(function()	{
 	window.open("https://www.github.com/prateekmathur1991/allissues.git");
 });
+
+// Prevents the login box on home page from closing when clicked
+$('#loginBox').click(function(e)	{
+	e.stopPropagation();
+});

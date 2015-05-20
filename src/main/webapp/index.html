@@ -57,10 +57,36 @@
                         <a class="page-scroll" href="#about">About</a>
                     </li>
 					 <li>
-                        <a class="page-scroll" href="#">Login</a>
-                    </li>
-                    <li>
                         <a class="page-scroll" href="#source">Get Started</a>
+                    </li>
+                    <li class="dropdown" id="loginMenu">
+                        <a class="dropdown-toggle page-scroll" data-toggle="dropdown" href="#loginMenu">
+							Login
+							<b class="caret"></b>
+						</a>
+						<ul class ="dropdown-menu" id="loginBox">
+							<li>
+								<div class="control-group">
+									<label for="uname" style="color: black">Username</label>
+									<div class="controls">
+										<input type="text" id="uname" name="uname" />
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="control-group">
+									<label for="pass" style="color: black">Password</label>
+									<div class="controls">
+										<input type="password" id="pass" name="pass" />
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="control-group">
+									<input type="submit" id="sub" name="sub" value="Submit"></input>
+								</div>
+							</li>
+						</ul>
                     </li>
                 </ul>
             </div>
