@@ -60,33 +60,23 @@
                         <a class="page-scroll" href="#source">Get Started</a>
                     </li>
                     <li class="dropdown" id="loginMenu">
-                        <a class="dropdown-toggle page-scroll" data-toggle="dropdown" href="#loginMenu">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="navLogin">
 							Login
-							<b class="caret"></b>
+                            <b class="caret"></b>
 						</a>
-						<ul class ="dropdown-menu" id="loginBox">
-							<li>
-								<div class="control-group">
-									<label for="uname" style="color: black">Username</label>
-									<div class="controls">
-										<input type="text" id="uname" name="uname" />
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="control-group">
-									<label for="pass" style="color: black">Password</label>
-									<div class="controls">
-										<input type="password" id="pass" name="pass" />
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="control-group">
-									<input type="submit" id="sub" name="sub" value="Submit"></input>
-								</div>
-							</li>
-						</ul>
+                        <div class="dropdown-menu" style="padding: 17px; background-color: black;">
+                            <form class="form" action="/login" method="post">
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input name="username" id="username" type="text" placeholder="Username" style="color: black;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input name="password" id="password" type="password" placeholder="Password" style="color: black;"><br>
+                                </div>
+                                <button type="button" id="btnLogin" class="btn btn-primary" style="margin-top: 17px;">Login</button>
+                            </form>
+                        </div>
                     </li>
                 </ul>
             </div>
