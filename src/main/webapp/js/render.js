@@ -47,7 +47,7 @@ $('.navbar-collapse ul li a').click(function() {
 
 // Adds an onclick click handler the 'Get Started' button
 $('#getStarted').click(function()	{
-	window.open("https://www.github.com/prateekmathur1991/allissues.git");
+	window.open("signup.html");
 });
 
 // Prevents the login box on home page from closing when clicked
