@@ -31,7 +31,7 @@ public class RegisterServlet extends HttpServlet {
 		String lastName = request.getParameter("lastName");
 		String password = request.getParameter("password");
 		
-		System.out.println(accountType);
+		// System.out.println(accountType);
 		
 		if (accountType.equalsIgnoreCase("Developer"))	{
 			Developer developer = new Developer(email, firstName, lastName, password);

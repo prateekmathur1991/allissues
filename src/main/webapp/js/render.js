@@ -47,7 +47,7 @@ $('.navbar-collapse ul li a').click(function() {
 
 // Adds an onclick click handler the 'Get Started' button
 $('#getStarted').click(function()	{
-	window.open("signup.html");
+	window.location.href = window.location + "signup.html";
 });
 
 // Prevents the login box on home page from closing when clicked
