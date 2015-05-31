@@ -15,7 +15,7 @@
  */
 
 /**
- * Provides utility methods for All Issues front end.
+ * Utility methods for All Issues front end.
  * 
  * @author Prateek Mathur
  */
@@ -54,3 +54,4 @@ $('#getStarted').click(function()	{
 $('#loginBox').click(function(e)	{
 	e.stopPropagation();
 });
+
