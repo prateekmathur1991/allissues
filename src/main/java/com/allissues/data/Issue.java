@@ -68,7 +68,7 @@ public class Issue {
 	/**
 	 * Reference to the customer object who created the issue
 	 */
-	private Customer createdBy;	
+	private Customer createdBy;
 	
 	/**
 	 * Reference to the developer object to whom the project is assigned

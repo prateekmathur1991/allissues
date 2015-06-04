@@ -20,7 +20,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
 /**
- * Represents the profile of a Customer, and contains fields to identify the same.
+ * Represents a Customer entity
  * 
  * @author Prateek Mathur
  *
@@ -28,37 +28,19 @@ import com.googlecode.objectify.annotation.Id;
 
 @Entity
 public class Customer {
-	/**
-	 * Constructor for the Developer class, used to create a developer entity and save it in the datastore.
-	 */
-	public Customer(String email, String firstName, String lastName, String password)	{
-		this.email = email;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.password = password;
-		
-		noOfBugsCreated = 0;
-		noOfProjects = 0;
-	}
-	
-	@Id // The @Id annotation represents that this field will be used to uniquely identify the entity in the datstore
-	/**
-	 * Email of the customer
-	 */
-	private String email;
+
+    /**
+     * Email of the customer, used to uniquely identify the entity in datastore
+     */
+    @Id private String email;
 	
 	/**
-	 * First name of the customer
+	 * Name of the customer
 	 */
-	private String firstName;
-	
-	/**
-	 * Last name of the customer
-	 */
-	private String lastName;
-	
-	/**
-	 * Represents the user password
+	private String name;
+
+    /**
+	 * Represents the customer password
 	 */
 	private String password;
 	
@@ -71,4 +53,61 @@ public class Customer {
 	 * No. of projects owned by this customer
 	 */
 	private int noOfProjects;
+
+	/**
+	 * Constructor for the Customer class
+	 */
+	public Customer(String email, String name, String password)	{
+		this.email = email;
+		this.name = name;
+		this.password = password;
+
+		noOfBugsCreated = 0;
+		noOfProjects = 0;
+	}
+
+    /**
+     * Getter for Email
+     *
+     * @return
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Getter for Name
+     *
+     * @return
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Getter for Password
+     *
+     * @return
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Getter for noOfBugsCreated
+     *
+     * @return
+     */
+    public int getNoOfBugsCreated() {
+        return noOfBugsCreated;
+    }
+
+    /**
+     * Getter for noOfProjects
+     *
+     * @return
+     */
+    public int getNoOfProjects() {
+        return noOfProjects;
+    }
 }

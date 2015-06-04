@@ -88,7 +88,6 @@ $('#confirmpass').on('input', function()    {
 // On Submission Form Validation
 $("#signupbutton").click(function(event){
      if (hasError)    {
-        alert("Found Error");
         event.preventDefault();
         $('#error').show();
      }

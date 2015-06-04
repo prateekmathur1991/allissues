@@ -29,34 +29,16 @@ import com.googlecode.objectify.annotation.Id;
 
 @Entity
 public class Developer {
+
 	/**
-	 * Constructor for the Developer class, used to create a developer entity and save it in the datastore.
+	 * Email of the customer, used to uniquely identify the entity in datastore
 	 */
-	public Developer(String email, String firstName, String lastName,  String password)	{
-		this.email = email;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.password = password;
-		
-		noOfBugsAssigned = 0;
-		noOfBugsFixed = 0;
-	}
-	
-	@Id // The @Id annotation represents that this field will be used to uniquely identify the entity in the datstore
-	/**
-	 * Email of the customer
-	 */
-	private String email;
+	@Id private String email;
 	
 	/**
-	 * First Name of the developer
+	 * Name of the developer
 	 */
-	private String firstName;
-	
-	/**
-	 * Last name of the developer
-	 */
-	private String lastName;
+	private String name;
 	
 	/**
 	 * Represents the user password
@@ -72,4 +54,51 @@ public class Developer {
 	 * No. of bugs assigned to the developer
 	 */
 	private int noOfBugsAssigned;
+
+	/**
+	 * Constructor for the Developer class, used to create a developer entity and save it in the datastore.
+	 */
+	public Developer(String email, String name,  String password)	{
+		this.email = email;
+		this.name = name;
+		this.password = password;
+
+		noOfBugsAssigned = 0;
+		noOfBugsFixed = 0;
+	}
+
+	/**
+	 * Getter for email
+	 */
+	public String getEmail()	{
+		return email;
+	}
+
+	/**
+	 * Getter for name
+	 */
+	public String getName()	{
+		return name;
+	}
+
+	/**
+	 * Getter for password
+	 */
+	public String getPassword()	{
+		return password;
+	}
+
+	/**
+	 * Getter for noOfBugsFixed
+	 */
+	public int getNoOfBugsFixed()	{
+		return noOfBugsFixed;
+	}
+
+	/**
+	 * Getter for noOfBugsAssigned
+	 */
+	public int getNoOfBugsAssigned()	{
+		return noOfBugsAssigned;
+	}
 }
