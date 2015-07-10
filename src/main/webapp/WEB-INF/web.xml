@@ -8,9 +8,7 @@
       <web-resource-name>all</web-resource-name>
       <url-pattern>/*</url-pattern>
     </web-resource-collection>
-    <customer-data-constraint>
-      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-    </customer-data-constraint>
+    
   </security-constraint>
   <servlet>
     <description></description>
