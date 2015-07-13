@@ -101,4 +101,7 @@ public class Developer {
 	public int getNoOfBugsAssigned()	{
 		return noOfBugsAssigned;
 	}
+	
+	// Making the default constructor private
+	private Developer() {}
 }

@@ -20,7 +20,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
 /**
- * Represents a Customer entity
+ * Represents the profile of a Customer, and contains fields to identify the same.
  * 
  * @author Prateek Mathur
  *
@@ -110,4 +110,7 @@ public class Customer {
     public int getNoOfProjects() {
         return noOfProjects;
     }
+    
+    // Making the default constructor private
+    private Customer() {}
 }
