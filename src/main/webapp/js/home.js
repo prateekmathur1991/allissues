@@ -50,8 +50,34 @@ $('#getStarted').click(function()	{
 	window.location.href = window.location + "signup.html";
 });
 
+// Add an onlick handler to the login button
+$('#btnLogin').on('click', loginAction);
+
 // Prevents the login box on home page from closing when clicked
 $('#loginBox').click(function(e)	{
 	e.stopPropagation();
 });
 
+// JS Function to execute on login button click event
+function loginAction()	{
+	var email = $('#email').val();
+	var password = $('#password').val();
+	
+	if (email == "")	{
+		$('#error-box').html("Please enter your email");
+		$('#email').focus();
+		return false;
+	}
+	
+	if (password == "")	{
+		$('#error-box').html("Please enter your password");
+		$('#password').focus();
+		return false;
+	}
+	
+	var credentials = $('#loginFrm').serialize();
+	
+	/* $.ajax({
+		url: "/login"
+	}); */
+}

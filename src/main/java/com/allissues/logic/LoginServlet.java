@@ -24,6 +24,7 @@ import com.googlecode.objectify.Key;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(LoginServlet.class.getName());
 
 	/**
 	 * doGet implementation for RegisterServlet
@@ -51,31 +53,40 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
+		logger.info("Inside LoginServlet");
+		
+		String email = request.getParameter("email") == null ? "" : request.getParameter("email");
+		String password = request.getParameter("password") == null ? "" : request.getParameter("password");
+		
+		logger.info("email:: " + email + " password::" + password);
 		
 		Customer customer = null;
 		Developer developer = null;
 
-		// Try to load Customer entity from datastore
-		customer = ofy().load().key(Key.create(Customer.class, email)).now();
-		
-		if (null == customer)	{
-			developer = ofy().load().key(Key.create(Developer.class, email)).now();
-			if (developer != null)	{
-				if (developer.getPassword().equals(password))	{
-					// Developer login successful
-					// Set the username for session tracking
-					request.setAttribute("username", developer.getName());
-					request.getRequestDispatcher("Home.jsp").forward(request, response);
+		if (!email.equals("") && !password.equals("")) {
+			// Try to load Customer entity from datastore
+			customer = ofy().load().key(Key.create(Customer.class, email))
+					.now();
+			if (null == customer) {
+				developer = ofy().load()
+						.key(Key.create(Developer.class, email)).now();
+				if (developer != null) {
+					if (developer.getPassword().equals(password)) {
+						// Developer login successful
+						// Set the username for session tracking
+						request.setAttribute("username", developer.getName());
+						request.getRequestDispatcher("Home.jsp").forward(
+								request, response);
+					}
 				}
-			}
-		} else	{
-			if (customer.getPassword().equals(password)) {
-				// Customer login successful
-				// Set the username for session tracking
-				request.setAttribute("username", customer.getName());
-				request.getRequestDispatcher("Home.jsp").forward(request, response);
+			} else {
+				if (customer.getPassword().equals(password)) {
+					// Customer login successful
+					// Set the username for session tracking
+					request.setAttribute("username", customer.getName());
+					request.getRequestDispatcher("Home.jsp").forward(request,
+							response);
+				}
 			}
 		}
 		

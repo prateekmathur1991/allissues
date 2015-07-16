@@ -62,7 +62,7 @@
                             <b class="caret"></b>
 						</a>
                         <div class="dropdown-menu" style="padding: 17px; background-color: black;">
-                            <form class="form" action="/login" method="post">
+                            <form class="form" action="/login" method="post" id="loginFrm" name="loginFrm">
                                 <div class="form-group">
                                     <label for="username">Email</label>
                                     <input name="email" id="email" type="text" placeholder="Email" style="color: black;">
@@ -70,8 +70,9 @@
                                 <div class="form-group">
                                     <label for="password">Password</label>
                                     <input name="password" id="password" type="password" placeholder="Password" style="color: black;"><br>
+                                    <span class="text-danger" id="error-box"></span>
                                 </div>
-                                <button type="submit" id="btnLogin" class="btn btn-primary" style="margin-top: 17px;">Login</button>
+                                <button id="btnLogin" class="btn btn-primary" style="margin-top: 17px;">Login</button>
                             </form>
                         </div>
                     </li>
