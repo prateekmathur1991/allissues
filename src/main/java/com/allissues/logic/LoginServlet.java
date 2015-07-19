@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Logger;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +47,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException	{
 		// Even if a GET request arrives, we will serve it with doPost method.
+		logger.info("Request inside doGet method. Calling doPost with it");
 		doPost(request, response);
 	}
        
@@ -55,6 +59,8 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Inside LoginServlet");
 		
+		response.setContentType("application/json");
+		
 		String email = request.getParameter("email") == null ? "" : request.getParameter("email");
 		String password = request.getParameter("password") == null ? "" : request.getParameter("password");
 		
@@ -62,38 +68,61 @@ public class LoginServlet extends HttpServlet {
 		
 		Customer customer = null;
 		Developer developer = null;
+		
+		JsonObjectBuilder objBuilder = Json.createObjectBuilder();
+		JsonObject responseObject = null;
+		
+		PrintWriter pout = response.getWriter();
 
 		if (!email.equals("") && !password.equals("")) {
-			// Try to load Customer entity from datastore
-			customer = ofy().load().key(Key.create(Customer.class, email))
-					.now();
+			boolean loginSuccess = false;
+			logger.info("Trying to load customer entity");
+			customer = ofy().load().key(Key.create(Customer.class, email)).now();
+			
 			if (null == customer) {
-				developer = ofy().load()
-						.key(Key.create(Developer.class, email)).now();
+				logger.info("customer entity not found. Trying to load developer entity");
+				developer = ofy().load().key(Key.create(Developer.class, email)).now();
+				
 				if (developer != null) {
+					logger.info("developer entity found");
 					if (developer.getPassword().equals(password)) {
-						// Developer login successful
-						// Set the username for session tracking
-						request.setAttribute("username", developer.getName());
-						request.getRequestDispatcher("Home.jsp").forward(
-								request, response);
+						logger.info("Developer login successful");
+						loginSuccess = true;
+						
+						responseObject = objBuilder.add("status", "success").add("userType", "developer").add("forwardUrl", "Home.jsp").build();
+						
+						logger.info("JsonObject constructed as:: " + responseObject);
+						pout.write(responseObject.toString());
+						// pout.flush();
+						
+						// request.getRequestDispatcher("Home.jsp").forward(request, response);
 					}
 				}
 			} else {
 				if (customer.getPassword().equals(password)) {
-					// Customer login successful
-					// Set the username for session tracking
-					request.setAttribute("username", customer.getName());
-					request.getRequestDispatcher("Home.jsp").forward(request,
-							response);
+					logger.info("Customer login successful");
+					loginSuccess = true;
+					
+					responseObject = objBuilder.add("status", "success").add("userType", "customer").add("forwardUrl", "Home.jsp").build();
+					
+					logger.info("JsonObject constructed as:: " + responseObject);
+					pout.write(responseObject.toString());
+					// pout.flush();
+					
+					// request.getRequestDispatcher("Home.jsp").forward(request, response);
 				}
 			}
+			
+			if (!loginSuccess) {
+				// Login Failure
+				responseObject = objBuilder.add("status", "faliure").build();
+				logger.info("Login Faliure. JsonObject constructed as:: " + responseObject);
+				
+				pout.write(responseObject.toString());
+				// pout.flush();
+			}
+			
 		}
-		
-		// Login Faliure
-		PrintWriter out = response.getWriter();
-		out.println("loginfaliure");
-		
 	}
 
 }

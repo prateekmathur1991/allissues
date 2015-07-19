@@ -60,24 +60,41 @@ $('#loginBox').click(function(e)	{
 
 // JS Function to execute on login button click event
 function loginAction()	{
-	var email = $('#email').val();
-	var password = $('#password').val();
+	var userEmail = $('#email').val();
+	var userPassword = $('#password').val();
 	
-	if (email == "")	{
+	if (userEmail == "")	{
 		$('#error-box').html("Please enter your email");
 		$('#email').focus();
 		return false;
 	}
 	
-	if (password == "")	{
+	if (userPassword == "")	{
 		$('#error-box').html("Please enter your password");
 		$('#password').focus();
 		return false;
 	}
 	
-	var credentials = $('#loginFrm').serialize();
+	// var credentials = $('#loginFrm').serialize();
+	// alert(credentials);
 	
-	/* $.ajax({
-		url: "/login"
-	}); */
+	$.ajax({
+		url: "login",
+		
+		data:	{
+			email: userEmail,
+			password: userPassword
+		},
+		
+		type: "POST",
+		
+		dataType: "json"
+	}).done(function (response)	{
+		alert(response);
+		$('#error-box').html(response);
+	}).fail(function ()	{
+		alert("Sorry! The request failed");	
+	}).always(function () {
+		alert("This will be executed always");
+	});
 }
