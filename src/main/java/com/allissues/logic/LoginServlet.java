@@ -46,9 +46,8 @@ public class LoginServlet extends HttpServlet {
 	 * doGet implementation for RegisterServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException	{
-		// Even if a GET request arrives, we will serve it with doPost method.
-		logger.info("Request inside doGet method. Calling doPost with it");
-		doPost(request, response);
+		// For security reasons, our servlet will not respond to GET requests at all
+		response.sendError(HttpServletResponse.SC_NOT_FOUND);
 	}
        
    /**
@@ -63,8 +62,6 @@ public class LoginServlet extends HttpServlet {
 		
 		String email = request.getParameter("email") == null ? "" : request.getParameter("email");
 		String password = request.getParameter("password") == null ? "" : request.getParameter("password");
-		
-		logger.info("email:: " + email + " password::" + password);
 		
 		Customer customer = null;
 		Developer developer = null;
@@ -92,8 +89,8 @@ public class LoginServlet extends HttpServlet {
 						responseObject = objBuilder.add("status", "success").add("userType", "developer").add("forwardUrl", "Home.jsp").build();
 						
 						logger.info("JsonObject constructed as:: " + responseObject);
-						pout.write(responseObject.toString());
-						// pout.flush();
+						pout.println(responseObject.toString());
+						pout.flush();
 						
 						// request.getRequestDispatcher("Home.jsp").forward(request, response);
 					}
@@ -106,8 +103,8 @@ public class LoginServlet extends HttpServlet {
 					responseObject = objBuilder.add("status", "success").add("userType", "customer").add("forwardUrl", "Home.jsp").build();
 					
 					logger.info("JsonObject constructed as:: " + responseObject);
-					pout.write(responseObject.toString());
-					// pout.flush();
+					pout.println(responseObject.toString());
+					pout.flush();
 					
 					// request.getRequestDispatcher("Home.jsp").forward(request, response);
 				}
@@ -118,8 +115,8 @@ public class LoginServlet extends HttpServlet {
 				responseObject = objBuilder.add("status", "faliure").build();
 				logger.info("Login Faliure. JsonObject constructed as:: " + responseObject);
 				
-				pout.write(responseObject.toString());
-				// pout.flush();
+				pout.println(responseObject.toString());
+				pout.flush();
 			}
 			
 		}

@@ -50,23 +50,25 @@ $('#getStarted').click(function()	{
 	window.location.href = window.location + "signup.html";
 });
 
-// Add an onlick handler to the login button
-$('#btnLogin').on('click', loginAction);
-
 // Prevents the login box on home page from closing when clicked
 $('#loginBox').click(function(e)	{
 	e.stopPropagation();
 });
 
-// JS Function to execute on login button click event
-function loginAction()	{
+// Delegate the default form submission action to our method
+$('#loginFrm').on('submit', loginAction);
+
+// JS Function to execute on form submission
+function loginAction(event)	{
+	event.preventDefault();
+	
 	var userEmail = $('#email').val();
 	var userPassword = $('#password').val();
 	
 	if (userEmail == "")	{
 		$('#error-box').html("Please enter your email");
 		$('#email').focus();
-		return false;
+		return false; 
 	}
 	
 	if (userPassword == "")	{
@@ -75,26 +77,13 @@ function loginAction()	{
 		return false;
 	}
 	
-	// var credentials = $('#loginFrm').serialize();
+	var credentials = $('#loginFrm').serialize();
 	// alert(credentials);
 	
-	$.ajax({
-		url: "login",
-		
-		data:	{
-			email: userEmail,
-			password: userPassword
-		},
-		
-		type: "POST",
-		
-		dataType: "json"
-	}).done(function (response)	{
-		alert(response);
-		$('#error-box').html(response);
-	}).fail(function ()	{
-		alert("Sorry! The request failed");	
-	}).always(function () {
-		alert("This will be executed always");
+	$.post("/login", credentials, function (data)	{
+		// alert("Inside getJSON callback method");
+	    $(data).each(function (i, o)	{
+	    	alert("status:: " + o.status + " userType:: " + o.userType + " forwardUrl:: " + o.forwardUrl);
+	    });
 	});
 }
