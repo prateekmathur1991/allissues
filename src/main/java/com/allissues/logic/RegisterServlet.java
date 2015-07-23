@@ -17,15 +17,23 @@
 package com.allissues.logic;
 
 import static com.allissues.service.OfyService.ofy;
+
 import com.allissues.data.Customer;
 import com.allissues.data.Developer;
+import com.googlecode.objectify.Key;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.logging.Logger;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -33,13 +41,14 @@ import javax.servlet.http.HttpServletResponse;
 public class RegisterServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(RegisterServlet.class.getName());
 
 	/**
 	 * doGet implementation for RegisterServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException	{
-		// Even if a GET request arrives, we will serve it with doPost method.
-		doPost(request, response);
+		// For security reasons, our servlet will not respond to GET requests at all
+		response.sendError(HttpServletResponse.SC_NOT_FOUND);
 	}
        
    /**
@@ -48,24 +57,62 @@ public class RegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json");
+		
+		PrintWriter pout = response.getWriter();
+		
 		String accountType = request.getParameter("userType");
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String password = request.getParameter("pass");
 		
-		if (accountType.equalsIgnoreCase("Developer"))	{
-			Developer developer = new Developer(email, name, password);
-			ofy().save().entity(developer).now();
-		}
-		else if (accountType.equalsIgnoreCase("Customer"))	{
-			Customer customer = new Customer(email, name, password);
-			ofy().save().entity(customer).now();
+		JsonObjectBuilder builder = Json.createObjectBuilder();
+		JsonObject responseObject = null;
+		
+		boolean errorFlag = false;
+		
+		// Search for existing developer or customer entities with the supplied email
+		if (ofy().load().key(Key.create(Developer.class, email)) != null)	{
+			// Existing developer account found
+			errorFlag = true;
+			responseObject = builder.add("status", "failure").add("error", "developerExists").build();
+			
+			logger.info("JsonObject constructed as:: " + responseObject);
+			pout.println(responseObject.toString());
+			pout.flush();
+		} else	{
+			if (ofy().load().key(Key.create(Customer.class, email)) != null)	{
+				// Existing customer account found
+				errorFlag = true;
+				responseObject = builder.add("status", "failure").add("error", "customerExists").build();
+				
+				logger.info("JsonObject constructed as:: " + responseObject);
+				pout.println(responseObject.toString());
+				pout.flush();
+			} else	{
+				// No account found with this email
+			}
 		}
 		
-		// Set the username for session tracking
-		request.setAttribute("username", name);
-
-		request.getRequestDispatcher("Home.jsp").forward(request, response);
+		if (!errorFlag) {
+			if (accountType.equals("Developer")) {
+				Developer developer = new Developer(email, name, password);
+				ofy().save().entity(developer).now();
+			} else if (accountType.equals("Customer")) {
+				Customer customer = new Customer(email, name, password);
+				ofy().save().entity(customer).now();
+			}
+			
+			// Set the user details in session
+			HttpSession session = request.getSession();
+			session.setAttribute("email", email);
+			session.setAttribute("userType", accountType);
+			session.setAttribute("name", name);
+			
+			responseObject = builder.add("status", "success").add("forwardUrl", "Home.jsp").build();
+			pout.println(responseObject);
+			pout.flush();
+		}
 	}
 
 }

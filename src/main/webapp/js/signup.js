@@ -15,7 +15,8 @@
  */
 
 /**
- * jQuery methods for real-time and on submission form validation
+ * jQuery methods for form validation and sending ajax requests for email
+ * verification and registration
  *
  * @author Prateek Mathur
  */
@@ -86,9 +87,15 @@ $('#confirmpass').on('input', function()    {
 
 
 // On Submission Form Validation
-$("#signupbutton").click(function(event){
-     if (hasError)    {
-        event.preventDefault();
+$("#signupbutton").on('click', function(event) {
+	if (hasError)    {
+		event.preventDefault();
         $('#error').show();
-     }
+    } else {
+    	var credentials = $('#details').serialize();
+    	
+    	$.post("/register", credentials, function (data) {
+    		
+    	});
+    }
 });
