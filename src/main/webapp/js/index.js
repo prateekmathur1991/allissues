@@ -78,12 +78,13 @@ function loginAction(event)	{
 	}
 	
 	var credentials = $('#loginFrm').serialize();
-	// alert(credentials);
 	
 	$.post("/login", credentials, function (data)	{
-		// alert("Inside getJSON callback method");
-	    $(data).each(function (i, o)	{
-	    	alert("status:: " + o.status + " userType:: " + o.userType + " forwardUrl:: " + o.forwardUrl);
-	    });
+	    if (data.status == "success")	{
+	    	window.location.href = 'http://' + window.location.host + '/Home.jsp';
+	    } else if (data.status = "faliure") {	
+	    	$('#error-box').html("The username or password is incorrect. Please try again");
+	    	$('#email').focus();
+	    }
 	});
 }
