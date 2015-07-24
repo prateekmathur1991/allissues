@@ -95,7 +95,13 @@ $("#signupbutton").on('click', function(event) {
     	var credentials = $('#details').serialize();
     	
     	$.post("/register", credentials, function (data) {
-    		
+    		if (data.status == "faliure")	{
+    			if (data.error == "developerExists")	{
+    				$('#error-box').html("A developer account with this email already exists. Please use another email and try again");
+    			} else if (data.error == "customerExists")	{
+    				$('#error-box').html("A customer account with this email already exists. Please use another email and try again");
+    			}
+    		}
     	});
     }
 });

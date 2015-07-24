@@ -89,8 +89,6 @@ public class RegisterServlet extends HttpServlet {
 				logger.info("JsonObject constructed as:: " + responseObject);
 				pout.println(responseObject.toString());
 				pout.flush();
-			} else	{
-				// No account found with this email
 			}
 		}
 		
