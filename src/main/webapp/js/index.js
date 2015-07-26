@@ -81,7 +81,7 @@ function loginAction(event)	{
 	
 	$.post("/login", credentials, function (data)	{
 	    if (data.status == "success")	{
-	    	window.location.href = 'http://' + window.location.host + '/Home.jsp';
+	    	window.location.href = 'http://' + window.location.host + '/' + data.forwardUrl;
 	    } else if (data.status = "faliure") {	
 	    	$('#error-box').html("The username or password is incorrect. Please try again");
 	    	$('#email').focus();

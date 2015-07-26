@@ -66,13 +66,15 @@ public class RegisterServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("pass");
 		
+		logger.info("accountType:: " + accountType + " name:: " + name + " email:: " + email + " password:: " + password);
+		
 		JsonObjectBuilder builder = Json.createObjectBuilder();
 		JsonObject responseObject = null;
 		
 		boolean errorFlag = false;
 		
 		// Search for existing developer or customer entities with the supplied email
-		if (ofy().load().key(Key.create(Developer.class, email)) != null)	{
+		if (ofy().load().key(Key.create(Developer.class, email)).now() != null)	{
 			// Existing developer account found
 			errorFlag = true;
 			responseObject = builder.add("status", "failure").add("error", "developerExists").build();
@@ -81,7 +83,7 @@ public class RegisterServlet extends HttpServlet {
 			pout.println(responseObject.toString());
 			pout.flush();
 		} else	{
-			if (ofy().load().key(Key.create(Customer.class, email)) != null)	{
+			if (ofy().load().key(Key.create(Customer.class, email)).now() != null)	{
 				// Existing customer account found
 				errorFlag = true;
 				responseObject = builder.add("status", "failure").add("error", "customerExists").build();

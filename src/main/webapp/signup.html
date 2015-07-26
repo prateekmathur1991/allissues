@@ -24,17 +24,13 @@
             background: url('img/graphic_wings.png');
         }
     </style>
-
-    <!--[if lt IE 9]>
-    <script src="html5shiv.js"></script>
-    <![endif]-->
 </head>
 
 <body>
 
 <div style="width: 55%; margin-top: 120px;">
     <h1 class="text-center" style="margin-bottom: 25px;">Sign Up for All Issues</h1>
-    <form class="form-horizontal" action="/register" method="post" id="details">
+    <form class="form-horizontal" id="details">
 
         <div class="form-group" id="typegroup">
             <label class="col-sm-2 control-label">You are a </label>
@@ -74,13 +70,13 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button class="btn btn-default" id="signupbutton" name="signupbutton">Register</button>
+                <button type="button" class="btn btn-default" id="signupbutton" name="signupbutton" value="Register">Register</button>
             </div>
         </div>
 
-        <div class="form-group" id="error" style="display: none;">
+        <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <div class="alert alert-danger" id="error-box"><strong>Important!  </strong>You have some errors in your form. Please correct them and try again.</div>
+                <div class="alert alert-danger fade in" style="display: none;" id="error"></div>
             </div>
         </div>
     </form>

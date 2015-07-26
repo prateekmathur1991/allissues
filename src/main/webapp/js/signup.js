@@ -15,27 +15,14 @@
  */
 
 /**
- * jQuery methods for form validation and sending ajax requests for email
+ * jQuery methods for real-time and on-submission form validation, and sending AJAX requests for email
  * verification and registration
  *
  * @author Prateek Mathur
  */
 
 // Global variable to keep track of errors
-var hasError = true;
-
-// Name can't be empty
-$('#name').on('input', function()   {
-    var input = $(this);
-    var is_name = input.val();
-    if(is_name) {
-        $('#namegroup').removeClass("has-error").addClass("has-success");
-        hasError = false;
-    } else  {
-        $('#namegroup').removeClass("has-success").addClass("has-error");
-        hasError = true;
-    }
-});
+var hasError;
 
 // Email has to be valid
 $('#email').on('input', function()  {
@@ -44,64 +31,71 @@ $('#email').on('input', function()  {
     var is_email = re.test(input.val());
     if(is_email)    {
         $('#emailgroup').removeClass("has-error").addClass("has-success");
+        $('#error').hide();
         hasError = false;
     }
     else    {
         $('#emailgroup').removeClass("has-success").addClass("has-error");
+        $('#error').html("<strong>Please enter a valid email ID.</strong>");
+        $('#error').show();
         hasError = true;
     }
 });
 
-
-// Password cannot be left blank
-$('#pass').on('input', function()   {
-    var input = $(this);
-    var is_name = input.val();
-    if(is_name) {
-        $('#passgroup').removeClass("has-error").addClass("has-success");
-        hasError = false;
-    } else  {
-        $('#passgroup').removeClass("has-success").addClass("has-error");
-        hasError = true;
-    }
-});
-
-// Confirm Password box cannot be empty and should be equal to password
+// Confirm Password box should be equal to password
 $('#confirmpass').on('input', function()    {
     var pass = $('#pass').val();
     var confirm = $('#confirmpass').val();
 
-    if (confirm)    {
-        if (confirm != pass)    {
-            $('#confirmpassgroup').removeClass("has-success").addClass("has-error");
-            hasError = true;
-        } else  {
-            $('#confirmpassgroup').removeClass("has-error").addClass("has-success");
-            hasError = false;
-        }
-    } else  {
+    if (confirm != pass)    {
         $('#confirmpassgroup').removeClass("has-success").addClass("has-error");
+        $('#error').html("<strong>Please enter the same password both times in password and confirm password.</strong>");
+        $('#error').show();
         hasError = true;
+    } else  {
+        $('#confirmpassgroup').removeClass("has-error").addClass("has-success");
+        $('#error').hide();
+        hasError = false;
     }
+    
 });
 
-
 // On Submission Form Validation
-$("#signupbutton").on('click', function(event) {
-	if (hasError)    {
-		event.preventDefault();
+$('#signupbutton').on('click', function (event) {
+	event.preventDefault();
+	
+	$(':input').each(function (i, o)	{
+		if($(this).val() == "")	{
+			hasError = true;
+			$(this).focus();
+			$('#error').html("<strong>Some fields in your form are empty. Please fill them and try again.</strong>");
+			$('#error').show();
+			return false;
+		} else	{
+			$('#error').html("");
+			$('#error').hide();
+		}
+	});
+	
+	if (hasError == true)    {
         $('#error').show();
     } else {
+    	$('#error').hide();
+    	
     	var credentials = $('#details').serialize();
     	
     	$.post("/register", credentials, function (data) {
-    		if (data.status == "faliure")	{
+    		if (data.status == "failure")	{
     			if (data.error == "developerExists")	{
-    				$('#error-box').html("A developer account with this email already exists. Please use another email and try again");
+    				$('#error').html("<strong>A developer account with this email already exists. Please use another email and try again.</strong>");
+    				$('#error').show();
     			} else if (data.error == "customerExists")	{
-    				$('#error-box').html("A customer account with this email already exists. Please use another email and try again");
+    				$('#error').html("<strong>A customer account with this email already exists. Please use another email and try again.</strong>");
+    				$('#error').show();
     			}
-    		}
+    		} else if (data.status == "success") {
+		       window.location.href = 'http://' + window.location.host + '/' + data.forwardUrl;
+		}
     	});
     }
 });
