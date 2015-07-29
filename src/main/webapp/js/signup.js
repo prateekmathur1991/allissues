@@ -60,6 +60,24 @@ $('#confirmpass').on('input', function()    {
     
 });
 
+$('#pass').on('input', function () {
+	if ($(this).val() == "")	{
+		var pass = $('#pass').val();
+	    var confirm = $('#confirmpass').val();
+	
+	    if (confirm != pass)    {
+	        $('#passgroup').removeClass("has-success").addClass("has-error");
+	        $('#error').html("<strong>Please enter the same password both times in password and confirm password.</strong>");
+	        $('#error').show();
+	        hasError = true;
+	    } else  {
+	        $('#passgroup').removeClass("has-error").addClass("has-success");
+	        $('#error').hide();
+	        hasError = false;
+	    }
+	}
+});
+
 // On Submission Form Validation
 $('#signupbutton').on('click', function (event) {
 	event.preventDefault();

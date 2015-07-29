@@ -66,8 +66,6 @@ public class RegisterServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("pass");
 		
-		logger.info("accountType:: " + accountType + " name:: " + name + " email:: " + email + " password:: " + password);
-		
 		JsonObjectBuilder builder = Json.createObjectBuilder();
 		JsonObject responseObject = null;
 		

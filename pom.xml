@@ -180,4 +180,10 @@
         	</plugins>
         </pluginManagement>
     </build>
+    <name>All Issues</name>
+    <url>http://www.all-issues.appspot.com</url>
+    <scm>
+    	<url>http://github.com/prateekmathur1991/allissues</url>
+    	<developerConnection>Prateek Mathur</developerConnection>
+    </scm>
 </project>
