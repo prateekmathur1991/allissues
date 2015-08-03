@@ -1,4 +1,3 @@
-<%@page import="com.google.appengine.api.users.User"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -9,7 +8,7 @@
 	<link rel="shortcut icon" type="image/png" href="img/favicon.png" />
     
     <style type="text/css">
-    	header	{
+    	.header	{
     		background: #D3E3E8; 
 			font-family: "Cambria", Times, serif;
 			text-align: center;
@@ -30,14 +29,14 @@
 
 <body>
 
-<header>
+<div class="header">
 	<h1>All Issues</h1>   
     <h3>A centralized issue tracking system, for customers and dev teams. </h3>
     
     <nav>
     	Welcome, <a href="profile.jsp"></a>
     </nav>
-</header>
+</div>
 
 <section id="search">
 	<form action="/Search" method="get">
