@@ -1,16 +1,4 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-<<<<<<< HEAD
-=======
-		<script src="js/jquery.min.js" type="text/javascript"></script>
->>>>>>> 4ec8ea7f46ace7d6c9dc6bd5de7f5d24f5c059bf
-		<script src="js/bootstrap.min.js" type="text/javascript"></script>
-	</head>
-	
-	<body>
-<<<<<<< HEAD
+
 		<nav class="navbar navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -36,8 +24,6 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-	
-=======
 		<nav class="navbar navbar-static-top">
 				<div class="container-fluid">
 					<div class="navbar-header">
@@ -71,6 +57,3 @@
 					</ul>
 				</div>
 			</nav>
->>>>>>> 4ec8ea7f46ace7d6c9dc6bd5de7f5d24f5c059bf
-	</body>
-</html>
