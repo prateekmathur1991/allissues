@@ -33,6 +33,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class LoginServlet
@@ -70,6 +71,8 @@ public class LoginServlet extends HttpServlet {
 		JsonObject responseObject = null;
 		
 		PrintWriter pout = response.getWriter();
+		
+		HttpSession session = request.getSession();
 
 		if (!email.equals("") && !password.equals("")) {
 			boolean loginSuccess = false;
@@ -86,6 +89,9 @@ public class LoginServlet extends HttpServlet {
 						logger.info("Developer login successful");
 						loginSuccess = true;
 						
+						session.setAttribute("username", developer.getName());
+						session.setAttribute("usertype", "developer");
+						
 						responseObject = objBuilder.add("status", "success").add("userType", "developer").add("forwardUrl", "Home.jsp").build();
 						
 						logger.info("JsonObject constructed as:: " + responseObject);
@@ -99,6 +105,9 @@ public class LoginServlet extends HttpServlet {
 				if (customer.getPassword().equals(password)) {
 					logger.info("Customer login successful");
 					loginSuccess = true;
+					
+					session.setAttribute("username", customer.getName());
+					session.setAttribute("usertype", "customer");
 					
 					responseObject = objBuilder.add("status", "success").add("userType", "customer").add("forwardUrl", "Home.jsp").build();
 					

@@ -71,6 +71,8 @@ public class RegisterServlet extends HttpServlet {
 		
 		boolean errorFlag = false;
 		
+		HttpSession session = request.getSession();
+		
 		// Search for existing developer or customer entities with the supplied email
 		if (ofy().load().key(Key.create(Developer.class, email)).now() != null)	{
 			// Existing developer account found
@@ -102,10 +104,8 @@ public class RegisterServlet extends HttpServlet {
 			}
 			
 			// Set the user details in session
-			HttpSession session = request.getSession();
-			session.setAttribute("email", email);
-			session.setAttribute("userType", accountType);
-			session.setAttribute("name", name);
+			session.setAttribute("username", name);
+			session.setAttribute("usertype", accountType.toLowerCase());
 			
 			responseObject = builder.add("status", "success").add("forwardUrl", "Home.jsp").build();
 			pout.println(responseObject);
