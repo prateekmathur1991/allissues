@@ -44,15 +44,32 @@
 
 <div class="row">
 	<div class="col-lg-4 col-md-6">
-		<div class="panel panel-info">
+		<div class="panel panel-success">
 			<div class="panel-heading">
 				<div class="row">
 					<div class="col-xs-3">
 						<i class="fa fa-eye fa-5x"></i>
 					</div>
-					<div class="col-xs-9">	
-						<div class="pull-right">20 issues closed</div>
+					<div class="col-xs-9 text-right">	
+						<div style="font-size: 40px;">15</div>
+                                        	<div>Issues Closed!</div>
 					</div>			
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-lg-4 col-md-6">
+		<div class="panel panel-danger">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-3">
+						<i class="fa fa-eye fa-5x"></i>
+					</div>
+					<div class="col-xs-9 text-right">	
+						<div style="font-size: 40px;">5</div>
+                                        	<div>Issues Open!</div>
+					</div>		
 				</div>
 			</div>
 		</div>
@@ -65,24 +82,10 @@
 					<div class="col-xs-3">
 						<i class="fa fa-eye fa-5x"></i>
 					</div>
-					<div class="col-xs-9">	
-						<div class="pull-right">5 issues open</div>
-					</div>			
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div class="col-lg-4 col-md-6">
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<div class="row">
-					<div class="col-xs-3">
-						<i class="fa fa-eye fa-5x"></i>
-					</div>
-					<div class="col-xs-9">	
-						<div class="pull-right">5 new issues submitted</div>
-					</div>			
+					<div class="col-xs-9 text-right">	
+						<div style="font-size: 40px;">10</div>
+                                        	<div>New Issues Submitted!</div>
+					</div>		
 				</div>
 			</div>
 		</div>
