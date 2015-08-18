@@ -43,17 +43,51 @@
 </div>
 
 <div class="row">
-	<div class="col-xs-4">
-		<div class="panel panel-primary">
-			<div class="panel panel-heading">
-				
-			</div>
-			<div class="panel-body">
-				<i class="fa fa-eye fa-2x"></i>
+	<div class="col-lg-4 col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-3">
+						<i class="fa fa-eye fa-5x"></i>
+					</div>
+					<div class="col-xs-9">	
+						<div class="pull-right">20 issues closed</div>
+					</div>			
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+	
+	<div class="col-lg-4 col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-3">
+						<i class="fa fa-eye fa-5x"></i>
+					</div>
+					<div class="col-xs-9">	
+						<div class="pull-right">5 issues open</div>
+					</div>			
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-lg-4 col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-3">
+						<i class="fa fa-eye fa-5x"></i>
+					</div>
+					<div class="col-xs-9">	
+						<div class="pull-right">5 new issues submitted</div>
+					</div>			
+				</div>
+			</div>
+		</div>
+	</div>
+</div> <!-- .row -->
 
 <!-- jQuery -->
 <script src="js/jquery.min.js"></script>
