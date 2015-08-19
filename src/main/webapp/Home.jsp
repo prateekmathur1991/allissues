@@ -48,11 +48,11 @@
 			<div class="panel-heading">
 				<div class="row">
 					<div class="col-xs-3">
-						<i class="fa fa-eye fa-5x"></i>
+						<i class="fa fa-check-circle fa-5x"></i>
 					</div>
 					<div class="col-xs-9 text-right">	
 						<div style="font-size: 40px;">15</div>
-                                        	<div>Issues Closed!</div>
+                        <div>Issues Closed!</div>
 					</div>			
 				</div>
 			</div>
@@ -64,11 +64,11 @@
 			<div class="panel-heading">
 				<div class="row">
 					<div class="col-xs-3">
-						<i class="fa fa-eye fa-5x"></i>
+						<i class="fa fa-exclamation-circle fa-5x"></i>
 					</div>
 					<div class="col-xs-9 text-right">	
 						<div style="font-size: 40px;">5</div>
-                                        	<div>Issues Open!</div>
+						<div>Issues Open!</div>
 					</div>		
 				</div>
 			</div>
@@ -80,11 +80,11 @@
 			<div class="panel-heading">
 				<div class="row">
 					<div class="col-xs-3">
-						<i class="fa fa-eye fa-5x"></i>
+						<i class="fa fa-tasks fa-5x"></i>
 					</div>
 					<div class="col-xs-9 text-right">	
 						<div style="font-size: 40px;">10</div>
-                                        	<div>New Issues Submitted!</div>
+                        <div>New Issues Submitted!</div>
 					</div>		
 				</div>
 			</div>
