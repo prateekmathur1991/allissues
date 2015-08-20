@@ -43,7 +43,7 @@
 </div>
 
 <div class="row">
-	<div class="col-lg-4 col-md-6">
+	<div class="col-lg-3 col-md-6">
 		<div class="panel panel-success">
 			<div class="panel-heading">
 				<div class="row">
@@ -59,7 +59,7 @@
 		</div>
 	</div>
 	
-	<div class="col-lg-4 col-md-6">
+	<div class="col-lg-3 col-md-6">
 		<div class="panel panel-danger">
 			<div class="panel-heading">
 				<div class="row">
@@ -75,7 +75,23 @@
 		</div>
 	</div>
 	
-	<div class="col-lg-4 col-md-6">
+	<div class="col-lg-3 col-md-6">
+		<div class="panel panel-danger">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-3">
+						<i class="fa fa-exclamation-circle fa-5x"></i>
+					</div>
+					<div class="col-xs-9 text-right">	
+						<div style="font-size: 40px;">10</div>
+						<div>Issues Approaching Deadline</div>
+					</div>		
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-lg-3 col-md-6">
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<div class="row">
@@ -90,6 +106,26 @@
 			</div>
 		</div>
 	</div>
+</div> <!-- .row -->
+
+<div class="row">
+<h4>All Open Issues</h4>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<td>Issue ID</td>
+				<td>Title</td>
+				<td>Submission Date</td>
+				<td>Project Submitted To</td>
+				<td>Created By</td>
+				<td>Assigned To</td>
+				<td>Deadline</td>		
+			</tr>		
+		</thead>
+		<tbody>
+			
+		</tbody>
+	</table>
 </div> <!-- .row -->
 
 <!-- jQuery -->
