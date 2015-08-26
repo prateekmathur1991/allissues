@@ -16,9 +16,8 @@
 	}
 	
 	try	{
-
 		// The absence of session variables denotes that nobody is logged in
-		if (username == null || username.equals("") || usertype == null || usertype.equals(""))	{
+		if (null == username || "".equals(username) || null == usertype || "".equals(usertype))	{
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		} else	{
 %>
@@ -56,7 +55,7 @@
 					</div>			
 				</div>
 			</div>
-			<div class="panel-body">
+			<div class="panel-body btn-lg">
 				<a href="#">View Details</a>
 			</div>
 		</div>
@@ -75,7 +74,7 @@
 					</div>		
 				</div>
 			</div>
-			<div class="panel-body">
+			<div class="panel-body btn-lg">
 				<a href="#">View Details</a>
 			</div>
 		</div>
@@ -94,7 +93,7 @@
 					</div>		
 				</div>
 			</div>
-			<div class="panel-body">
+			<div class="panel-body btn-lg">
 				<a href="#">View Details</a>
 			</div>
 		</div>

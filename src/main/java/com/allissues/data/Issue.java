@@ -14,7 +14,6 @@
     along with All Issues. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 /**
  * Represents an issue filed in the system, and contains fields to identify the same.
  * 
@@ -34,7 +33,7 @@ public class Issue {
 	/**
 	 * Public constructor for Issue
 	 */
-	public Issue(String title, String description, int priority, Customer createdBy, Developer assignedTo, String status, Date deadline)	{
+	public Issue(String title, String description, int priority, String createdBy, Developer assignedTo, String status, Date deadline)	{
 		this.title = title;
 		this.description = description;
 		this.priority = priority;
@@ -44,7 +43,7 @@ public class Issue {
 		this.estimatedResolutionDate = deadline;
 	}
 	
-	@Id // The @Id annotation represents that this field will be used to uniquely identify the entity in the datstore
+	@Id // The @Id annotation represents that this field will be used to uniquely identify the entity in the datastore
 	/**
 	 * An ID that can uniquely identify the issue in the system
 	 */
@@ -66,9 +65,9 @@ public class Issue {
 	private int priority;
 	
 	/**
-	 * Reference to the customer object who created the issue
+	 * Email of the customer/developer who created the issue
 	 */
-	private Customer createdBy;
+	private String createdBy;
 	
 	/**
 	 * Reference to the developer object to whom the project is assigned
