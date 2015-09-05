@@ -23,8 +23,7 @@
 
 package com.allissues.data;
 
-import java.util.Date;
-
+import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
@@ -33,21 +32,25 @@ public class Issue {
 	/**
 	 * Public constructor for Issue
 	 */
-	public Issue(String title, String description, int priority, String createdBy, Developer assignedTo, String status, Date deadline)	{
+	public Issue(Long issueId, String title, String description, int priority, String createdBy, String assignedTo, String deadline, boolean developerIssue)	{
+		this.issueId = issueId;
 		this.title = title;
-		this.description = description;
+		this.description = new Text(description);
 		this.priority = priority;
 		this.createdBy = createdBy;
 		this.assignedTo = assignedTo;
-		this.status = status;
 		this.estimatedResolutionDate = deadline;
+		this.developerIssue = developerIssue;
+		
+		this.status = "OPEN";
+		this.actualResolutionDate = "";
 	}
 	
-	@Id // The @Id annotation represents that this field will be used to uniquely identify the entity in the datastore
+	@Id
 	/**
 	 * An ID that can uniquely identify the issue in the system
 	 */
-	private String issueId;
+	private Long issueId;
 	
 	/**
 	 * Title of the issue
@@ -57,7 +60,7 @@ public class Issue {
 	/**
 	 * Details of the issue
 	 */
-	private String description;
+	private Text description;
 	
 	/**
 	 * Priority Level of the Issue
@@ -70,9 +73,9 @@ public class Issue {
 	private String createdBy;
 	
 	/**
-	 * Reference to the developer object to whom the project is assigned
+	 * Email of the developer to whom the project is assigned
 	 */
-	private Developer assignedTo;
+	private String assignedTo;
 	
 	/**
 	 * Status of the issue (Open Or Closed)
@@ -82,16 +85,16 @@ public class Issue {
 	/**
 	 * Estimated resolution date, set either by the customer or the developer
 	 */
-	private Date estimatedResolutionDate;
+	private String estimatedResolutionDate;
 	
 	/**
 	 * Actual resolution date, on which the issue was resolved
 	 */
-	private Date actualResolutionDate;
+	private String actualResolutionDate;
 	
 	/**
 	 *  Represents if this issue was created by a developer. Can be used to exclude the issue from a customer's search,
 	 *  or hide it on the customer home page.
 	 */
-	private boolean weatherDeveloperIssue;	
+	private boolean developerIssue;	
 }

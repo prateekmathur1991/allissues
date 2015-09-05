@@ -47,7 +47,6 @@ public class RegisterServlet extends HttpServlet {
 	 * doGet implementation for RegisterServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException	{
-		// For security reasons, our servlet will not respond to GET requests at all
 		response.sendError(HttpServletResponse.SC_NOT_FOUND);
 	}
        
@@ -106,6 +105,7 @@ public class RegisterServlet extends HttpServlet {
 			// Set the user details in session
 			session.setAttribute("username", name);
 			session.setAttribute("usertype", accountType.toLowerCase());
+			session.setAttribute("useremail", email);
 			
 			responseObject = builder.add("status", "success").add("forwardUrl", "Home.jsp").build();
 			pout.println(responseObject);

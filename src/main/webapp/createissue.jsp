@@ -6,11 +6,12 @@
 %>
 
 <%
-	String username = null, usertype = null;
+	String username = null, usertype = null, useremail = null;
 	
 	try	{
 		username = (String) session.getAttribute("username");
 		usertype = (String) session.getAttribute("usertype");
+		useremail = (String) session.getAttribute("useremail");
 	} catch (Exception e)	{
 		logger.warning("Exception in Home.jsp while retrieving session variables");
 		e.printStackTrace();
@@ -18,7 +19,7 @@
 	
 	try	{
 		// The absence of session variables denotes that nobody is logged in
-		if (null == username || "".equals(username) || null == usertype || "".equals(usertype))	{
+		if (null == username || "".equals(username) || null == usertype || "".equals(usertype) || null == useremail || "".equals(useremail))	{
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		} else	{
 	
@@ -48,7 +49,7 @@
 
 <div class="col-sm-12">	
 	<h1 class="text-center" style="margin-bottom: 25px;">Enter Issue Details</h1>
-    <form class="form-horizontal" id="issue-details" name="issue-details">
+    <form action="AddIssue" method="post" class="form-horizontal" id="issue-details" name="issue-details">
         <div class="form-group" id="title-group">
             <label for="title" class="col-sm-2 control-label">Issue Title</label>
             <div class="col-sm-10">
@@ -90,7 +91,7 @@
 
         <div class="form-group">
             <div class="col-sm-offset-6 col-sm-10">
-                <button type="button" class="btn btn-success" id="create-issue-button" name="create-issue-button" value="Submit Issue">Add Issue</button>
+                <button type="submit" class="btn btn-success" id="create-issue-button" name="create-issue-button">Add Issue</button>
             </div>
         </div>
 

@@ -5,11 +5,12 @@
 	Logger logger = Logger.getLogger("Home.jsp");
 %>
 <%
-	String username = null, usertype = null;
+	String username = null, usertype = null, useremail = null;
 
 	try	{
 		username = (String) session.getAttribute("username");
 		usertype = (String) session.getAttribute("usertype");
+		useremail = (String) session.getAttribute("useremail");
 	} catch (Exception e)	{
 		logger.warning("Exception in Home.jsp while retrieving session variables");
 		e.printStackTrace();
@@ -17,7 +18,7 @@
 	
 	try	{
 		// The absence of session variables denotes that nobody is logged in
-		if (null == username || "".equals(username) || null == usertype || "".equals(usertype))	{
+		if (null == username || "".equals(username) || null == usertype || "".equals(usertype) || null == useremail || "".equals(useremail))	{
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		} else	{
 %>

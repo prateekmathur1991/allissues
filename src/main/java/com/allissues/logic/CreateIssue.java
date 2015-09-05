@@ -16,38 +16,69 @@
 
 package com.allissues.logic;
 
+import static com.allissues.service.OfyService.ofy;
+
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.allissues.data.Issue;
+import com.googlecode.objectify.Key;
 
 /**
  * Servlet implementation class CreateIssue
  */
 public class CreateIssue extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	static Logger logger = Logger.getLogger(CreateIssue.class.getName());
+	
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException	{
+		response.sendError(HttpServletResponse.SC_NOT_FOUND);
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String title;
-		String description;
-		int priority;
-		Date deadline;
+		HttpSession session = request.getSession(false);
+		String username = null, usertype = null, useremail = null;
 		
-		try {
-			title = request.getParameter("title");
-			description = request.getParameter("description");
-			priority = Integer.parseInt(request.getParameter("priority"));
-			deadline = new SimpleDateFormat("yyyy/mm/dd").parse(request.getParameter("deadline"));
-		} catch (ParseException e) {
-			e.printStackTrace();
+		try	{
+			username = (String) session.getAttribute("username");
+			usertype = (String) session.getAttribute("usertype");
+			useremail = (String) session.getAttribute("useremail");
+		} catch (Exception e)	{
+			logger.info("Exception while getting session variables");
+		}
+		
+		if (null == username || "".equals(username) || null == usertype || "".equals(usertype) || null == useremail || "".equals(useremail))	{
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+		} else {
+			String title = request.getParameter("title") == null ? "" : request.getParameter("title");
+			String description = request.getParameter("description") == null ? "" : request.getParameter("description");
+			int priority = request.getParameter("priority") == null ? 0 : Integer.parseInt(request.getParameter("priority"));
+			String assignedTo = request.getParameter("assigned-to") == null ? "" : request.getParameter("assigned-to");
+			String deadline = request.getParameter("res-date") == null ? "" : request.getParameter("res-date");
+			
+			logger.info("title:: " + title + " desc:: " + description + " priority:: " + priority + " assignedTo:: " + assignedTo +  " deadline:: " + deadline);
+			
+			final Key<Issue> key = Key.create(Issue.class, title);
+			long issueId = key.getId();
+			logger.info("Created Issue ID:: " + issueId);
+			
+			Issue issue = new Issue(issueId, title, description, priority, useremail, assignedTo, deadline, "developer".equalsIgnoreCase(usertype) == true ? true : false);
+			
+			ofy().save().entity(issue).now();
+			logger.info("Entity saved successfully");
 		}
 		
 		

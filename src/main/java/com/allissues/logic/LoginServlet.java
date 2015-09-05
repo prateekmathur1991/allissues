@@ -47,7 +47,6 @@ public class LoginServlet extends HttpServlet {
 	 * doGet implementation for RegisterServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException	{
-		// For security reasons, our servlet will not respond to GET requests at all
 		response.sendError(HttpServletResponse.SC_NOT_FOUND);
 	}
        
@@ -91,6 +90,7 @@ public class LoginServlet extends HttpServlet {
 						
 						session.setAttribute("username", developer.getName());
 						session.setAttribute("usertype", "developer");
+						session.setAttribute("useremail", email);
 						
 						responseObject = objBuilder.add("status", "success").add("userType", "developer").add("forwardUrl", "Home.jsp").build();
 						
@@ -108,14 +108,14 @@ public class LoginServlet extends HttpServlet {
 					
 					session.setAttribute("username", customer.getName());
 					session.setAttribute("usertype", "customer");
-					
+					session.setAttribute("useremail", email);
+
 					responseObject = objBuilder.add("status", "success").add("userType", "customer").add("forwardUrl", "Home.jsp").build();
 					
 					logger.info("JsonObject constructed as:: " + responseObject);
 					pout.println(responseObject.toString());
 					pout.flush();
 					
-					// request.getRequestDispatcher("Home.jsp").forward(request, response);
 				}
 			}
 			
