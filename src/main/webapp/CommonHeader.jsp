@@ -12,6 +12,10 @@
 		logger.warning("Exception in CommonHeader.jsp while retrieving session variables");
 		e.printStackTrace();
 	}
+	
+	if (null == username || "".equals(username) || null == usertype || "".equals(usertype))	{
+		response.sendError(HttpServletResponse.SC_NOT_FOUND);
+	} else {
 %>
 <nav class="navbar navbar-static-top">
     <div class="container-fluid">
@@ -45,3 +49,6 @@
         </ul>
     </div>
 </nav>
+<%
+	}
+%>

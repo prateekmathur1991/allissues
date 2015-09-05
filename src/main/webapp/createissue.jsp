@@ -36,6 +36,9 @@
     
     <!--  Font Awesome -->
     <link href="css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Datepicker -->
+    <link href="css/bootstrap-datepicker3.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -81,12 +84,12 @@
         <div class="form-group" id="res-date-group">
         	<label for="res-date" class="col-sm-2 control-label">Resolution Date</label>
         	<div class="col-sm-10">
-        		<input type="text" class="form-control" id="res-date" name="res-date" />
+        		<input type="text" class="form-control datepicker" id="res-date" name="res-date" />
         	</div>
         </div>
 
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
+            <div class="col-sm-offset-6 col-sm-10">
                 <button type="button" class="btn btn-success" id="create-issue-button" name="create-issue-button" value="Submit Issue">Add Issue</button>
             </div>
         </div>
@@ -100,10 +103,18 @@
 </div>
 
 <!-- jQuery -->
-<script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+<!--Bootstrap Datepicker JavaScript -->
+<script type="text/javascript" src="js/bootstrap-datepicker.min.js"></script>
+
+<script type="text/javascript">
+	$('.datepicker').datepicker();
+</script>
+
 
 </body>
 </html>
