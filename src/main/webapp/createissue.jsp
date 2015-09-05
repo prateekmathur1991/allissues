@@ -67,7 +67,7 @@
         <div class="form-group" id="priority-group">
             <label for="priority" class="col-sm-2 control-label">Priority</label>
             <div class="col-sm-10">
-                <select class="form-control" id="priority">
+                <select class="form-control" id="priority" name="priority">
                 	<option value="1">Low</option>
                 	<option value="2">Medium</option>
                 	<option value="3">High</option>

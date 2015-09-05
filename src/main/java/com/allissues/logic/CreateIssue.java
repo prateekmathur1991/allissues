@@ -19,6 +19,7 @@ package com.allissues.logic;
 import static com.allissues.service.OfyService.ofy;
 
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -58,29 +59,30 @@ public class CreateIssue extends HttpServlet {
 			useremail = (String) session.getAttribute("useremail");
 		} catch (Exception e)	{
 			logger.info("Exception while getting session variables");
+			e.printStackTrace();
 		}
 		
-		if (null == username || "".equals(username) || null == usertype || "".equals(usertype) || null == useremail || "".equals(useremail))	{
-			response.sendError(HttpServletResponse.SC_NOT_FOUND);
-		} else {
-			String title = request.getParameter("title") == null ? "" : request.getParameter("title");
-			String description = request.getParameter("description") == null ? "" : request.getParameter("description");
-			int priority = request.getParameter("priority") == null ? 0 : Integer.parseInt(request.getParameter("priority"));
-			String assignedTo = request.getParameter("assigned-to") == null ? "" : request.getParameter("assigned-to");
-			String deadline = request.getParameter("res-date") == null ? "" : request.getParameter("res-date");
-			
-			logger.info("title:: " + title + " desc:: " + description + " priority:: " + priority + " assignedTo:: " + assignedTo +  " deadline:: " + deadline);
-			
-			final Key<Issue> key = Key.create(Issue.class, title);
-			long issueId = key.getId();
-			logger.info("Created Issue ID:: " + issueId);
-			
-			Issue issue = new Issue(issueId, title, description, priority, useremail, assignedTo, deadline, "developer".equalsIgnoreCase(usertype) == true ? true : false);
-			
-			ofy().save().entity(issue).now();
-			logger.info("Entity saved successfully");
+		try	{
+			if (null == username || "".equals(username) || null == usertype || "".equals(usertype) || null == useremail || "".equals(useremail))	{
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			} else {
+				String title = request.getParameter("title") == null ? "" : request.getParameter("title");
+				String description = request.getParameter("description") == null ? "" : request.getParameter("description");
+				int priority = request.getParameter("priority") == null ? 0 : Integer.parseInt(request.getParameter("priority"));
+				String assignedTo = request.getParameter("assigned-to") == null ? "" : request.getParameter("assigned-to");
+				String deadline = request.getParameter("res-date") == null ? "" : request.getParameter("res-date");
+				
+				logger.info("title:: " + title + " priority:: " + priority + " assignedTo:: " + assignedTo +  " deadline:: " + deadline);
+				
+				Issue issue = new Issue(title, description, priority, useremail, assignedTo, deadline, "developer".equalsIgnoreCase(usertype) == true ? true : false);
+				
+				ofy().save().entity(issue).now();
+				logger.info("Issue saved successfully");
+			}
+		} catch (Exception e)	{
+			logger.info("Exception in CreateIssue Servlet");
+			e.printStackTrace();
 		}
-		
 		
 	}
 

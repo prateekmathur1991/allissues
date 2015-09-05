@@ -32,8 +32,7 @@ public class Issue {
 	/**
 	 * Public constructor for Issue
 	 */
-	public Issue(Long issueId, String title, String description, int priority, String createdBy, String assignedTo, String deadline, boolean developerIssue)	{
-		this.issueId = issueId;
+	public Issue(String title, String description, int priority, String createdBy, String assignedTo, String deadline, boolean developerIssue)	{
 		this.title = title;
 		this.description = new Text(description);
 		this.priority = priority;
@@ -96,5 +95,69 @@ public class Issue {
 	 *  Represents if this issue was created by a developer. Can be used to exclude the issue from a customer's search,
 	 *  or hide it on the customer home page.
 	 */
-	private boolean developerIssue;	
+	private boolean developerIssue;
+	
+	/**
+	 * Getter for Title
+	 */
+	public String getTitle()	{
+		return title;
+	}
+	
+	/**
+	 * Getter for Description
+	 */
+	public String getDescription()	{
+		return description.getValue();
+	}
+	
+	/**
+	 * Getter for Priority
+	 */
+	public int getPriority()	{
+		return priority;
+	}
+	
+	/**
+	 * Getter for createdBy
+	 */
+	public String getCreatedBy()	{
+		return createdBy;
+	}
+	
+	/**
+	 * Getter for assignedTo
+	 */
+	public String getAssignedTo()	{
+		return assignedTo;
+	}
+	
+	/**
+	 * Getter for status
+	 */
+	public String getStatus()	{
+		return status;
+	}
+	
+	/**
+	 * Getter for estimatedResolutionDate
+	 */
+	public String getEstimatedResolutionDate()	{
+		return estimatedResolutionDate;
+	}
+	
+	/**
+	 * Getter for actualResolutionDate
+	 */
+	public String getActualResolutionDate()	{
+		return actualResolutionDate;
+	}
+	
+	/**
+	 * Getter for weatherDeveloerIssue
+	 */
+	public boolean weatherDeveloerIssue()	{
+		return developerIssue;
+	}
 }
+
