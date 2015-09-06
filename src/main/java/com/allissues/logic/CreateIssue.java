@@ -19,7 +19,6 @@ package com.allissues.logic;
 import static com.allissues.service.OfyService.ofy;
 
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -29,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.allissues.data.Issue;
-import com.googlecode.objectify.Key;
 
 /**
  * Servlet implementation class CreateIssue
@@ -58,7 +56,7 @@ public class CreateIssue extends HttpServlet {
 			usertype = (String) session.getAttribute("usertype");
 			useremail = (String) session.getAttribute("useremail");
 		} catch (Exception e)	{
-			logger.info("Exception while getting session variables");
+			logger.warning("Exception while getting session variables");
 			e.printStackTrace();
 		}
 		
@@ -80,7 +78,7 @@ public class CreateIssue extends HttpServlet {
 				logger.info("Issue saved successfully");
 			}
 		} catch (Exception e)	{
-			logger.info("Exception in CreateIssue Servlet");
+			logger.warning("Exception in CreateIssue Servlet");
 			e.printStackTrace();
 		}
 		

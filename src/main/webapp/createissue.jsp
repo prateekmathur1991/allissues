@@ -35,7 +35,7 @@
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     
-    <!--  Font Awesome -->
+    <!-- Font Awesome -->
     <link href="css/font-awesome.min.css" rel="stylesheet">
     
     <!-- Bootstrap Datepicker -->

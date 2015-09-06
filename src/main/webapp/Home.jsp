@@ -102,24 +102,26 @@
 </div> <!-- .row -->
 
 <div class="row">
-<h4>Open Issues</h4>
-	<table class="table table-bordered">
-		<thead>
-			<tr>
-				<td>Issue ID</td>
-				<td>Title</td>
-				<td>Description</td>
-				<td>Priority</td>
-				<td>Created By</td>
-				<td>Assigned To</td>
-				<td>Status</td>
-				<td>Estimated Resolution Date</td>
-			</tr>		
-		</thead>
-		<tbody>
-			
-		</tbody>
-	</table>
+	<h4 class="col-sm-12">Open Issues</h4>
+	<div class="table-responsive">
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<td>Issue ID</td>
+					<td>Title</td>
+					<td>Description</td>
+					<td>Priority</td>
+					<td>Created By</td>
+					<td>Assigned To</td>
+					<td>Status</td>
+					<td>Estimated Resolution Date</td>
+				</tr>		
+			</thead>
+			<tbody>
+				
+			</tbody>
+		</table>
+	</div> <!-- .table-responsive -->
 </div> <!-- .row -->
 
 <!-- jQuery -->
