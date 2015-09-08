@@ -11,7 +11,6 @@
     
   </security-constraint>
   <servlet>
-    <description></description>
     <display-name>LoginServlet</display-name>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>com.allissues.logic.LoginServlet</servlet-class>
@@ -22,7 +21,6 @@
   </servlet-mapping>
   
   <servlet>
-    <description></description>
     <display-name>RegisterServlet</display-name>
     <servlet-name>RegisterServlet</servlet-name>
     <servlet-class>com.allissues.logic.RegisterServlet</servlet-class>
@@ -31,8 +29,8 @@
     <servlet-name>RegisterServlet</servlet-name>
     <url-pattern>/register</url-pattern>
   </servlet-mapping>
+  
   <servlet>
-    <description></description>
     <display-name>CreateIssue</display-name>
     <servlet-name>CreateIssue</servlet-name>
     <servlet-class>com.allissues.logic.CreateIssue</servlet-class>
@@ -41,8 +39,8 @@
     <servlet-name>CreateIssue</servlet-name>
     <url-pattern>/AddIssue</url-pattern>
   </servlet-mapping>
+  
   <servlet>
-    <description></description>
     <display-name>CreateProject</display-name>
     <servlet-name>CreateProject</servlet-name>
     <servlet-class>com.allissues.logic.CreateProject</servlet-class>
@@ -50,5 +48,15 @@
   <servlet-mapping>
     <servlet-name>CreateProject</servlet-name>
     <url-pattern>/CreateProject</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <display-name>GlobalServlet</display-name>
+    <servlet-name>GlobalServlet</servlet-name>
+    <servlet-class>com.allissues.logic.GlobalServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GlobalServlet</servlet-name>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
 </web-app>
