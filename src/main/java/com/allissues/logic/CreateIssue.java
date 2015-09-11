@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.allissues.data.Issue;
-import com.googlecode.objectify.Key;
 
 /**
  * Servlet implementation class CreateIssue

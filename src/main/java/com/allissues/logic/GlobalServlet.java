@@ -45,7 +45,7 @@ public class GlobalServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String requestUri = request.getRequestURI();
-		logger.info("Request URI:: " + requestUri);
+		logger.info("Request URI::" + requestUri);
 		
 		String url = requestUri.substring(requestUri.lastIndexOf("/") + 1);
 		String sub_url = "";
@@ -57,9 +57,9 @@ public class GlobalServlet extends HttpServlet {
 		logger.info("URL::" + url + " Sub URL::" + sub_url);
 		
 		if ("issue".equalsIgnoreCase(url))	{
-			
+			request.getRequestDispatcher("/viewissue.jsp?issueid=").forward(request, response);
 		} else if ("profile".equalsIgnoreCase(url))	{
-			
+			request.getRequestDispatcher("/viewprofile.jsp?profileid=").forward(request, response);
 		}
 	}
 
