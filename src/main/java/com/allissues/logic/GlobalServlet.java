@@ -19,7 +19,6 @@ package com.allissues.logic;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +46,7 @@ public class GlobalServlet extends HttpServlet {
 		String requestUri = request.getRequestURI();
 		logger.info("Request URI::" + requestUri);
 		
-		String url = requestUri.substring(requestUri.lastIndexOf("/") + 1);
+		String url = requestUri.substring(requestUri.indexOf("/") + 1);
 		String sub_url = "";
 		if (url.indexOf("/") != -1)	{
 			sub_url = url.substring(0, url.lastIndexOf("/"));
@@ -57,9 +56,16 @@ public class GlobalServlet extends HttpServlet {
 		logger.info("URL::" + url + " Sub URL::" + sub_url);
 		
 		if ("issue".equalsIgnoreCase(url))	{
-			request.getRequestDispatcher("/viewissue.jsp?issueid=").forward(request, response);
+			String [] parts = sub_url.split("-");
+			String id = parts[parts.length - 1];
+			logger.info("Got ID:: " + id);
+			
+			String forwardUrl = "/viewissue.jsp?id=" + id;
+			logger.info("forwardUrl:: " + forwardUrl);
+			
+			request.getRequestDispatcher(forwardUrl).forward(request, response);
 		} else if ("profile".equalsIgnoreCase(url))	{
-			request.getRequestDispatcher("/viewprofile.jsp?profileid=").forward(request, response);
+			
 		}
 	}
 

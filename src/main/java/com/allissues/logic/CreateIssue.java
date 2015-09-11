@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.allissues.data.Issue;
+import com.googlecode.objectify.Key;
 
 /**
  * Servlet implementation class CreateIssue
@@ -74,8 +75,15 @@ public class CreateIssue extends HttpServlet {
 				
 				Issue issue = new Issue(title, description, priority, useremail, assignedTo, deadline, "developer".equalsIgnoreCase(usertype) == true ? true : false);
 				
-				ofy().save().entity(issue).now();
-				logger.info("Issue saved successfully");
+				Key<Issue> key = ofy().save().entity(issue).now();
+				long id = key.getId();
+				logger.info("Issue saved successfully. Generated ID:: " + id);
+				
+				String forwardUrl = title.toLowerCase().replaceAll(" ", "-") + "-" + Long.toString(id);
+				logger.info("Forwarding URL:: " + forwardUrl);
+				
+				request.getRequestDispatcher("/issue/" + forwardUrl);
+				
 			}
 		} catch (Exception e)	{
 			logger.warning("Exception in CreateIssue Servlet");
