@@ -26,21 +26,25 @@
 		if ((null == username || "".equals(username)) && (null == usertype || "".equals(usertype)) && (null == useremail || "".equals(useremail)))	{
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		} else	{
-			long id = request.getParameter("id") == null ? 0 : Long.parseLong(request.getParameter("id"));
-			logger.info("Got ID:: " + id);
-			
-			Objectify ofy = ObjectifyService.ofy();
-			
-			Key<Issue> issueKey = null;
-			Issue issue = null;
-			if (id != 0)	{
-				issueKey = Key.create(Issue.class, id);
-				issue = ofy.load().key(issueKey).now();
-			}
-			
-			if (null != issue)	{
-				logger.info("Title:: " + issue.getTitle() + " Status:: " + issue.getStatus() + " Deadline::" + issue.getEstimatedResolutionDate());
-			}
+			if ("customer".equalsIgnoreCase(usertype))	{
+				// Customers cannot view a issue created by a developer
+				response.sendError(HttpServletResponse.SC_FORBIDDEN);
+			} else {
+				long id = request.getParameter("id") == null ? 0 : Long.parseLong(request.getParameter("id"));
+				logger.info("Got ID:: " + id);
+				
+				Objectify ofy = ObjectifyService.ofy();
+				
+				Key<Issue> issueKey = null;
+				Issue issue = null;
+				if (id != 0)	{
+					issueKey = Key.create(Issue.class, id);
+					issue = ofy.load().key(issueKey).now();
+				}
+				
+				if (null != issue)	{
+					logger.info("Title:: " + issue.getTitle() + " Status:: " + issue.getStatus() + " Deadline::" + issue.getEstimatedResolutionDate());
+				}
 %>
 
 <!DOCTYPE html>
@@ -98,6 +102,7 @@
 </body>
 </html>
 <%
+			}
 		}
 	} catch (Exception e)	{
 		logger.warning("Exception on page viewissue.jsp");

@@ -113,7 +113,9 @@
 <script type="text/javascript" src="js/bootstrap-datepicker.min.js"></script>
 
 <script type="text/javascript">
-	$('.datepicker').datepicker();
+	$('.datepicker').datepicker({
+		startDate: new Date()
+	});
 </script>
 
 
