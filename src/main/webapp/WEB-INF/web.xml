@@ -50,13 +50,14 @@
     <url-pattern>/CreateProject</url-pattern>
   </servlet-mapping>
   
-  <servlet>
-    <display-name>GlobalServlet</display-name>
-    <servlet-name>GlobalServlet</servlet-name>
-    <servlet-class>com.allissues.logic.GlobalServlet</servlet-class>
+   <servlet>
+    <display-name>ViewIssue</display-name>
+    <servlet-name>ViewIssue</servlet-name>
+    <servlet-class>com.allissues.logic.ViewIssue</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>GlobalServlet</servlet-name>
-    <url-pattern>/</url-pattern>
+    <servlet-name>ViewIssue</servlet-name>
+    <url-pattern>/issue/*</url-pattern>
   </servlet-mapping>
+  
 </web-app>

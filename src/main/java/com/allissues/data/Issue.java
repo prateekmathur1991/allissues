@@ -156,8 +156,11 @@ public class Issue {
 	/**
 	 * Getter for weatherDeveloerIssue
 	 */
-	public boolean weatherDeveloerIssue()	{
+	public boolean weatherDeveloperIssue()	{
 		return developerIssue;
 	}
+	
+	// Making the default constructor private
+	private Issue()	{}
 }
 

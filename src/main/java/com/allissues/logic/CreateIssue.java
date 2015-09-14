@@ -79,10 +79,7 @@ public class CreateIssue extends HttpServlet {
 				long id = key.getId();
 				logger.info("Issue saved successfully. Generated ID:: " + id);
 				
-				String forwardUrl = title.toLowerCase().replaceAll(" ", "-") + "-" + Long.toString(id);
-				logger.info("Forwarding URL:: " + forwardUrl);
-				
-				request.getRequestDispatcher("/issue/" + forwardUrl);
+				response.sendRedirect("/issue/" + title.toLowerCase().replaceAll(" ", "-") + "-" + Long.toString(id));
 				
 			}
 		} catch (Exception e)	{
