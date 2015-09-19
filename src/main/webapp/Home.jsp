@@ -1,3 +1,4 @@
+<%@page import="com.google.appengine.api.search.query.QueryParser.comparable_return"%>
 <%@page import="java.util.logging.Logger"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -42,87 +43,90 @@
 	<jsp:include page="CommonHeader.jsp"></jsp:include>
 </div>
 
-<div class="row">
-	<div class="col-lg-4 col-md-6">
-		<div class="panel panel-success">
-			<div class="panel-heading">
-				<div class="row">
-					<div class="col-xs-3">
-						<i class="fa fa-check-circle fa-5x"></i>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-4 col-md-6">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3">
+							<i class="fa fa-check-circle fa-5x"></i>
+						</div>
+						<div class="col-xs-9 text-right">	
+							<div style="font-size: 40px;">15</div>
+	                        <div>Issues Closed!</div>
+						</div>			
 					</div>
-					<div class="col-xs-9 text-right">	
-						<div style="font-size: 40px;">15</div>
-                        <div>Issues Closed!</div>
-					</div>			
+				</div>
+				<div class="panel-body btn-lg">
+					<a href="#">View Details</a>
 				</div>
 			</div>
-			<div class="panel-body btn-lg">
-				<a href="#">View Details</a>
-			</div>
 		</div>
-	</div>
-	
-	<div class="col-lg-4 col-md-6">
-		<div class="panel panel-danger">
-			<div class="panel-heading">
-				<div class="row">
-					<div class="col-xs-3">
-						<i class="fa fa-exclamation-circle fa-5x"></i>
+		
+		<div class="col-lg-4 col-md-6">
+			<div class="panel panel-danger">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3">
+							<i class="fa fa-exclamation-circle fa-5x"></i>
+						</div>
+						<div class="col-xs-9 text-right">	
+							<div style="font-size: 40px;">10</div>
+							<div>Issues Approaching Deadline</div>
+						</div>		
 					</div>
-					<div class="col-xs-9 text-right">	
-						<div style="font-size: 40px;">10</div>
-						<div>Issues Approaching Deadline</div>
-					</div>		
+				</div>
+				<div class="panel-body btn-lg">
+					<a href="#">View Details</a>
 				</div>
 			</div>
-			<div class="panel-body btn-lg">
-				<a href="#">View Details</a>
-			</div>
 		</div>
-	</div>
-	
-	<div class="col-lg-4 col-md-6">
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<div class="row">
-					<div class="col-xs-3">
-						<i class="fa fa-tasks fa-5x"></i>
+		
+		<div class="col-lg-4 col-md-6">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3">
+							<i class="fa fa-tasks fa-5x"></i>
+						</div>
+						<div class="col-xs-9 text-right">	
+							<div style="font-size: 40px;">10</div>
+	                        <div>New Issues Submitted!</div>
+						</div>		
 					</div>
-					<div class="col-xs-9 text-right">	
-						<div style="font-size: 40px;">10</div>
-                        <div>New Issues Submitted!</div>
-					</div>		
+				</div>
+				<div class="panel-body btn-lg">
+					<a href="#">View Details</a>
 				</div>
 			</div>
-			<div class="panel-body btn-lg">
-				<a href="#">View Details</a>
-			</div>
 		</div>
-	</div>
-</div> <!-- .row -->
+	</div> <!-- .row -->
+</div> <!-- .cotainer-fluid -->
 
-<div class="row">
-	<h4 class="col-sm-12">Open Issues</h4>
-	<div class="table-responsive">
-		<table class="table table-bordered table-striped">
-			<thead>
-				<tr>
-					<td>Issue ID</td>
-					<td>Title</td>
-					<td>Description</td>
-					<td>Priority</td>
-					<td>Created By</td>
-					<td>Assigned To</td>
-					<td>Status</td>
-					<td>Estimated Resolution Date</td>
-				</tr>		
-			</thead>
-			<tbody>
+<div class="container-fluid">
+	<div class="row">
+		<h4 class="col-sm-12">Open Issues</h4>
+		<div class="table-responsive col-sm-12">
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<td>Issue ID</td>
+						<td>Title</td>
+						<td>Priority</td>
+						<td>Created By</td>
+						<td>Assigned To</td>
+						<td>Estimated Resolution Date</td>
+					</tr>		
+				</thead>
 				
-			</tbody>
-		</table>
-	</div> <!-- .table-responsive -->
-</div> <!-- .row -->
+				<tbody>
+					
+				</tbody>
+			</table>
+		</div> <!-- .table-responsive -->
+	</div> <!-- .row -->
+</div> <!-- .container-fluid -->
 
 <!-- jQuery -->
 <script src="js/jquery.min.js"></script>
