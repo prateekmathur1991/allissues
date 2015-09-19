@@ -97,7 +97,7 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <div class="alert alert-danger fade in" style="display: none;" id="error"></div>
+                <div class="alert alert-danger" id="error"></div>
             </div>
         </div>
     </form>
@@ -113,8 +113,38 @@
 <script type="text/javascript" src="js/bootstrap-datepicker.min.js"></script>
 
 <script type="text/javascript">
-	$('.datepicker').datepicker({
-		startDate: new Date()
+	$(document).ready(function () {
+		$('.datepicker').datepicker({
+			startDate: new Date()
+		});
+		
+		$('#error').hide();
+		
+		$('#create-issue-button').on('click', function (e)	{
+			e.preventDefault();
+			
+			var check = false;
+			$('#issue-details input[type=text], textarea').each(function () {
+				if ($.trim($(this).val()) == '')	{
+					$(this).closest('.form-group').addClass('has-error');
+					$(this).focus();
+					
+					$('#error').html("Please enter a value for this field.");
+					$('#error').slideDown();
+					check = false;
+					return false;
+				} else {
+					$(this).closest('.form-group').removeClass('has-error');
+					$('#error').slideUp();
+					check = true;
+				}
+			});
+			
+			// Submit the Form after successful validation
+			if (check)	{
+				$('#issue-details').submit();
+			}
+		});
 	});
 </script>
 
