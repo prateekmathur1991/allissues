@@ -1,5 +1,13 @@
-<%@page import="com.google.appengine.api.search.query.QueryParser.comparable_return"%>
+<%@page import="com.googlecode.objectify.Key"%>
+<%@page import="com.googlecode.objectify.cmd.QueryKeys"%>
+<%@page import="com.google.appengine.api.datastore.Entity"%>
+<%@page import="com.googlecode.objectify.cmd.Query"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="com.allissues.data.Issue"%>
+<%@page import="java.util.List"%>
 <%@page import="java.util.logging.Logger"%>
+<%@page import="com.googlecode.objectify.ObjectifyService"%>
+<%@page import="com.googlecode.objectify.Objectify"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%!
@@ -91,7 +99,7 @@
 							<i class="fa fa-tasks fa-5x"></i>
 						</div>
 						<div class="col-xs-9 text-right">	
-							<div style="font-size: 40px;">10</div>
+							<div style="font-size: 40px;">20</div>
 	                        <div>New Issues Submitted!</div>
 						</div>		
 					</div>
@@ -106,9 +114,9 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<h4 class="col-sm-12">Open Issues</h4>
+		<h3 class="col-sm-12">Open Issues</h3>
 		<div class="table-responsive col-sm-12">
-			<table class="table table-bordered table-striped">
+			<table class="table table-bordered table-striped table-hover text-center">
 				<thead>
 					<tr>
 						<td>Issue ID</td>
@@ -121,8 +129,43 @@
 				</thead>
 				
 				<tbody>
+				<%
+					Objectify ofy = ObjectifyService.ofy();
+					List<Key<Issue>> openIssues = null;
+					if ("developer".equalsIgnoreCase(usertype))	{
+						openIssues = ofy.load().type(Issue.class).filter("status", "OPEN").filter("developerIssue", true).keys().list();
+					} else if ("customer".equalsIgnoreCase(usertype))	{
+						openIssues = ofy.load().type(Issue.class).filter("status", "OPEN").filter("developerIssue", false).keys().list();
+					}
 					
+					if (null != openIssues)	{
+						if (openIssues.size() > 0)	{
+							for (Key<Issue> issueKey : openIssues)	{
+								Issue issue = ofy.load().key(issueKey).now();
+				%>
+				<tr>
+					<td><%= issueKey.getId() %></td>
+					<td><a href="<%= "/issue/" + issue.getTitle().toLowerCase().replaceAll(" ", "-") + "-" + issueKey.getId() %>"><%= issue.getTitle() %></a></td>
+					<td><%= issue.getPriority() == 1 ? "LOW" : (issue.getPriority() == 2 ? "MEDIUM" : "HIGH") %></td>
+					<td><%= issue.getCreatedBy() %></td>
+					<td><%= issue.getAssignedTo() %></td>
+					<td><%= issue.getEstimatedResolutionDate() %></td>
+				</tr>
+				<%
+							}
+						} else { logger.warning("openIssues list size is zero");
+				%>
+					<tr>
+						<td colspan="6">All Issues Closed!!</td>
+					</tr>
+				<%
+						}
+					} else { 
+						logger.warning("openIssues list object is null");
+					}
+				%>
 				</tbody>
+				
 			</table>
 		</div> <!-- .table-responsive -->
 	</div> <!-- .row -->

@@ -38,8 +38,7 @@
 				Key<Issue> issueKey = null;
 				Issue issue = null;
 				if (id != 0)	{
-					issueKey = Key.create(Issue.class, id);
-					issue = ofy.load().key(issueKey).now();
+					issue = ofy.load().key(Key.create(Issue.class, id)).now();
 				}
 				
 				if (null != issue)	{
@@ -68,30 +67,37 @@
 	<jsp:include page="CommonHeader.jsp"></jsp:include>
 </div>
 
-<div class="row">
-	<h1 class="col-sm-12 text-primary"><strong><%= null == issue ? "N/A" : issue.getTitle() %></strong></h1>
-</div>
 
-<div class="row">
-		<span class="text-danger" style="margin-right: 10px;">
-			<i class="fa fa-calendar"></i>
-			<span>Status: <%= null == issue ? "N/A" : issue.getStatus() %></span>
-		</span>
-		<span class="text-danger" style="margin-right: 10px;">
-			<i class="fa fa-calendar"></i>
-			<span>Deadline: <%= null == issue ? "N/A" : issue.getEstimatedResolutionDate() %></span>
-		</span>
-		<span class="text-info">
-			<i class="fa fa-user"></i>
-			<span>Assigned to: <%= null == issue ? "N/A" : issue.getAssignedTo() %></span>
-		</span>
-</div>
-
-<div class="row" style="margin-top: 17px;">
-	<p class="text-justify col-sm-12">
-		<%= issue.getDescription() %>
-	</p>
-</div>
+<div class="container-fluid">
+	<div class="row">
+		<h1 class="col-sm-12 text-primary"><strong><%= null == issue ? "N/A" : issue.getTitle() %></strong></h1>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-9">
+			<div class="text-danger col-sm-3">
+				<i class="fa fa-calendar"></i>
+				<span>Status: <%= null == issue ? "N/A" : issue.getStatus() %></span>
+			</div>
+			
+			<div class="text-danger col-sm-3 col-sm-offset-1">
+				<i class="fa fa-calendar"></i>
+				<span>Deadline: <%= null == issue ? "N/A" : issue.getEstimatedResolutionDate() %></span>
+			</div>
+			
+			<div class="text-info col-sm-3 col-sm-offset-1">
+				<i class="fa fa-user"></i>
+				<span>Assigned to: <%= null == issue ? "N/A" : issue.getAssignedTo() %></span>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<p class="text-justify col-sm-12" style="margin-top: 17px;">
+			<%= issue.getDescription() %>
+		</p>
+	</div>
+</div> <!-- .container-fluid -->
 
 <!-- jQuery -->
 <script type="text/javascript" src="/js/jquery.min.js"></script>

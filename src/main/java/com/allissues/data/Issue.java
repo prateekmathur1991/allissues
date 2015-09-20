@@ -26,6 +26,7 @@ package com.allissues.data;
 import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 @Entity
 public class Issue {
@@ -54,6 +55,7 @@ public class Issue {
 	/**
 	 * Title of the issue
 	 */
+	@Index
 	private String title;
 	
 	/**
@@ -64,37 +66,44 @@ public class Issue {
 	/**
 	 * Priority Level of the Issue
 	 */
+	@Index
 	private int priority;
 	
 	/**
 	 * Email of the customer/developer who created the issue
 	 */
+	@Index
 	private String createdBy;
 	
 	/**
 	 * Email of the developer to whom the project is assigned
 	 */
+	@Index
 	private String assignedTo;
 	
 	/**
 	 * Status of the issue (Open Or Closed)
 	 */
+	@Index
 	private String status; 
 	
 	/**
 	 * Estimated resolution date, set either by the customer or the developer
 	 */
+	@Index
 	private String estimatedResolutionDate;
 	
 	/**
 	 * Actual resolution date, on which the issue was resolved
 	 */
+	@Index
 	private String actualResolutionDate;
 	
 	/**
 	 *  Represents if this issue was created by a developer. Can be used to exclude the issue from a customer's search,
 	 *  or hide it on the customer home page.
 	 */
+	@Index
 	private boolean developerIssue;
 	
 	/**
