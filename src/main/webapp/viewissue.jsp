@@ -92,10 +92,8 @@
 		</div>
 	</div>
 	
-	<div class="row">
-		<p class="text-justify col-sm-12" style="margin-top: 17px;">
-			<%= issue.getDescription() %>
-		</p>
+	<div class="row col-sm-12" style="margin-top: 22px;">
+		<%= issue.getDescription() %>
 	</div>
 </div> <!-- .container-fluid -->
 
