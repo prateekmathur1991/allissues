@@ -133,7 +133,7 @@
 					Objectify ofy = ObjectifyService.ofy();
 					List<Key<Issue>> openIssues = null;
 					if ("developer".equalsIgnoreCase(usertype))	{
-						openIssues = ofy.load().type(Issue.class).filter("status", "OPEN").filter("developerIssue", true).keys().list();
+						openIssues = ofy.load().type(Issue.class).filter("status", "OPEN").keys().list();
 					} else if ("customer".equalsIgnoreCase(usertype))	{
 						openIssues = ofy.load().type(Issue.class).filter("status", "OPEN").filter("developerIssue", false).keys().list();
 					}
