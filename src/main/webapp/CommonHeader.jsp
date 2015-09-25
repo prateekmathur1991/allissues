@@ -42,7 +42,7 @@
 	                </li>
 	                <li role="separator" class="divider"></li>
 	                <li>
-	                    <a href="#">Logout</a>
+	                    <a href="/logout.jsp">Logout</a>
 	                </li>
 	            </ul>
 	        </li>
