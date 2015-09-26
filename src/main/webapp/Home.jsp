@@ -114,8 +114,12 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<h3 class="col-sm-12">Open Issues</h3>
-		<div class="table-responsive col-sm-12">
+	<div class="col-sm-12">
+		<div class="row">
+			<h3 class="col-sm-9">Open Issues</h3>
+			<a href="/createissue.jsp" style="display: inline-block; margin-top: 29px;" class="col-sm-3 col-sm-push-2">Add new</a>
+		</div>
+		<div class="table-responsive">
 			<table class="table table-bordered table-striped table-hover text-center">
 				<thead>
 					<tr>
@@ -168,6 +172,7 @@
 				
 			</table>
 		</div> <!-- .table-responsive -->
+		</div>
 	</div> <!-- .row -->
 </div> <!-- .container-fluid -->
 

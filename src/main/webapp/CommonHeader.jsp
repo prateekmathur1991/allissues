@@ -26,7 +26,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/Home.jsp">
                 <img src="/img/logo.png"></img>
             </a>
         </div>
@@ -38,7 +38,7 @@
 	            </a>
 	            <ul class="dropdown-menu">
 	                <li>
-	                    <a href="#">Settings</a>
+	                    <a href="/settings.jsp">Settings</a>
 	                </li>
 	                <li role="separator" class="divider"></li>
 	                <li>
