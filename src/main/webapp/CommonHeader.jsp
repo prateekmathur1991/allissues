@@ -38,7 +38,7 @@
 	            </a>
 	            <ul class="dropdown-menu">
 	                <li>
-	                    <a href="/settings.jsp">Settings</a>
+	                    <a href="/settings.jsp">Profile Settings</a>
 	                </li>
 	                <li role="separator" class="divider"></li>
 	                <li>

@@ -1,3 +1,8 @@
+<%@page import="com.googlecode.objectify.ObjectifyService"%>
+<%@page import="com.googlecode.objectify.Key"%>
+<%@page import="com.googlecode.objectify.Objectify"%>
+<%@page import="com.allissues.data.Customer"%>
+<%@page import="com.allissues.data.Developer"%>
 <%@page import="com.google.appengine.repackaged.com.google.io.base.shell.ExecFailedException"%>
 <%@page import="java.util.logging.Logger"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -22,6 +27,15 @@
 		if (null == username || "".equals(username) || null == usertype || "".equals(usertype) || null == useremail || "".equals(useremail)) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		} else {
+			String displayName = "";
+			Objectify ofy = ObjectifyService.ofy();
+			if ("developer".equals(usertype.toLowerCase())) {
+				displayName = ofy.load().key(Key.create(Developer.class, useremail)).now() == null ? "" : ofy.load().key(Key.create(Developer.class, useremail)).now().getName();
+			} else {
+				displayName = ofy.load().key(Key.create(Customer.class, useremail)).now() == null ? "" : ofy.load().key(Key.create(Customer.class, useremail)).now().getName();
+			}
+			
+			logger.info("Got displayName:: " + displayName);
 %>
 <!Doctype html>
 <html>
@@ -50,51 +64,70 @@
   			<h4 class="text-info col-sm-12 col-sm-offset-2">Update Display Name</h4>
   		</div>
 		
-		<div class="form-group" id="name-group">
-            <label for="name" class="col-sm-2 control-label" style="text-align: left;">Display Name</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="name" name="name" placeholder="Display Name" />
+		<div id="display-name-group">	
+			<div class="form-group" id="name-group">
+	            <label for="name" class="col-sm-2 control-label" style="text-align: left;">Display Name</label>
+	            <div class="col-sm-10">
+	                <input type="text" class="form-control" id="name" name="name" value="<%= displayName %>" placeholder="Display Name" />
+	            </div>
+	        </div>
+	        
+	        <div class="form-group">
+	            <div class="col-sm-10 col-sm-offset-2">
+	                <button type="button" class="btn btn-success" id="save-name-button" name="save-name-button">Update</button>
+	            </div>
+	        </div>
+	    </div>
+        
+        <div id="password-group">
+	        <div class="form-group">
+	  			<h4 class="text-info col-sm-12 col-sm-offset-2">Update Password</h4>
+	  		</div>
+	
+	        <div class="form-group" id="old-pass-group">
+	            <label for="oldpass" class="col-sm-2 control-label" style="text-align: left;">Old Password</label>
+	            <div class="col-sm-10">
+	                <input type="password" class="form-control" id="oldpass" name="oldpass" placeholder="Enter old password" />
+	            </div>
+	        </div>
+	        
+	        <div class="form-group" id="new-pass-group">
+	            <label for="newpass" class="col-sm-2 control-label" style="text-align: left;">New Password</label>
+	            <div class="col-sm-10">
+	                <input type="password" class="form-control" id="newpass" name="newpass" placeholder="Enter new password" />
+	            </div>
+	        </div>
+	        
+	        <div class="form-group" id="conf-pass-group">
+	            <label for="confpass" class="col-sm-2 control-label" style="text-align: left;">Confirm New Password</label>
+	            <div class="col-sm-10">
+	                <input type="password" class="form-control" id="confpass" name="confpass" placeholder="Renter new password"/>
+	            </div>
+	        </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-2">
+                <button type="button" class="btn btn-success" id="save-password-button" name="save-password-button">Update</button>
             </div>
         </div>
         
         <div class="form-group">
-  			<h4 class="text-info col-sm-12 col-sm-offset-2">Update Password</h4>
-  		</div>
-
-        <div class="form-group" id="old-pass-group">
-            <label for="oldpass" class="col-sm-2 control-label" style="text-align: left;">Old Password</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="oldpass" name="oldpass" placeholder="Enter old password" />
-            </div>
-        </div>
-        
-        <div class="form-group" id="new-pass-group">
-            <label for="newpass" class="col-sm-2 control-label" style="text-align: left;">New Password</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="newpass" name="newpass" placeholder="Enter new password" />
-            </div>
-        </div>
-        
-        <div class="form-group" id="conf-pass-group">
-            <label for="confpass" class="col-sm-2 control-label" style="text-align: left;">Confirm New Password</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="confpass" name="confpass" placeholder="Renter new password"/>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <div class="col-sm-offset-6 col-sm-10">
-                <button type="button" class="btn btn-success" id="save-profile-button" name="save-profile-button">Update</button>
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="alert alert-danger" id="error"></div>
             </div>
         </div>
 	</form>
 </div> <!-- .container-fluid -->
 
 <!-- jQuery -->
-<script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+<!-- Custom JavaScript -->
+<script type="text/javascript" src="js/settings.js"></script>
 </body>
 </html>
 <% 

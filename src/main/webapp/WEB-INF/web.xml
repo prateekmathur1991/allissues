@@ -60,4 +60,14 @@
     <url-pattern>/issue/*</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <display-name>UpdateProfile</display-name>
+    <servlet-name>UpdateProfile</servlet-name>
+    <servlet-class>com.allissues.logic.UpdateProfile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateProfile</servlet-name>
+    <url-pattern>/update</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

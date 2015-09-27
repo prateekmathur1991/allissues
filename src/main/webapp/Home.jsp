@@ -116,8 +116,10 @@
 	<div class="row">
 	<div class="col-sm-12">
 		<div class="row">
-			<h3 class="col-sm-9">Open Issues</h3>
-			<a href="/createissue.jsp" style="display: inline-block; margin-top: 29px;" class="col-sm-3 col-sm-push-2">Add new</a>
+			<h3 class="col-sm-9">All Open Issues</h3>
+			<div class="col-sm-3" style="margin-top: 15px;">
+				<a href="/createissue.jsp" class="btn btn-primary pull-right">Add new</a>
+			</div>
 		</div>
 		<div class="table-responsive">
 			<table class="table table-bordered table-striped table-hover text-center">

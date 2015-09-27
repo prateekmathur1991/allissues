@@ -104,4 +104,17 @@ public class Developer {
 	
 	// Making the default constructor private
 	private Developer() {}
+	
+	/**
+	 * Updates the display name and login password
+	 */
+	public void update(String name, String password) {
+		if (null != name) {
+			this.name = name;
+		}
+		
+		if (null != password) {
+			this.password = password;
+		}
+	}
 }
