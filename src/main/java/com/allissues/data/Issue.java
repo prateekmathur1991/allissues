@@ -169,7 +169,37 @@ public class Issue {
 		return developerIssue;
 	}
 	
+	/**
+	 * Updates various parameters of the issue
+	 */
+	public void update(String title, String description, int priority, String status, String estimatedResolutionDate, 
+			String actualResolutionDate) {
+		
+		if (null != title) {
+			this.title = title;
+		}
+		
+		if (null != description) {
+			this.description = new Text(description);
+		}
+		
+		if (priority != 0) {
+			this.priority = priority;
+		}
+		
+		if (null != status) {
+			this.status = status;
+		}
+		
+		if (null != estimatedResolutionDate) {
+			this.estimatedResolutionDate = estimatedResolutionDate;
+		}
+		
+		if (null != actualResolutionDate) {
+			this.actualResolutionDate = actualResolutionDate;
+		}
+	}
+	
 	// Making the default constructor private
 	private Issue()	{}
 }
-

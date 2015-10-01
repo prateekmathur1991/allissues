@@ -1,3 +1,7 @@
+<%@page import="com.googlecode.objectify.Key"%>
+<%@page import="com.allissues.data.Issue"%>
+<%@page import="com.googlecode.objectify.ObjectifyService"%>
+<%@page import="com.googlecode.objectify.Objectify"%>
 <%@ page import="java.util.logging.Logger"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -22,6 +26,19 @@
 		if (null == username || "".equals(username) || null == usertype || "".equals(usertype) || null == useremail || "".equals(useremail))	{
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		} else	{
+			String action = request.getParameter("action") == null ? "" : request.getParameter("action");
+			long id = 0;
+			Issue issue = null;
+			if ("edit".equalsIgnoreCase(action)) {
+				id = request.getParameter("id") == null ? 0 : Long.parseLong(request.getParameter("id"));
+				logger.info("Got ID:: " + id);
+				
+				Objectify ofy = ObjectifyService.ofy();
+				
+				if (id != 0)	{
+					issue = ofy.load().key(Key.create(Issue.class, id)).now();
+				}
+			}
 	
 %>
 <!DOCTYPE html>
@@ -53,14 +70,19 @@
         <div class="form-group" id="title-group">
             <label for="title" class="col-sm-2 control-label">Issue Title</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="title" name="title" placeholder="Title" />
+                <input type="text" class="form-control" value="<%= issue == null ? "" : issue.getTitle() %>" id="title" name="title" placeholder="Title" />
             </div>
         </div>
+        
+        <% if ("edit".equalsIgnoreCase(action)) { %>
+        	<input type="hidden" id="action" value="edit" />
+        	<input type="hidden" id="issue-id" value="<%= id %>" />
+       	<% } %>
 
         <div class="form-group" id="description-group">
             <label for="description" class="col-sm-2 control-label">Description</label>
             <div class="col-sm-10">
-                <textarea rows="10" class="form-control" id="description" name="description"></textarea>
+                <textarea rows="10" class="form-control" id="description" name="description"><%= issue == null ? "" : issue.getDescription() %></textarea>
             </div>
         </div>
 
@@ -68,9 +90,9 @@
             <label for="priority" class="col-sm-2 control-label">Priority</label>
             <div class="col-sm-10">
                 <select class="form-control" id="priority" name="priority">
-                	<option value="1">Low</option>
-                	<option value="2">Medium</option>
-                	<option value="3">High</option>
+                	<option value="1" <%= issue == null ? "" : issue.getPriority() == 1 ? "selected=\"selected\"" : "" %>>Low</option>
+                	<option value="2" <%= issue == null ? "" : issue.getPriority() == 2 ? "selected=\"selected\"" : "" %>>Medium</option>
+                	<option value="3" <%= issue == null ? "" : issue.getPriority() == 3 ? "selected=\"selected\"" : "" %>>High</option>
                 </select>
             </div>
         </div>
@@ -78,14 +100,14 @@
         <div class="form-group" id="assigned-to-group">
             <label for="assigned-to" class="col-sm-2 control-label">Assigned To</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="assigned-to" name="assigned-to" />
+                <input type="text" class="form-control" value="<%= issue == null ? "" : issue.getAssignedTo() %>" id="assigned-to" name="assigned-to" />
             </div>
         </div>
         
         <div class="form-group" id="res-date-group">
         	<label for="res-date" class="col-sm-2 control-label">Resolution Date</label>
         	<div class="col-sm-10">
-        		<input type="text" class="form-control datepicker" id="res-date" name="res-date" />
+        		<input type="text" class="form-control datepicker" value="<%= issue == null ? "" : issue.getEstimatedResolutionDate() %>" id="res-date" name="res-date" />
         	</div>
         </div>
 

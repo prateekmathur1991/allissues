@@ -40,10 +40,6 @@
 				if (id != 0)	{
 					issue = ofy.load().key(Key.create(Issue.class, id)).now();
 				}
-				
-				if (null != issue)	{
-					logger.info("Title:: " + issue.getTitle() + " Status:: " + issue.getStatus() + " Deadline::" + issue.getEstimatedResolutionDate());
-				}
 %>
 
 <!DOCTYPE html>
@@ -70,30 +66,42 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<h1 class="col-sm-12 text-primary"><strong><%= null == issue ? "N/A" : issue.getTitle() %></strong></h1>
+		<h2 id="issue-title" class="col-sm-10 text-primary">
+			<strong><%= null == issue ? "N/A" : issue.getTitle() %></strong>
+		</h2>
+		<div class="col-sm-2" style="margin-top: 21px;">
+			<a id="issue-edit" href="/createissue.jsp?action=edit&id=<%= id %>" class="btn btn-success">Edit This Issue</a>
+		</div>
 	</div>
 	
 	<div class="row">
-		<div class="col-sm-9">
-			<div class="text-danger col-sm-3">
+		<div class="col-sm-12">
+			<div id="issue-status" class="text-danger col-sm-3">
 				<i class="fa fa-calendar"></i>
 				<span>Status: <%= null == issue ? "N/A" : issue.getStatus() %></span>
 			</div>
 			
-			<div class="text-danger col-sm-3 col-sm-offset-1">
+			<div id="issue-deadline" class="text-danger col-sm-3">
 				<i class="fa fa-calendar"></i>
 				<span>Deadline: <%= null == issue ? "N/A" : issue.getEstimatedResolutionDate() %></span>
 			</div>
 			
-			<div class="text-info col-sm-3 col-sm-offset-1">
+			<div id="issue-priority" class="text-danger col-sm-3">
+				<i class="fa fa-exclamation-circle"></i>
+				<span>Priority: <%= null == issue ? "N/A" : issue.getPriority() == 1 ? "LOW" : (issue.getPriority() == 2 ? "MEDIUM" : "HIGH") %></span>
+			</div>
+			
+			<div id="issue-assigned-to" class="text-info col-sm-3">
 				<i class="fa fa-user"></i>
 				<span>Assigned to: <%= null == issue ? "N/A" : issue.getAssignedTo() %></span>
 			</div>
 		</div>
 	</div>
 	
-	<div class="row col-sm-12" style="margin-top: 22px;">
-		<%= issue.getDescription() %>
+	<div id="issue-desc" class="row" style="margin-top: 22px;">
+		<div class="col-sm-12">
+			<%= issue.getDescription() %>
+		</div>
 	</div>
 </div> <!-- .container-fluid -->
 

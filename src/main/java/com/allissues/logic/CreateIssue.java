@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.allissues.data.Issue;
+import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Key;
 
 /**
@@ -65,6 +67,8 @@ public class CreateIssue extends HttpServlet {
 			if (null == username || "".equals(username) || null == usertype || "".equals(usertype) || null == useremail || "".equals(useremail))	{
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			} else {
+				String action = request.getParameter("action") == null ? "" : request.getParameter("action");
+				
 				String title = request.getParameter("title") == null ? "" : request.getParameter("title");
 				String description = request.getParameter("description") == null ? "" : request.getParameter("description");
 				int priority = request.getParameter("priority") == null ? 0 : Integer.parseInt(request.getParameter("priority"));
@@ -73,13 +77,33 @@ public class CreateIssue extends HttpServlet {
 				
 				logger.info("title:: " + title + " priority:: " + priority + " assignedTo:: " + assignedTo +  " deadline:: " + deadline);
 				
-				Issue issue = new Issue(title, description, priority, useremail, assignedTo, deadline, "developer".equalsIgnoreCase(usertype) == true ? true : false);
-				
-				Key<Issue> key = ofy().save().entity(issue).now();
-				long id = key.getId();
-				logger.info("Issue saved successfully. Generated ID:: " + id);
-				
-				response.sendRedirect("/issue/" + title.toLowerCase().replaceAll(" ", "-") + "-" + Long.toString(id));
+				if ("edit".equalsIgnoreCase(action)) {
+					long id = request.getParameter("id") == null ? 0 : Long.parseLong(request.getParameter("id"));
+					logger.info("Got ID for editing:: " + id);
+					
+					Objectify ofy = ObjectifyService.ofy();
+					
+					if (id != 0)	{
+						Issue issue = ofy.load().key(Key.create(Issue.class, id)).now();
+						if (null != issue) {
+							issue.update(title, description, priority, null, deadline, null);
+							Key<Issue> key = ofy().save().entity(issue).now();
+							long newId = key.getId();
+							
+							logger.info("Issue edited successfully. Generated ID:: " + id);
+							
+							response.sendRedirect("/issue/" + title.toLowerCase().replaceAll(" ", "-") + "-" + Long.toString(newId));
+						}
+					}
+				} else {
+					Issue issue = new Issue(title, description, priority, useremail, assignedTo, deadline, "developer".equalsIgnoreCase(usertype) == true ? true : false);
+					
+					Key<Issue> key = ofy().save().entity(issue).now();
+					long id = key.getId();
+					logger.info("Issue saved successfully. Generated ID:: " + id);
+					
+					response.sendRedirect("/issue/" + title.toLowerCase().replaceAll(" ", "-") + "-" + Long.toString(id));
+				}
 				
 			}
 		} catch (Exception e)	{
