@@ -6,11 +6,3 @@ customers and dev team, by providing a common platform to discuss about enhancem
 
 All Issues can be be used by customers and developers alike, wherein customers can open issues in the software that can be communicated to the dev team, and
 the dev team can start working on the issues to fix them.
-
-You can try All Issues here- [All Issues][1]
-
-
-
-
-
-[1]: https://www.all-issues.appspot.com/
