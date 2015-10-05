@@ -24,33 +24,25 @@
 package com.allissues.data;
 
 import com.google.appengine.api.datastore.Text;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Parent;
 
 @Entity
 public class Issue {
-	/**
-	 * Public constructor for Issue
-	 */
-	public Issue(String title, String description, int priority, String createdBy, String assignedTo, String deadline, boolean developerIssue)	{
-		this.title = title;
-		this.description = new Text(description);
-		this.priority = priority;
-		this.createdBy = createdBy;
-		this.assignedTo = assignedTo;
-		this.estimatedResolutionDate = deadline;
-		this.developerIssue = developerIssue;
-		
-		this.status = "OPEN";
-		this.actualResolutionDate = "";
-	}
-	
 	@Id
 	/**
 	 * An ID that can uniquely identify the issue in the system
 	 */
 	private Long issueId;
+	
+	/**
+	 * Key of the project under which the issue is created
+	 */
+	@Parent
+	private Key<Project> projectKey;
 	
 	/**
 	 * Title of the issue
@@ -105,6 +97,23 @@ public class Issue {
 	 */
 	@Index
 	private boolean developerIssue;
+	
+	/**
+	 * Public constructor for Issue
+	 */
+	public Issue(String title, String description, int priority, String createdBy, String assignedTo, String deadline, boolean developerIssue)	{
+		this.projectKey = null;
+		this.title = title;
+		this.description = new Text(description);
+		this.priority = priority;
+		this.createdBy = createdBy;
+		this.assignedTo = assignedTo;
+		this.estimatedResolutionDate = deadline;
+		this.developerIssue = developerIssue;
+		
+		this.status = "OPEN";
+		this.actualResolutionDate = "";
+	}
 	
 	/**
 	 * Getter for Title
@@ -163,10 +172,17 @@ public class Issue {
 	}
 	
 	/**
-	 * Getter for weatherDeveloerIssue
+	 * Getter for weatherDeveloperIssue
 	 */
-	public boolean weatherDeveloperIssue()	{
+	public boolean isDeveloperIssue()	{
 		return developerIssue;
+	}
+	
+	/**
+	 * Getter for project key
+	 */
+	public Key<Project> getProjectKey()	{
+		return this.projectKey;
 	}
 	
 	/**

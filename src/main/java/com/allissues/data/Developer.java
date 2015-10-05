@@ -14,7 +14,6 @@
     along with All Issues. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 /**
  * Represents the profile of a Developer, and contains fields to identify the same.
  * 
@@ -24,6 +23,11 @@
 
 package com.allissues.data;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
@@ -54,6 +58,16 @@ public class Developer {
 	 * No. of bugs assigned to the developer
 	 */
 	private int noOfBugsAssigned;
+	
+	/**
+	 * Key of the project of which this developer is a Project Leader
+	 */
+	private Key<Project> projectKey;
+	
+	/**
+	 * List of all project this developer is working on
+	 */
+	private ArrayList<String> allProjects = new ArrayList<String>(0);
 
 	/**
 	 * Constructor for the Developer class, used to create a developer entity and save it in the datastore.
@@ -62,9 +76,26 @@ public class Developer {
 		this.email = email;
 		this.name = name;
 		this.password = password;
+		this.projectKey = null;
 
 		noOfBugsAssigned = 0;
 		noOfBugsFixed = 0;
+	}
+	
+	/**
+	 * Assigns a project to this developer, making him/her the owner and Project
+	 * Leader for this project
+	 */
+	public void assignProject(Key<Project> projectKey)	{
+		this.projectKey = projectKey;
+	}
+	
+	
+	/**
+	 * Adds a project to the list of projects this developer is working on
+	 */
+	public void addProject(Key<Project> projectKey)	{
+		this.allProjects.add(projectKey.getString());
 	}
 
 	/**
@@ -102,11 +133,23 @@ public class Developer {
 		return noOfBugsAssigned;
 	}
 	
-	// Making the default constructor private
-	private Developer() {}
+	/**
+	 * Getter for the project this developer ownes
+	 */
+	public Key<Project> getProject()	{
+		return this.projectKey;
+	}
 	
 	/**
-	 * Updates the display name and login password
+	 * Returns an immutable list of all project keys this developer
+	 * is working on
+	 */
+	public List<String> getProjects()	{
+		return Collections.unmodifiableList(allProjects);
+	}
+	
+	/**
+	 * Updates display name and/or login password
 	 */
 	public void update(String name, String password) {
 		if (null != name) {
@@ -117,4 +160,7 @@ public class Developer {
 			this.password = password;
 		}
 	}
+	
+	// Making the default constructor private
+	private Developer() {}
 }

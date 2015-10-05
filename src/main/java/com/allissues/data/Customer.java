@@ -16,6 +16,9 @@
 
 package com.allissues.data;
 
+import java.util.ArrayList;
+
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
@@ -50,9 +53,9 @@ public class Customer {
 	private int noOfBugsCreated;
 	
 	/**
-	 * No. of projects owned by this customer
+	 * List of all projects this customer has been added to
 	 */
-	private int noOfProjects;
+	private ArrayList<String> allProjects = new ArrayList<String>(0);
 
 	/**
 	 * Constructor for the Customer class
@@ -63,7 +66,13 @@ public class Customer {
 		this.password = password;
 
 		noOfBugsCreated = 0;
-		noOfProjects = 0;
+	}
+	
+	/**
+	 * Add a project to this customer
+	 */
+	public void addProject(Key<Project> projectKey)	{
+		this.allProjects.add(projectKey.getString());
 	}
 
     /**
@@ -101,19 +110,7 @@ public class Customer {
     public int getNoOfBugsCreated() {
         return noOfBugsCreated;
     }
-
-    /**
-     * Getter for noOfProjects
-     *
-     * @return
-     */
-    public int getNoOfProjects() {
-        return noOfProjects;
-    }
     
-    // Making the default constructor private
-    private Customer() {}
-
     /**
      * Updates the display name and login password
      */
@@ -126,4 +123,7 @@ public class Customer {
 		    this.password = password;
 		}
     }
+    
+    // Making the default constructor private
+    private Customer() {}
 }

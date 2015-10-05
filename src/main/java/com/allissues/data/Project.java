@@ -24,8 +24,15 @@
  */
 package com.allissues.data;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import com.google.appengine.api.datastore.Text;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Parent;
 
 @Entity
 public class Project {
@@ -33,7 +40,7 @@ public class Project {
 	/**
 	 *  An ID that can uniquely identify the project in the system
 	 */
-	private String projectId;
+	private Long projectId;
 	
 	/**
 	 * Name of the project
@@ -41,12 +48,108 @@ public class Project {
 	private String name;
 	
 	/**
-	 * Reference to the customer object who owns the project
+	 * Short Description of the project
 	 */
-	private Customer owner;
+	private Text description;
 	
+	/**
+	 * Key of the developer object who owns the project
+	 */
+	@Parent
+	private Key<Developer> owner;
+	
+	/**
+	 * List of all developers working on the project
+	 */
+	private ArrayList<String> allDevelopers = new ArrayList<String>(0);
+	
+	/**
+	 * List of all customers added to the project
+	 */
+	private ArrayList<String> allCustomers = new ArrayList<String>(0);
+			
 	/**
 	 * No. of bugs filed for this project
 	 */
 	private int noOfBugs;
+	
+	/**
+	 * Constructor for the Project class, used to create a project and save it in the datastore
+	 */
+	public Project(String name, String description, Key<Developer> owner)	{
+		this.name = name;
+		this.description = new Text(description);
+		this.owner = owner;
+		this.noOfBugs = 0;
+	}
+	
+	/**
+	 * Adds a developer to this project by accepting a String
+	 * representation of a developer key and adding to the list of
+	 * developers.
+	 */
+	public void addDeveloper(Key<Developer> developerKey)	{
+		this.allDevelopers.add(developerKey.getString());
+	}
+	
+	/**
+	 * Add a customer to this project by accepting a String representation
+	 * of the customer key and adding it to the list of customers.
+	 */
+	public void addCustomer(Key<Customer> customerKey)	{
+		this.allCustomers.add(customerKey.getString());
+	}
+	
+	/**
+	 * Getter for name
+	 */
+	public String getName()	{
+		return name;
+	}
+	
+	/**
+	 * Getter for description
+	 */
+	public String getDescription()	{
+		return description.getValue();
+	}
+	
+	/**
+	 * Getter for owner
+	 */
+	public Key<Developer> getOwner()	{
+		return this.owner;
+	}
+	
+	/**
+	 * Returns an immutable list of keys of all developer entities
+	 * who are working on this project
+	 */
+	public List<String> getAllDevelopers()	{
+		return Collections.unmodifiableList(allDevelopers);
+	}
+	
+	/**
+	 * Returns an immutable list of keys of all customer entities
+	 * who are working on this project
+	 */
+	public List<String> getAllCustomers()	{
+		return Collections.unmodifiableList(allCustomers);
+	}
+	
+	/**
+	 * Updates name and/or description
+	 */
+	public void update(String name, String description)	{
+		if (null != name)	{
+			this.name = name;
+		}
+		
+		if (null != description)	{
+			this.description = new Text(description);
+		}
+	}
+	
+	// Making the default constructor private
+	private Project() {}
 }
