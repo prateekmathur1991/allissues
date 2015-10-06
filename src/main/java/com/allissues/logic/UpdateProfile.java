@@ -65,15 +65,15 @@ public class UpdateProfile extends HttpServlet {
 		String username = null, usertype = null, useremail = null;
 		
 		try	{
-			username = (String) session.getAttribute("username");
-			usertype = (String) session.getAttribute("usertype");
-			useremail = (String) session.getAttribute("useremail");
+			username = session.getAttribute("username") == null ? "" : (String) session.getAttribute("username");
+			usertype = session.getAttribute("usertype") == null ? "" : (String) session.getAttribute("usertype"); 
+			useremail = session.getAttribute("useremail") == null ? "" : (String) session.getAttribute("useremail");
 		} catch (Exception e)	{
 			logger.warning("Exception while getting session variables");
 			e.printStackTrace();
 		}
 		
-		if (null == username || "".equals(username) || null == usertype || "".equals(usertype) || null == useremail || "".equals(useremail)) {
+		if ("".equals(username) || "".equals(usertype) || "".equals(useremail)) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		} else {
 			response.setContentType("application/json");

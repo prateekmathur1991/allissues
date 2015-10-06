@@ -94,22 +94,27 @@ public class RegisterServlet extends HttpServlet {
 		}
 		
 		if (!errorFlag) {
-			if (accountType.equals("Developer")) {
-				Developer developer = new Developer(email, name, password);
-				ofy().save().entity(developer).now();
-			} else if (accountType.equals("Customer")) {
-				Customer customer = new Customer(email, name, password);
-				ofy().save().entity(customer).now();
-			}
-			
 			// Set the user details in session
 			session.setAttribute("username", name);
 			session.setAttribute("usertype", accountType.toLowerCase());
 			session.setAttribute("useremail", email);
+						
+			if (accountType.equals("Developer")) {
+				Developer developer = new Developer(email, name, password);
+				ofy().save().entity(developer).now();
+				
+				responseObject = builder.add("status", "success").add("forwardUrl", "createproject.jsp").build();
+				pout.println(responseObject);
+				pout.flush();
+			} else if (accountType.equals("Customer")) {
+				Customer customer = new Customer(email, name, password);
+				ofy().save().entity(customer).now();
+				
+				responseObject = builder.add("status", "success").add("forwardUrl", "Home.jsp").build();
+				pout.println(responseObject);
+				pout.flush();
+			}
 			
-			responseObject = builder.add("status", "success").add("forwardUrl", "Home.jsp").build();
-			pout.println(responseObject);
-			pout.flush();
 		}
 	}
 

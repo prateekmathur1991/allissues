@@ -15,8 +15,8 @@
  */
 
 /**
- * jQuery methods for real-time and on-submission form validation, and sending AJAX requests for email
- * verification and registration
+ * jQuery methods for validation of profile setting page, and sending AJAX requests 
+ * for updating display name and password.
  *
  * @author Prateek Mathur
  */
