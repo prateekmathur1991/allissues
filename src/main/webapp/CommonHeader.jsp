@@ -3,17 +3,18 @@
 	Logger logger = Logger.getLogger("CommonHeader.jsp");
 %>
 <%
-	String username = null, usertype = null;
+	String username = null, usertype = null, useremail = null;
 
 	try	{
-		username = (String) session.getAttribute("username");
-		usertype = (String) session.getAttribute("usertype");
+		username = session.getAttribute("username") == null ? "" : (String) session.getAttribute("username");
+		usertype = session.getAttribute("usertype") == null ? "" : (String) session.getAttribute("usertype");
+		useremail = session.getAttribute("useremail") == null ? "" : (String) session.getAttribute("useremail");
 	} catch (Exception e)	{
 		logger.warning("Exception in CommonHeader.jsp while retrieving session variables");
 		e.printStackTrace();
 	}
 	
-	if (null == username || "".equals(username) || null == usertype || "".equals(usertype))	{
+	if ("".equals(username) || "".equals(usertype) || "".equals(useremail))	{
 		response.sendError(HttpServletResponse.SC_NOT_FOUND);
 	} else {
 %>
@@ -41,6 +42,12 @@
 	                    <a href="/settings.jsp">Profile Settings</a>
 	                </li>
 	                <li role="separator" class="divider"></li>
+	                <% if ("developer".equalsIgnoreCase(usertype)) { %>
+		                <li>
+		                    <a href="/projectsettings.jsp">Project Settings</a>
+		                </li>
+		                <li role="separator" class="divider"></li>
+	                <% } %>
 	                <li>
 	                    <a href="/logout.jsp">Logout</a>
 	                </li>

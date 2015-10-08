@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="com.allissues.data.Project"%>
 <%@page import="com.googlecode.objectify.ObjectifyService"%>
 <%@page import="com.googlecode.objectify.Key"%>
 <%@page import="com.googlecode.objectify.Objectify"%>
@@ -8,7 +10,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%!
-	static Logger logger = Logger.getLogger("settings.jsp");
+	static Logger logger = Logger.getLogger("projectsettings.jsp");
 %>
 
 <%
@@ -19,30 +21,44 @@
 		usertype = session.getAttribute("usertype") == null ? "" : (String) session.getAttribute("usertype");
 		useremail = session.getAttribute("useremail") == null ? "" : (String) session.getAttribute("useremail");
 	} catch (Exception e)	{
-		logger.warning("Exception on page settings.jsp while retrieving session variables");
+		logger.warning("Exception on page projectsettings.jsp while retrieving session variables");
 		e.printStackTrace();
 	}
 	
 	try {
 		if ("".equals(username) || "".equals(usertype) || "".equals(useremail)) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+		} else if ("customer".equalsIgnoreCase(usertype)) {
+			response.sendError(HttpServletResponse.SC_FORBIDDEN);
 		} else {
-			String displayName = "";
 			Objectify ofy = ObjectifyService.ofy();
-			if ("developer".equals(usertype.toLowerCase())) {
-				displayName = ofy.load().key(Key.create(Developer.class, useremail)).now() == null ? "" : ofy.load().key(Key.create(Developer.class, useremail)).now().getName();
+			
+			String projectName = "";
+			Project project = null;
+			
+			Developer developer = ofy.load().key(Key.create(Developer.class, useremail)).now();
+			if (null != developer)	{
+				Key<Project> projKey = developer.getProject();
+				if (null != projKey)	{
+					project = ofy.load().key(projKey).now();
+					logger.info("Got project:: " + project);
+					projectName = project == null ? "" : project.getName();
+				} else {
+					logger.warning("project Key found null");
+				}
+				
 			} else {
-				displayName = ofy.load().key(Key.create(Customer.class, useremail)).now() == null ? "" : ofy.load().key(Key.create(Customer.class, useremail)).now().getName();
+				logger.warning("developer found null");
 			}
 			
-			logger.info("Got displayName:: " + displayName);
+			logger.info("Got projectName:: " + projectName);
 %>
 <!Doctype html>
 <html>
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>All Issues | Profile Settings</title>
+	<title>All Issues | Project Settings</title>
 	<link rel="shortcut icon" type="image/png" href="img/favicon.png" />
     
     <!-- Bootstrap Core CSS -->
@@ -59,16 +75,16 @@
 </div>
 
 <div class="container-fluid">
-	<form class="form-horizontal" id="settings-form" name="settings-form" method="post">
+	<form class="form-horizontal" id="project-form" name="project-form" method="post">
 		<div class="form-group">
-  			<h4 class="text-info col-sm-12 col-sm-offset-2">Update Display Name</h4>
+  			<h4 class="text-info col-sm-12 col-sm-offset-2">Project Settings</h4>
   		</div>
 		
 		<div id="display-name-group">	
 			<div class="form-group" id="name-group">
-	            <label for="name" class="col-sm-2 control-label" style="text-align: left;">Display Name</label>
+	            <label for="name" class="col-sm-2 control-label" style="text-align: left;">Project Name</label>
 	            <div class="col-sm-10">
-	                <input type="text" class="form-control" id="name" name="name" value="<%= displayName %>" placeholder="Display Name" />
+	                <input type="text" class="form-control" id="name" name="name" value="<%= projectName %>" placeholder="Project Name" />
 	            </div>
 	        </div>
 	        
@@ -79,36 +95,21 @@
 	        </div>
 	    </div>
         
-        <div id="password-group">
+        <div id="people-group">
 	        <div class="form-group">
-	  			<h4 class="text-info col-sm-12 col-sm-offset-2">Update Password</h4>
+	  			<h4 class="text-info col-sm-12 col-sm-offset-2">Add people to your Project</h4>
 	  		</div>
 	
 	        <div class="form-group" id="old-pass-group">
-	            <label for="oldpass" class="col-sm-2 control-label" style="text-align: left;">Old Password</label>
-	            <div class="col-sm-10">
-	                <input type="password" class="form-control" id="oldpass" name="oldpass" placeholder="Enter old password" />
-	            </div>
-	        </div>
-	        
-	        <div class="form-group" id="new-pass-group">
-	            <label for="newpass" class="col-sm-2 control-label" style="text-align: left;">New Password</label>
-	            <div class="col-sm-10">
-	                <input type="password" class="form-control" id="newpass" name="newpass" placeholder="Enter new password" />
-	            </div>
-	        </div>
-	        
-	        <div class="form-group" id="conf-pass-group">
-	            <label for="confpass" class="col-sm-2 control-label" style="text-align: left;">Confirm New Password</label>
-	            <div class="col-sm-10">
-	                <input type="password" class="form-control" id="confpass" name="confpass" placeholder="Renter new password"/>
+	            <div class="col-sm-12 col-sm-push-2">
+	                <input type="text" class="form-control" id="people" name="people" placeholder="Type Email IDs of developers or customers you want to add to this project" />
 	            </div>
 	        </div>
         </div>
         
         <div class="form-group">
             <div class="col-sm-10 col-sm-offset-2">
-                <button type="button" class="btn btn-success" id="save-password-button" name="save-password-button">Update</button>
+                <button type="button" class="btn btn-success" id="add-people-button" name="add-people-button">Add</button>
             </div>
         </div>
         
@@ -127,13 +128,13 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
 <!-- Custom JavaScript -->
-<script type="text/javascript" src="js/settings.js"></script>
+<script type="text/javascript" src="js/projectsettings.js"></script>
 </body>
 </html>
 <% 
 		}
 	} catch (Exception e) {
-		logger.warning("Exception on page settings.jsp");
+		logger.warning("Exception on page projectsettings.jsp");
 		e.printStackTrace();
 	}
 %>

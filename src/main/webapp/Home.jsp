@@ -1,6 +1,6 @@
+<%@page import="com.allissues.data.Project"%>
 <%@page import="com.googlecode.objectify.Key"%>
 <%@page import="com.googlecode.objectify.cmd.QueryKeys"%>
-<%@page import="com.google.appengine.api.datastore.Entity"%>
 <%@page import="com.googlecode.objectify.cmd.Query"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="com.allissues.data.Issue"%>
@@ -138,8 +138,11 @@
 				<%
 					Objectify ofy = ObjectifyService.ofy();
 					List<Key<Issue>> openIssues = null;
+					
 					if ("developer".equalsIgnoreCase(usertype))	{
+						// Key<Project> projectKey = Key.create(Key.create(Developer.class, useremail), Project.class, projectKeyHere);
 						openIssues = ofy.load().type(Issue.class).filter("status", "OPEN").keys().list();
+						// openIssues = ofy.load().ancestor(Key<Project>)
 					} else if ("customer".equalsIgnoreCase(usertype))	{
 						openIssues = ofy.load().type(Issue.class).filter("status", "OPEN").filter("developerIssue", false).keys().list();
 					}
@@ -151,7 +154,7 @@
 				%>
 				<tr>
 					<td><%= issueKey.getId() %></td>
-					<td><a href="<%= "/issue/" + issue.getTitle().toLowerCase().replaceAll(" ", "-") + "-" + issueKey.getId() %>"><%= issue.getTitle() %></a></td>
+					<td><a target="_blank" href="<%= "/issue/" + issue.getTitle().toLowerCase().replaceAll(" ", "-") + "-" + issueKey.getId() %>"><%= issue.getTitle() %></a></td>
 					<td><%= issue.getPriority() == 1 ? "LOW" : (issue.getPriority() == 2 ? "MEDIUM" : "HIGH") %></td>
 					<td><%= issue.getCreatedBy() %></td>
 					<td><%= issue.getAssignedTo() %></td>
