@@ -45,6 +45,7 @@
 					projectName = project == null ? "" : project.getName();
 				} else {
 					logger.warning("project Key found null");
+					response.sendRedirect("/createproject.jsp");
 				}
 				
 			} else {
@@ -100,17 +101,20 @@
 	  			<h4 class="text-info col-sm-12 col-sm-offset-2">Add people to your Project</h4>
 	  		</div>
 	
-	        <div class="form-group" id="old-pass-group">
-	            <div class="col-sm-12 col-sm-push-2">
-	                <input type="text" class="form-control" id="people" name="people" placeholder="Type Email IDs of developers or customers you want to add to this project" />
+	        <div class="form-group" id="add-people-group">
+	            <p class="text-muted col-sm-10 col-sm-offset-2">Type Email IDs of developers or customers you want to add to this project</p>
+	            <div class="col-sm-10 col-sm-push-2">
+	                <div class="row">
+	                	<div class="col-xs-6">
+	                		<input class="typeahead form-control" type="text" id="people" name="people" />
+	                	</div>
+	                	
+	                	<div class="col-xs-6 col-sm-pull-3">
+	                		<button type="button" class="btn btn-success" id="add-people-button" name="add-people-button">Add</button>
+	                	</div>
+	                </div>
 	            </div>
 	        </div>
-        </div>
-        
-        <div class="form-group">
-            <div class="col-sm-10 col-sm-offset-2">
-                <button type="button" class="btn btn-success" id="add-people-button" name="add-people-button">Add</button>
-            </div>
         </div>
         
         <div class="form-group">
@@ -126,6 +130,12 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+<!-- BloodHound JS -->
+<script type="text/javascript" src="typeahead/bloodhound.min.js"></script>
+
+<!-- TypeAhead JS -->
+<script type="text/javascript" src="typeahead/typeahead.bundle.min.js"></script>
 
 <!-- Custom JavaScript -->
 <script type="text/javascript" src="js/projectsettings.js"></script>

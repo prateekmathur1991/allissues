@@ -41,12 +41,12 @@
   </servlet-mapping>
   
   <servlet>
-    <display-name>CreateProject</display-name>
-    <servlet-name>CreateProject</servlet-name>
-    <servlet-class>com.allissues.logic.CreateProject</servlet-class>
+    <display-name>ProjectActions</display-name>
+    <servlet-name>ProjectActions</servlet-name>
+    <servlet-class>com.allissues.logic.ProjectActions</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>CreateProject</servlet-name>
+    <servlet-name>ProjectActions</servlet-name>
     <url-pattern>/CreateProject</url-pattern>
   </servlet-mapping>
   
@@ -61,12 +61,12 @@
   </servlet-mapping>
   
   <servlet>
-    <display-name>UpdateProfile</display-name>
-    <servlet-name>UpdateProfile</servlet-name>
-    <servlet-class>com.allissues.logic.UpdateProfile</servlet-class>
+    <display-name>ProfileActions</display-name>
+    <servlet-name>ProfileActions</servlet-name>
+    <servlet-class>com.allissues.logic.ProfileActions</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>UpdateProfile</servlet-name>
+    <servlet-name>ProfileActions</servlet-name>
     <url-pattern>/update</url-pattern>
   </servlet-mapping>
   

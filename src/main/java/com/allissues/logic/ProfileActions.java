@@ -36,16 +36,16 @@ import com.allissues.data.Developer;
 import com.googlecode.objectify.Key;
 
 /**
- * Servlet implementation class UpdateProfile
+ * Servlet implementation class ProfileActions
  */
-public class UpdateProfile extends HttpServlet {
+public class ProfileActions extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(UpdateProfile.class.getName());
+	private static final Logger logger = Logger.getLogger(ProfileActions.class.getName());
 	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateProfile() {
+    public ProfileActions() {
         super();
         // TODO Auto-generated constructor stub
     }

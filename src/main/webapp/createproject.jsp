@@ -88,6 +88,9 @@
 <!-- Bootstrap Core JavaScript -->
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
+<!-- TinyMCE -->
+<script type="text/javascript" src="tinymce/tinymce.min.js"></script>
+
 <!-- Custom javascript -->
 <script src="js/createproject.js"></script>
 
