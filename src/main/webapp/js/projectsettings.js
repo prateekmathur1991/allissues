@@ -21,39 +21,22 @@
  * @author Prateek Mathur
  */
 
-var statesArr = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-		  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-		  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-		  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-		  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-		  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-		  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-		  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-		  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-		];
-
 $(document).ready(function ()	{
 	$('#error').hide();
 	
-	var states = new Bloodhound({
-		datumTokenizer: Bloodhound.tokenizers.whitespace,
-		queryTokenizer: Bloodhound.tokenizers.whitespace,
-		  
-		// local: statesArr
-		remote : function ()	{
-			
-		}
+	var ms = $('#people').magicSuggest({
+		allowFreeEntries: false,
+		method: 'get',
+		minChars: 2,
+		data: '/users',
+		groupBy: 'usertype',
+		valueField: 'email',
+		useCommaKey: true
 	});
-
-	$('.typeahead').typeahead({
-	  hint: true,
-	  highlight: true,
-	  minLength: 1
-	},
-	{
-	  name: 'states',
-	  source: states
-	});
+	
+	$(ms).on('selectionchange', function ()	{
+		console.log(this.getValue());
+	})
 	 
 	$('#save-name-button').on('click', function ()	{
 		if ($.trim($('#name').val()) == '')	{

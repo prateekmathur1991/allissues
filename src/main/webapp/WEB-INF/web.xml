@@ -70,4 +70,14 @@
     <url-pattern>/update</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <display-name>GetUsers</display-name>
+    <servlet-name>GetUsers</servlet-name>
+    <servlet-class>com.allissues.logic.GetUsers</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetUsers</servlet-name>
+    <url-pattern>/users</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

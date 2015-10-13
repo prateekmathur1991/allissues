@@ -73,61 +73,74 @@ public class LoginServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 
-		if (!email.equals("") && !password.equals("")) {
-			boolean loginSuccess = false;
-			logger.info("Trying to load customer entity");
-			customer = ofy().load().key(Key.create(Customer.class, email)).now();
-			
-			if (null == customer) {
-				logger.info("customer entity not found. Trying to load developer entity");
-				developer = ofy().load().key(Key.create(Developer.class, email)).now();
+		try {
+			if (!email.equals("") && !password.equals("")) {
+				boolean loginSuccess = false;
+				logger.info("Trying to load customer entity");
+				customer = ofy().load().key(Key.create(Customer.class, email)).now();
 				
-				if (developer != null) {
-					logger.info("developer entity found");
-					if (developer.getPassword().equals(password)) {
-						logger.info("Developer login successful");
+				if (null == customer) {
+					logger.info("customer entity not found. Trying to load developer entity");
+					developer = ofy().load().key(Key.create(Developer.class, email)).now();
+					
+					if (developer != null) {
+						logger.info("developer entity found");
+						if (developer.getPassword().equals(password)) {
+							logger.info("Developer login successful");
+							loginSuccess = true;
+							
+							session.setAttribute("username", developer.getName());
+							session.setAttribute("usertype", "developer");
+							session.setAttribute("useremail", email);
+							
+							responseObject = objBuilder.add("status", "success").add("userType", "developer").add("forwardUrl", "Home.jsp").build();
+							
+							logger.info("JsonObject constructed as:: " + responseObject);
+							pout.println(responseObject.toString());
+							pout.flush();
+							
+							// request.getRequestDispatcher("Home.jsp").forward(request, response);
+						}
+					}
+				} else {
+					if (customer.getPassword().equals(password)) {
+						logger.info("Customer login successful");
 						loginSuccess = true;
 						
-						session.setAttribute("username", developer.getName());
-						session.setAttribute("usertype", "developer");
+						session.setAttribute("username", customer.getName());
+						session.setAttribute("usertype", "customer");
 						session.setAttribute("useremail", email);
-						
-						responseObject = objBuilder.add("status", "success").add("userType", "developer").add("forwardUrl", "Home.jsp").build();
+
+						responseObject = objBuilder.add("status", "success").add("userType", "customer").add("forwardUrl", "Home.jsp").build();
 						
 						logger.info("JsonObject constructed as:: " + responseObject);
 						pout.println(responseObject.toString());
 						pout.flush();
 						
-						// request.getRequestDispatcher("Home.jsp").forward(request, response);
 					}
 				}
-			} else {
-				if (customer.getPassword().equals(password)) {
-					logger.info("Customer login successful");
-					loginSuccess = true;
+				
+				if (!loginSuccess) {
+					// Login Failure
+					responseObject = objBuilder.add("status", "faliure").build();
+					logger.info("Login Faliure. JsonObject constructed as:: " + responseObject);
 					
-					session.setAttribute("username", customer.getName());
-					session.setAttribute("usertype", "customer");
-					session.setAttribute("useremail", email);
-
-					responseObject = objBuilder.add("status", "success").add("userType", "customer").add("forwardUrl", "Home.jsp").build();
-					
-					logger.info("JsonObject constructed as:: " + responseObject);
 					pout.println(responseObject.toString());
 					pout.flush();
-					
 				}
-			}
-			
-			if (!loginSuccess) {
-				// Login Failure
-				responseObject = objBuilder.add("status", "faliure").build();
-				logger.info("Login Faliure. JsonObject constructed as:: " + responseObject);
 				
-				pout.println(responseObject.toString());
-				pout.flush();
 			}
-			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally	{
+			try	{
+				if (null != pout)	{
+					pout.close();
+					pout = null;
+				}
+			} catch (Exception e)	{
+				e.printStackTrace();
+			}
 		}
 	}
 

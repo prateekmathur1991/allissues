@@ -83,26 +83,36 @@ public class ProfileActions extends HttpServlet {
 			
 			PrintWriter pout = response.getWriter();
 			
-			String action = request.getParameter("action") == null ? "" : request.getParameter("action");
-			String name = request.getParameter("name") == null ? "" : request.getParameter("name");
-			String oldpass = request.getParameter("oldpass") == null ? "" : request.getParameter("oldpass");
-			String newpass = request.getParameter("newpass") == null ? "" : request.getParameter("newpass");
-			
-			logger.info("action:: " + action);
-			
-			if ("developer".equalsIgnoreCase(usertype)) {
-				Developer developer = ofy().load().key(Key.create(Developer.class, useremail)).now();
-				if (null != developer) {
-					if ("updatepass".equalsIgnoreCase(action)) {
-						if (!oldpass.equals(developer.getPassword())) {
-							logger.warning("Previous developer password does not match");
-							responseObject = objBuilder.add("status", "failure").add("reason", "oldnomatch").build();
-							
-							pout.println(responseObject.toString());
-							pout.flush();
-						} else {
-							logger.info("Old passwords match. Updating entity now");
-							developer.update(null, newpass);
+			try {
+				String action = request.getParameter("action") == null ? "" : request.getParameter("action");
+				String name = request.getParameter("name") == null ? "" : request.getParameter("name");
+				String oldpass = request.getParameter("oldpass") == null ? "" : request.getParameter("oldpass");
+				String newpass = request.getParameter("newpass") == null ? "" : request.getParameter("newpass");
+				
+				logger.info("action:: " + action);
+				
+				if ("developer".equalsIgnoreCase(usertype)) {
+					Developer developer = ofy().load().key(Key.create(Developer.class, useremail)).now();
+					if (null != developer) {
+						if ("updatepass".equalsIgnoreCase(action)) {
+							if (!oldpass.equals(developer.getPassword())) {
+								logger.warning("Previous developer password does not match");
+								responseObject = objBuilder.add("status", "failure").add("reason", "oldnomatch").build();
+								
+								pout.println(responseObject.toString());
+								pout.flush();
+							} else {
+								logger.info("Old passwords match. Updating entity now");
+								developer.update(null, newpass);
+								
+								ofy().save().entity(developer).now();
+								
+								responseObject = objBuilder.add("status", "success").build();
+								pout.println(responseObject.toString());
+								pout.flush();
+							}
+						} else if ("updatename".equalsIgnoreCase(action)) {
+							developer.update(name, null);
 							
 							ofy().save().entity(developer).now();
 							
@@ -110,29 +120,29 @@ public class ProfileActions extends HttpServlet {
 							pout.println(responseObject.toString());
 							pout.flush();
 						}
-					} else if ("updatename".equalsIgnoreCase(action)) {
-						developer.update(name, null);
-						
-						ofy().save().entity(developer).now();
-						
-						responseObject = objBuilder.add("status", "success").build();
-						pout.println(responseObject.toString());
-						pout.flush();
 					}
-				}
-			} else if ("customer".equalsIgnoreCase(usertype)) {
-				Customer customer = ofy().load().key(Key.create(Customer.class, useremail)).now();
-				if (null != customer) {
-					if ("updatepass".equalsIgnoreCase(action)) {
-						if (!oldpass.equals(customer.getPassword())) {
-							logger.warning("Previous customer password does not match");
-							responseObject = objBuilder.add("status", "failure").add("reason", "oldnomatch").build();
-							
-							pout.println(responseObject.toString());
-							pout.flush();
-						} else {
-							logger.info("Old passwords match. Updating entity now");
-							customer.update(null, newpass);
+				} else if ("customer".equalsIgnoreCase(usertype)) {
+					Customer customer = ofy().load().key(Key.create(Customer.class, useremail)).now();
+					if (null != customer) {
+						if ("updatepass".equalsIgnoreCase(action)) {
+							if (!oldpass.equals(customer.getPassword())) {
+								logger.warning("Previous customer password does not match");
+								responseObject = objBuilder.add("status", "failure").add("reason", "oldnomatch").build();
+								
+								pout.println(responseObject.toString());
+								pout.flush();
+							} else {
+								logger.info("Old passwords match. Updating entity now");
+								customer.update(null, newpass);
+								
+								ofy().save().entity(customer).now();
+								
+								responseObject = objBuilder.add("status", "success").build();
+								pout.println(responseObject.toString());
+								pout.flush();
+							}
+						} else if ("updatename".equalsIgnoreCase(action)) {
+							customer.update(name, null);
 							
 							ofy().save().entity(customer).now();
 							
@@ -140,15 +150,18 @@ public class ProfileActions extends HttpServlet {
 							pout.println(responseObject.toString());
 							pout.flush();
 						}
-					} else if ("updatename".equalsIgnoreCase(action)) {
-						customer.update(name, null);
-						
-						ofy().save().entity(customer).now();
-						
-						responseObject = objBuilder.add("status", "success").build();
-						pout.println(responseObject.toString());
-						pout.flush();
 					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally	{
+				try	{
+					if (null != pout)	{
+						pout.close();
+						pout = null;
+					}
+				} catch (Exception e)	{
+					e.printStackTrace();
 				}
 			}
 		}

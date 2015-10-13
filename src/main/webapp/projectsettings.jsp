@@ -67,6 +67,9 @@
     
     <!-- Font Awesome -->
     <link href="css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- MagicSuggest -->
+    <link href="css/magicsuggest-min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -106,10 +109,10 @@
 	            <div class="col-sm-10 col-sm-push-2">
 	                <div class="row">
 	                	<div class="col-xs-6">
-	                		<input class="typeahead form-control" type="text" id="people" name="people" />
+	                		<input class="magicsuggest form-control" type="text" id="people" name="people" />
 	                	</div>
 	                	
-	                	<div class="col-xs-6 col-sm-pull-3">
+	                	<div class="col-xs-6">
 	                		<button type="button" class="btn btn-success" id="add-people-button" name="add-people-button">Add</button>
 	                	</div>
 	                </div>
@@ -131,11 +134,8 @@
 <!-- Bootstrap Core JavaScript -->
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
-<!-- BloodHound JS -->
-<script type="text/javascript" src="typeahead/bloodhound.min.js"></script>
-
-<!-- TypeAhead JS -->
-<script type="text/javascript" src="typeahead/typeahead.bundle.min.js"></script>
+<!-- MagicSuggest JS -->
+<script type="text/javascript" src="js/magicsuggest-min.js"></script>
 
 <!-- Custom JavaScript -->
 <script type="text/javascript" src="js/projectsettings.js"></script>

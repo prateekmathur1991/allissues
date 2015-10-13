@@ -60,61 +60,74 @@ public class RegisterServlet extends HttpServlet {
 		
 		PrintWriter pout = response.getWriter();
 		
-		String accountType = request.getParameter("userType");
-		String name = request.getParameter("name");
-		String email = request.getParameter("email");
-		String password = request.getParameter("pass");
-		
-		JsonObjectBuilder builder = Json.createObjectBuilder();
-		JsonObject responseObject = null;
-		
-		boolean errorFlag = false;
-		
-		HttpSession session = request.getSession();
-		
-		// Search for existing developer or customer entities with the supplied email
-		if (ofy().load().key(Key.create(Developer.class, email)).now() != null)	{
-			// Existing developer account found
-			errorFlag = true;
-			responseObject = builder.add("status", "failure").add("error", "developerExists").build();
+		try {
+			String accountType = request.getParameter("userType");
+			String name = request.getParameter("name");
+			String email = request.getParameter("email");
+			String password = request.getParameter("pass");
 			
-			logger.info("JsonObject constructed as:: " + responseObject);
-			pout.println(responseObject.toString());
-			pout.flush();
-		} else	{
-			if (ofy().load().key(Key.create(Customer.class, email)).now() != null)	{
-				// Existing customer account found
+			JsonObjectBuilder builder = Json.createObjectBuilder();
+			JsonObject responseObject = null;
+			
+			boolean errorFlag = false;
+			
+			HttpSession session = request.getSession();
+			
+			// Search for existing developer or customer entities with the supplied email
+			if (ofy().load().key(Key.create(Developer.class, email)).now() != null)	{
+				// Existing developer account found
 				errorFlag = true;
-				responseObject = builder.add("status", "failure").add("error", "customerExists").build();
+				responseObject = builder.add("status", "failure").add("error", "developerExists").build();
 				
 				logger.info("JsonObject constructed as:: " + responseObject);
 				pout.println(responseObject.toString());
 				pout.flush();
-			}
-		}
-		
-		if (!errorFlag) {
-			// Set the user details in session
-			session.setAttribute("username", name);
-			session.setAttribute("usertype", accountType.toLowerCase());
-			session.setAttribute("useremail", email);
-						
-			if (accountType.equals("Developer")) {
-				Developer developer = new Developer(email, name, password);
-				ofy().save().entity(developer).now();
-				
-				responseObject = builder.add("status", "success").add("forwardUrl", "createproject.jsp").build();
-				pout.println(responseObject);
-				pout.flush();
-			} else if (accountType.equals("Customer")) {
-				Customer customer = new Customer(email, name, password);
-				ofy().save().entity(customer).now();
-				
-				responseObject = builder.add("status", "success").add("forwardUrl", "Home.jsp").build();
-				pout.println(responseObject);
-				pout.flush();
+			} else	{
+				if (ofy().load().key(Key.create(Customer.class, email)).now() != null)	{
+					// Existing customer account found
+					errorFlag = true;
+					responseObject = builder.add("status", "failure").add("error", "customerExists").build();
+					
+					logger.info("JsonObject constructed as:: " + responseObject);
+					pout.println(responseObject.toString());
+					pout.flush();
+				}
 			}
 			
+			if (!errorFlag) {
+				// Set the user details in session
+				session.setAttribute("username", name);
+				session.setAttribute("usertype", accountType.toLowerCase());
+				session.setAttribute("useremail", email);
+							
+				if (accountType.equals("Developer")) {
+					Developer developer = new Developer(email, name, password);
+					ofy().save().entity(developer).now();
+					
+					responseObject = builder.add("status", "success").add("forwardUrl", "createproject.jsp").build();
+					pout.println(responseObject);
+					pout.flush();
+				} else if (accountType.equals("Customer")) {
+					Customer customer = new Customer(email, name, password);
+					ofy().save().entity(customer).now();
+					
+					responseObject = builder.add("status", "success").add("forwardUrl", "Home.jsp").build();
+					pout.println(responseObject.toString());
+					pout.flush();
+				}
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally	{
+			try	{
+				if (null != pout)	{
+					pout.close();
+					pout = null;
+				}
+			} catch (Exception e)	{
+				e.printStackTrace();
+			}
 		}
 	}
 
