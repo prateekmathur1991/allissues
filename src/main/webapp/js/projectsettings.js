@@ -23,6 +23,7 @@
 
 $(document).ready(function ()	{
 	$('#error').hide();
+	var sel;
 	
 	var ms = $('#people').magicSuggest({
 		allowFreeEntries: false,
@@ -35,8 +36,8 @@ $(document).ready(function ()	{
 	});
 	
 	$(ms).on('selectionchange', function ()	{
-		console.log(this.getValue());
-	})
+		sel = this.getSelection();
+	});
 	 
 	$('#save-name-button').on('click', function ()	{
 		if ($.trim($('#name').val()) == '')	{
@@ -66,6 +67,8 @@ $(document).ready(function ()	{
 	});
 	
 	$('#add-people-button').on('click', function ()	{
-		
+		$.post('/users', {action: 'addusers', users: JSON.stringify(sel)}, function (data)	{
+			
+		});
 	});
 });
