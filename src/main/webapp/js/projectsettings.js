@@ -68,7 +68,28 @@ $(document).ready(function ()	{
 	
 	$('#add-people-button').on('click', function ()	{
 		$.post('/users', {action: 'addusers', users: JSON.stringify(sel)}, function (data)	{
-			
+			if (data.status == 'success')	{
+				$('#error').removeClass('alert-danger').addClass('alert-success');
+				$('#error').html('People added to project successfully');
+				$('#error').slideDown();
+				setTimeout(function () {
+					$('#error').slideUp();
+				}, 5000);
+			} else if (data.status == 'failure')	{
+				if (data.message == 'devExists')	{
+					$('#error').removeClass('alert-success').addClass('alert-danger');
+					$('#error').html('The developer ' + data.name + ' is already added to the project');
+					$('#error').slideDown();
+				} else if (data.message == 'custExists')	{
+					$('#error').removeClass('alert-success').addClass('alert-danger');
+					$('#error').html('The customer ' + data.name + ' is already added to the project');
+					$('#error').slideDown();
+				} else {
+					$('#error').removeClass('alert-success').addClass('alert-danger');
+					$('#error').html('The server encountered an unexpected error while performing the operation. Please try again. Server says- ' + data.message);
+					$('#error').slideDown();
+				}
+			}
 		});
 	});
 });

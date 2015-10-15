@@ -55,7 +55,7 @@ public class Customer {
 	/**
 	 * List of all projects this customer has been added to
 	 */
-	private ArrayList<String> allProjects = new ArrayList<String>(0);
+	private ArrayList<Key<Project>> allProjects = new ArrayList<Key<Project>>(0);
 
 	/**
 	 * Constructor for the Customer class
@@ -72,7 +72,7 @@ public class Customer {
 	 * Add a project to this customer
 	 */
 	public void addProject(Key<Project> projectKey)	{
-		this.allProjects.add(projectKey.getString());
+		this.allProjects.add(projectKey);
 	}
 
     /**
@@ -109,6 +109,15 @@ public class Customer {
      */
     public int getNoOfBugsCreated() {
         return noOfBugsCreated;
+    }
+    
+    /**
+     * Getter for allProjects
+     *
+     * @return
+     */
+    public List<Key<Project>> getAllProjects() {
+	return Collections.unmodifiableList(allProjects);
     }
     
     /**

@@ -67,7 +67,7 @@ public class Developer {
 	/**
 	 * List of all project this developer is working on
 	 */
-	private ArrayList<String> allProjects = new ArrayList<String>(0);
+	private ArrayList<Key<Project>> allProjects = new ArrayList<Key<Project>>(0);
 
 	/**
 	 * Constructor for the Developer class, used to create a developer entity and save it in the datastore.
@@ -95,7 +95,7 @@ public class Developer {
 	 * Adds a project to the list of projects this developer is working on
 	 */
 	public void addProject(Key<Project> projectKey)	{
-		this.allProjects.add(projectKey.getString());
+		this.allProjects.add(projectKey);
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class Developer {
 	 * Returns an immutable list of all project keys this developer
 	 * is working on
 	 */
-	public List<String> getProjects()	{
+	public List<Key<Project>> getProjects()	{
 		return Collections.unmodifiableList(allProjects);
 	}
 	

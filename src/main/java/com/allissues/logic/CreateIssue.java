@@ -34,6 +34,11 @@ import com.googlecode.objectify.Key;
 
 /**
  * Servlet implementation class CreateIssue
+ * 
+ * Creates a new issues and saves it in the datastore, and also
+ * used to update an exisiting issue.
+ * 
+ * @author Prateek Mathur
  */
 public class CreateIssue extends HttpServlet {
 	private static final long serialVersionUID = 1L;

@@ -32,7 +32,9 @@ import com.googlecode.objectify.Key;
  * Servlet implementation class GetUsers
  * 
  * Used as a Server Side resource for MagicSuggest JS plugin,
- * which returns a JSON Array of all user display names and email IDs
+ * which returns a JSON Array of all user display names and email IDs.
+ * 
+ * Also used to add selected people to the current developer's project
  * 
  * @author Prateek Mathur
  */
@@ -135,77 +137,135 @@ public class GetUsers extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		if ("".equals(username) || "".equals(usertype) || "".equals(useremail))	{
-			response.sendError(HttpServletResponse.SC_NOT_FOUND);
-		} else {
-			String action = request.getParameter("action") == null ? "" : request.getParameter("action");
-			logger.info("action:: " + action);
-			
-			if ("addusers".equalsIgnoreCase(action))	{
-				String users = request.getParameter("users") == null ? "" : request.getParameter("users");
-				logger.info(users);
-				
-				Developer developer = ofy().load().key(Key.create(Developer.class, useremail)).now();
-				Project project = null;
-				Key<Project> projKey = null;
-				if (null != developer)	{
-					projKey = developer.getProject();
-					if (null != projKey)	{
-						project = ofy().load().key(projKey).now();
-						logger.info("Got project:: " + project);
-					} else {
-						logger.warning("project Key found null");
-					}
-					
-				} else {
-					logger.warning("developer found null");
-				}
-				
-				JsonReader reader = Json.createReader(new StringReader(users));
-				
-				JsonStructure structure = reader.read();
-				if (structure.getValueType().equals(JsonValue.ValueType.ARRAY))	{
-					JsonArray usersArr = (JsonArray) structure;
-					Iterator<JsonValue> arrItr = usersArr.iterator();
-					
-					while (arrItr.hasNext())	{
-						JsonValue value = arrItr.next();
-						
-						if (value.getValueType().equals(JsonValue.ValueType.OBJECT))	{
-							JsonObject obj = usersArr.getJsonObject(usersArr.indexOf(value));
-							String type = obj.getString("usertype", "").toLowerCase();
-							String name = obj.getString("name", "");
-							String email = obj.getString("email", "");
-							
-							logger.info("type:: " + type + " name:: " + name + " email:: " + email);
-							
-							if ("developer".equals(type))	{
-								project.addDeveloper(Key.create(Developer.class, email));
-								developer = ofy().load().key(Key.create(Developer.class, email)).now();
-								logger.info("Got developer:: " + developer.getName() + " Adding project now");
-								
-								developer.addProject(projKey);
-								logger.info("Saving project and developer entities now");
-								ofy().save().entities(project, developer).now();
-								
-							} else if ("customer".equals(type))	{
-								project.addCustomer(Key.create(Customer.class, email));
-								Customer customer = ofy().load().key(Key.create(Customer.class, email)).now();
-								logger.info("Got customer " + customer.getName() + " Adding project now");
-								
-								customer.addProject(projKey);
-								logger.info("Saving project and customer entities now");
-								ofy().save().entities(project, customer).now();
-							}
-							
-						} else if (value.getValueType().equals(JsonValue.ValueType.ARRAY))	{
-							logger.info("Got object inside JSON Array");
-						}
-					}
-				} else if (structure.getValueType().equals(JsonValue.ValueType.OBJECT))	{
-					logger.info("Got object as a structure type");
-				} 
+		JsonReader reader = null;
+		PrintWriter pout = response.getWriter();
+		boolean error = false;
+		try	{
+        		if ("".equals(username) || "".equals(usertype) || "".equals(useremail))	{
+        			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        		} else {
+        		    	response.setContentType("application/json");
+        		    	JsonObjectBuilder objBuilder = Json.createObjectBuilder();
+        		    	
+        			String action = request.getParameter("action") == null ? "" : request.getParameter("action");
+        			logger.info("action:: " + action);
+        			
+        			if ("addusers".equalsIgnoreCase(action))	{
+        				String users = request.getParameter("users") == null ? "" : request.getParameter("users");
+        				logger.info(users);
+        				
+        				Developer developer = ofy().load().key(Key.create(Developer.class, useremail)).now();
+        				Project project = null;
+        				Key<Project> projKey = null;
+        				if (null != developer)	{
+        					projKey = developer.getProject();
+        					if (null != projKey)	{
+        						project = ofy().load().key(projKey).now();
+        						logger.info("Got project:: " + project);
+        					} else {
+        						logger.warning("project Key found null");
+        					}
+        					
+        				} else {
+        					logger.warning("developer found null");
+        				}
+        				
+        				reader = Json.createReader(new StringReader(users));
+        				
+        				JsonStructure structure = reader.read();
+        				if (structure.getValueType().equals(JsonValue.ValueType.ARRAY))	{
+        					JsonArray usersArr = (JsonArray) structure;
+        					Iterator<JsonValue> arrItr = usersArr.iterator();
+        					
+        					while (arrItr.hasNext())	{
+        						JsonValue value = arrItr.next();
+        						
+        						if (value.getValueType().equals(JsonValue.ValueType.OBJECT))	{
+        							JsonObject obj = usersArr.getJsonObject(usersArr.indexOf(value));
+        							String type = obj.getString("usertype", "").toLowerCase();
+        							String name = obj.getString("name", "");
+        							String email = obj.getString("email", "");
+        							
+        							logger.info("type:: " + type + " name:: " + name + " email:: " + email);
+        							
+        							if ("developer".equals(type))	{
+        							    	Key<Developer> devKey = Key.create(Developer.class, email);
+        							    	
+        							    	List<Key<Developer>> allDevelopers = project.getAllDevelopers();
+        							    	if (allDevelopers.contains(devKey))	{
+        							    	    error = true;
+        							    	    pout.println(objBuilder.add("status", "failure").add("message", "devExists").add("name", name).build().toString());
+        							    	    pout.flush();
+        							    	} else {
+        							    	    error = false;
+        							    	    project.addDeveloper(devKey);
+                							    	
+        							    	    developer = ofy().load().key(devKey).now();
+                							    logger.info("Got developer:: " + developer.getName() + " Adding project now");
+                							    developer.addProject(projKey);
+                								
+                							    logger.info("Saving project and developer entities now");
+                							    ofy().save().entities(project, developer).now();
+        							    	}
+        							} else if ("customer".equals(type))	{
+        								Key<Customer> custKey = Key.create(Customer.class, email);
+        							    	
+        								List<Key<Customer>> allCustomers = project.getAllCustomers();
+        								if (allCustomers.contains(custKey))	{
+        								    error = true;
+        								    pout.println(objBuilder.add("status", "failure").add("message", "custExists").add("name", name).build().toString());
+        								    pout.flush();
+        								} else {
+        								    error = false;
+        								    project.addCustomer(Key.create(Customer.class, email));
+                							    
+                							    Customer customer = ofy().load().key(custKey).now();
+                							    logger.info("Got customer " + customer.getName() + " Adding project now");
+                							    customer.addProject(projKey);
+                							    
+                							    logger.info("Saving project and customer entities now");
+                							    ofy().save().entities(project, customer).now();
+        								}
+        							}
+        							
+        							if (!error)	{
+        							    pout.println(objBuilder.add("status", "success").build().toString());
+        							    pout.flush();
+        							}
+        							
+        						} else if (value.getValueType().equals(JsonValue.ValueType.ARRAY))	{
+        							logger.info("Got object inside JSON Array");
+        						}
+        					}
+        				} else if (structure.getValueType().equals(JsonValue.ValueType.OBJECT))	{
+        					logger.info("Got object as a structure type");
+        				} 
+        			}
+        		}
+		} catch (Exception e)	{
+		    logger.warning("Exception in GetUsers Servlet doPost method");
+		    e.printStackTrace();
+		    
+		    pout.println(objBuilder.add("status", "failure").add("message", e.getClass().getMessage()).build().toString());
+		    pout.flush();
+		} finally	{
+		    try	{
+			if (null != reader)	{
+			    reader.close();
+			    reader = null;
 			}
+		    } catch (Exception e)	{
+			e.printStackTrace();
+		    }
+		    
+		    try {
+			if (null != pout)	{
+			    pout.close();
+			    pout = null;
+			}
+		    } catch (Exception e)	{
+			e.printStackTrace();
+		    }
 		}
 	}
 }
