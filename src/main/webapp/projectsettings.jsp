@@ -32,17 +32,23 @@
 			response.sendError(HttpServletResponse.SC_FORBIDDEN);
 		} else {
 			Objectify ofy = ObjectifyService.ofy();
+			logger.info("Got ofy " + ofy.toString());
 			
 			String projectName = "";
 			Project project = null;
 			
+			logger.info("Loading developer now");
 			Developer developer = ofy.load().key(Key.create(Developer.class, useremail)).now();
 			if (null != developer)	{
+				logger.info("Got developer:: " + developer.toString());
 				Key<Project> projKey = developer.getProject();
+				logger.info("Got proj key:: " + projKey.toString());
 				if (null != projKey)	{
+					logger.info("Loading project now");
 					project = ofy.load().key(projKey).now();
 					logger.info("Got project:: " + project);
 					projectName = project == null ? "" : project.getName();
+					logger.info("Got project name");
 				} else {
 					logger.warning("project Key found null");
 					response.sendRedirect("/createproject.jsp");

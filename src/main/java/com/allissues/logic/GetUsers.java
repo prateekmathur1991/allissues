@@ -42,8 +42,8 @@ public class GetUsers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = Logger.getLogger(GetUsers.class.getName());
 	
-	List<Developer> developers;
-	List<Customer> customers;
+	List<Key<Developer>> developers;
+	List<Key<Customer>> customers;
 	
 	JsonObjectBuilder objBuilder;
 	JsonArrayBuilder arrBuilder;
@@ -54,8 +54,8 @@ public class GetUsers extends HttpServlet {
     public GetUsers() {
         super();
         
-        developers = ofy().load().type(Developer.class).list();
-    	customers = ofy().load().type(Customer.class).list();
+        developers = ofy().load().type(Developer.class).keys().list();
+    	customers = ofy().load().type(Customer.class).keys().list();
     	
     	objBuilder = Json.createObjectBuilder();
     	arrBuilder = Json.createArrayBuilder();
@@ -89,15 +89,24 @@ public class GetUsers extends HttpServlet {
 				logger.info("Query:: " + query);
 				
 				if (!"".equals(query))	{
-					for (Developer developer : developers)	{
-						if (developer.getName().toLowerCase().contains(query) || developer.getEmail().toLowerCase().contains(query))	{
-							arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Developer").add("name", developer.getName()).add("email", developer.getEmail()).build());
+					Developer developer = ofy().load().key(Key.create(Developer.class, useremail)).now();
+					Project project = ofy().load().key(developer.getProject()).now();
+					
+					for (Key<Developer> devKey : developers)	{
+						if (!project.getAllDevelopers().contains(devKey.getString()))	{
+							developer = ofy().load().key(devKey).now();
+							if (developer.getName().toLowerCase().contains(query) || developer.getEmail().toLowerCase().contains(query))	{
+								arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Developer").add("name", developer.getName()).add("email", developer.getEmail()).build());
+							}
 						}
 					}
 					
-					for (Customer customer : customers)	{
-						if (customer.getName().toLowerCase().contains(query) || customer.getEmail().toLowerCase().contains(query))	{
-							arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Customer").add("name", customer.getName()).add("email", customer.getEmail()).build());
+					for (Key<Customer> custKey : customers)	{
+						if (!project.getAllCustomers().contains(custKey.getString()))	{
+							Customer customer = ofy().load().key(custKey).now();
+							if (customer.getName().toLowerCase().contains(query) || customer.getEmail().toLowerCase().contains(query))	{
+								arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Customer").add("name", customer.getName()).add("email", customer.getEmail()).build());
+							}
 						}
 					}
 					
@@ -189,42 +198,40 @@ public class GetUsers extends HttpServlet {
         							logger.info("type:: " + type + " name:: " + name + " email:: " + email);
         							
         							if ("developer".equals(type))	{
-        							    	Key<Developer> devKey = Key.create(Developer.class, email);
-        							    	
-        							    	List<Key<Developer>> allDevelopers = project.getAllDevelopers();
-        							    	if (allDevelopers.contains(devKey))	{
-        							    	    error = true;
-        							    	    pout.println(objBuilder.add("status", "failure").add("message", "devExists").add("name", name).build().toString());
-        							    	    pout.flush();
-        							    	} else {
-        							    	    error = false;
-        							    	    project.addDeveloper(devKey);
-                							    	
-        							    	    developer = ofy().load().key(devKey).now();
-                							    logger.info("Got developer:: " + developer.getName() + " Adding project now");
-                							    developer.addProject(projKey);
-                								
-                							    logger.info("Saving project and developer entities now");
-                							    ofy().save().entities(project, developer).now();
-        							    	}
+    							    	Key<Developer> devKey = Key.create(Developer.class, email);
+    							    	
+    							    	if (project.getAllDevelopers().contains(devKey.getString()))	{
+    							    	    error = true;
+    							    	    pout.println(objBuilder.add("status", "failure").add("message", "devExists").add("name", name).build().toString());
+    							    	    pout.flush();
+    							    	} else {
+    							    	    error = false;
+    							    	    project.addDeveloper(devKey.getString());
+            							    	
+    							    	    developer = ofy().load().key(devKey).now();
+            							    logger.info("Got developer:: " + developer.getName() + " Adding project now");
+            							    developer.addProject(projKey.getString());
+            								
+            							    logger.info("Saving project and developer entities now");
+            							    ofy().save().entities(project, developer).now();
+    							    	}
         							} else if ("customer".equals(type))	{
         								Key<Customer> custKey = Key.create(Customer.class, email);
         							    	
-        								List<Key<Customer>> allCustomers = project.getAllCustomers();
-        								if (allCustomers.contains(custKey))	{
+        								if (project.getAllCustomers().contains(custKey.getString()))	{
         								    error = true;
         								    pout.println(objBuilder.add("status", "failure").add("message", "custExists").add("name", name).build().toString());
         								    pout.flush();
         								} else {
         								    error = false;
-        								    project.addCustomer(Key.create(Customer.class, email));
+        								    project.addCustomer(Key.create(Customer.class, email).getString());
                 							    
-                							    Customer customer = ofy().load().key(custKey).now();
-                							    logger.info("Got customer " + customer.getName() + " Adding project now");
-                							    customer.addProject(projKey);
+                							Customer customer = ofy().load().key(custKey).now();
+                							logger.info("Got customer " + customer.getName() + " Adding project now");
+                							customer.addProject(projKey.getString());
                 							    
-                							    logger.info("Saving project and customer entities now");
-                							    ofy().save().entities(project, customer).now();
+                							logger.info("Saving project and customer entities now");
+                							ofy().save().entities(project, customer).now();
         								}
         							}
         							
@@ -246,23 +253,23 @@ public class GetUsers extends HttpServlet {
 		    logger.warning("Exception in GetUsers Servlet doPost method");
 		    e.printStackTrace();
 		    
-		    pout.println(objBuilder.add("status", "failure").add("message", e.getClass().getMessage()).build().toString());
+		    pout.println(objBuilder.add("status", "failure").build().toString());
 		    pout.flush();
 		} finally	{
 		    try	{
-			if (null != reader)	{
-			    reader.close();
-			    reader = null;
-			}
+				if (null != reader)	{
+				    reader.close();
+				    reader = null;
+				}
 		    } catch (Exception e)	{
 			e.printStackTrace();
 		    }
 		    
 		    try {
-			if (null != pout)	{
-			    pout.close();
-			    pout = null;
-			}
+				if (null != pout)	{
+				    pout.close();
+				    pout = null;
+				}
 		    } catch (Exception e)	{
 			e.printStackTrace();
 		    }

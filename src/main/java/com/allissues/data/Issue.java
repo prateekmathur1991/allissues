@@ -102,6 +102,8 @@ public class Issue {
 	 * Public constructor for Issue
 	 */
 	public Issue(String title, String description, int priority, String createdBy, String assignedTo, String deadline, boolean developerIssue)	{
+		// TODO
+		// Pass parent project's key to this method, and assign it to this.projectKey
 		this.projectKey = null;
 		this.title = title;
 		this.description = new Text(description);

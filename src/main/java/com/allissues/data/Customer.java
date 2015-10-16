@@ -17,6 +17,8 @@
 package com.allissues.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
@@ -55,7 +57,7 @@ public class Customer {
 	/**
 	 * List of all projects this customer has been added to
 	 */
-	private ArrayList<Key<Project>> allProjects = new ArrayList<Key<Project>>(0);
+	private ArrayList<String> allProjects = new ArrayList<String>(0);
 
 	/**
 	 * Constructor for the Customer class
@@ -71,7 +73,7 @@ public class Customer {
 	/**
 	 * Add a project to this customer
 	 */
-	public void addProject(Key<Project> projectKey)	{
+	public void addProject(String projectKey)	{
 		this.allProjects.add(projectKey);
 	}
 
@@ -116,8 +118,8 @@ public class Customer {
      *
      * @return
      */
-    public List<Key<Project>> getAllProjects() {
-	return Collections.unmodifiableList(allProjects);
+    public List<String> getAllProjects() {
+    	return Collections.unmodifiableList(allProjects);
     }
     
     /**

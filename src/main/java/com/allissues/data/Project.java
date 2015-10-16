@@ -61,12 +61,12 @@ public class Project {
 	/**
 	 * List of all developers working on the project
 	 */
-	private ArrayList<Key<Developer>> allDevelopers = new ArrayList<String>(0);
+	private ArrayList<String> allDevelopers = new ArrayList<String>(0);
 	
 	/**
 	 * List of all customers added to the project
 	 */
-	private ArrayList<Key<Customer>> allCustomers = new ArrayList<String>(0);
+	private ArrayList<String> allCustomers = new ArrayList<String>(0);
 			
 	/**
 	 * No. of bugs filed for this project
@@ -88,7 +88,7 @@ public class Project {
 	 * representation of a developer key and adding to the list of
 	 * developers.
 	 */
-	public void addDeveloper(Key<Developer> developerKey)	{
+	public void addDeveloper(String developerKey)	{
 		this.allDevelopers.add(developerKey);
 	}
 	
@@ -96,7 +96,7 @@ public class Project {
 	 * Add a customer to this project by accepting a String representation
 	 * of the customer key and adding it to the list of customers.
 	 */
-	public void addCustomer(Key<Customer> customerKey)	{
+	public void addCustomer(String customerKey)	{
 		this.allCustomers.add(customerKey);
 	}
 	
@@ -125,7 +125,7 @@ public class Project {
 	 * Returns an immutable list of keys of all developer entities
 	 * who are working on this project
 	 */
-	public List<Key<Developer>> getAllDevelopers()	{
+	public List<String> getAllDevelopers()	{
 		return Collections.unmodifiableList(allDevelopers);
 	}
 	
@@ -133,7 +133,7 @@ public class Project {
 	 * Returns an immutable list of keys of all customer entities
 	 * who are working on this project
 	 */
-	public List<Key<Customer>> getAllCustomers()	{
+	public List<String> getAllCustomers()	{
 		return Collections.unmodifiableList(allCustomers);
 	}
 	

@@ -80,14 +80,23 @@ $(document).ready(function ()	{
 					$('#error').removeClass('alert-success').addClass('alert-danger');
 					$('#error').html('The developer ' + data.name + ' is already added to the project');
 					$('#error').slideDown();
+					setTimeout(function () {
+						$('#error').slideUp();
+					}, 5000);
 				} else if (data.message == 'custExists')	{
 					$('#error').removeClass('alert-success').addClass('alert-danger');
 					$('#error').html('The customer ' + data.name + ' is already added to the project');
 					$('#error').slideDown();
+					setTimeout(function () {
+						$('#error').slideUp();
+					}, 5000);
 				} else {
 					$('#error').removeClass('alert-success').addClass('alert-danger');
-					$('#error').html('The server encountered an unexpected error while performing the operation. Please try again. Server says- ' + data.message);
+					$('#error').html('The server encountered an unexpected error while performing the operation. Please try again.');
 					$('#error').slideDown();
+					setTimeout(function () {
+						$('#error').slideUp();
+					}, 5000);
 				}
 			}
 		});
