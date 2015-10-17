@@ -106,24 +106,34 @@
 	    </div>
         
         <div id="people-group">
-	        <div class="form-group">
-	  			<h4 class="text-info col-sm-12 col-sm-offset-2">Add people to your Project</h4>
-	  		</div>
-	
-	        <div class="form-group" id="add-people-group">
-	            <p class="text-muted col-sm-10 col-sm-offset-2">Type Email IDs of developers or customers you want to add to this project</p>
-	            <div class="col-sm-10 col-sm-push-2">
-	                <div class="row">
-	                	<div class="col-xs-6">
-	                		<input class="magicsuggest form-control" type="text" id="people" name="people" />
-	                	</div>
-	                	
-	                	<div class="col-xs-6">
-	                		<button type="button" class="btn btn-success" id="add-people-button" name="add-people-button">Add</button>
-	                	</div>
-	                </div>
-	            </div>
-	        </div>
+			<div class="form-group">
+		  			<h4 class="text-info col-sm-12 col-sm-offset-2">Add people to your Project</h4>
+		  	</div>
+		
+		    <div class="form-group" id="add-people-group">
+				<div class="row">
+					<div class="col-sm-6">
+				        <p class="text-muted col-sm-10 col-sm-offset-2">Type Email IDs or names of developers or customers you want to add to this project</p>
+			            <div class="col-sm-10 col-sm-push-2">
+			                <div class="row">
+			                	<div class="col-xs-6">
+			                		<input class="magicsuggest form-control" type="text" id="people" name="people" />
+			                	</div>
+			                	
+			                	<div class="col-xs-6">
+			                		<button type="button" class="btn btn-success" id="add-people-button" name="add-people-button">Add</button>
+			                	</div>
+			                </div>
+			            </div>
+		            </div>
+		            
+		            <div class="col-sm-6">
+		            	<div id="existing-users" class="col-sm-6">
+					
+						</div>
+		            </div>
+		    	</div>
+		    </div>
         </div>
         
         <div class="form-group">
