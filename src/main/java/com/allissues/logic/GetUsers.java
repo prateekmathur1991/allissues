@@ -86,32 +86,53 @@ public class GetUsers extends HttpServlet {
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			} else {
 				String query = request.getParameter("query") == null ? "" : request.getParameter("query").toLowerCase();
-				logger.info("Query:: " + query);
+				String query = request.getParameter("action") == null ? "" : request.getParameter("action").toLowerCase();
 				
-				if (!"".equals(query))	{
-					Developer developer = ofy().load().key(Key.create(Developer.class, useremail)).now();
-					Project project = ofy().load().key(developer.getProject()).now();
-					
-					for (Key<Developer> devKey : developers)	{
-						if (!project.getAllDevelopers().contains(devKey.getString()))	{
-							developer = ofy().load().key(devKey).now();
-							if (developer.getName().toLowerCase().contains(query) || developer.getEmail().toLowerCase().contains(query))	{
-								arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Developer").add("name", developer.getName()).add("email", developer.getEmail()).build());
-							}
-						}
-					}
-					
-					for (Key<Customer> custKey : customers)	{
-						if (!project.getAllCustomers().contains(custKey.getString()))	{
-							Customer customer = ofy().load().key(custKey).now();
-							if (customer.getName().toLowerCase().contains(query) || customer.getEmail().toLowerCase().contains(query))	{
-								arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Customer").add("name", customer.getName()).add("email", customer.getEmail()).build());
-							}
-						}
-					}
-					
-					pout.println(objBuilder.add("results", arrBuilder).build().toString());
-					pout.flush();
+				logger.info("Query:: " + query + " action:: " + action);
+				
+				Developer developer = ofy().load().key(Key.create(Developer.class, useremail)).now();
+				Project project = ofy().load().key(developer.getProject()).now();
+				
+				if ("getpeople".equals(action))	{
+				    List<String> allDevelopers = project.getAllDevelopers();
+				    List<String> allCustomers = project.getAllCustomers();
+				    
+				    for (String devKey : allDevelopers)	{
+					Developer developer = ofy().load().key(Key.create(devKey)).now();
+					arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Developer").add("name", developer.getName()).add("email", developer.getEmail()).build());
+				    }
+				    
+				    for (String custKey : allCustomers)	{
+					Customer customer = ofy().load().key(Key.create(custKey)).now();
+					arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Customer").add("name", customer.getName()).add("email", customer.getEmail()).build());
+				    }
+				    
+				    pout.println(arrBuilder.toString());
+				    pout.flush();
+				    
+				} else	{
+				    if (!"".equals(query))	{
+        				for (Key<Developer> devKey : developers)	{
+        				    if (!project.getAllDevelopers().contains(devKey.getString()))	{
+        					developer = ofy().load().key(devKey).now();
+        					if (developer.getName().toLowerCase().contains(query) || developer.getEmail().toLowerCase().contains(query))	{
+        					    arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Developer").add("name", developer.getName()).add("email", developer.getEmail()).build());
+        					}
+        				    }
+        				}
+        					
+        				for (Key<Customer> custKey : customers)	{
+        				    if (!project.getAllCustomers().contains(custKey.getString()))	{
+        					Customer customer = ofy().load().key(custKey).now();
+        					if (customer.getName().toLowerCase().contains(query) || customer.getEmail().toLowerCase().contains(query))	{
+        					    arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Customer").add("name", customer.getName()).add("email", customer.getEmail()).build());
+        					}
+        				    }
+        				}
+        					
+        				pout.println(objBuilder.add("results", arrBuilder).build().toString());
+        				pout.flush();
+				    }
 				}
 			}
 			

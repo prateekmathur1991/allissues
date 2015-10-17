@@ -15,8 +15,9 @@
  */
 
 /**
- * jQuery methods for validation of project setting page, and sending AJAX requests 
- * for updating project name and adding people to the project.
+ * jQuery methods for validation of project setting page, getting details of 
+ * already added people and sending AJAX requests for updating project info 
+ * and adding people to the project.
  *
  * @author Prateek Mathur
  */
@@ -37,6 +38,13 @@ $(document).ready(function ()	{
 	
 	$(ms).on('selectionchange', function ()	{
 		sel = this.getSelection();
+	});
+	
+	$.get('/users', {action: 'getpeople'}, function (data)	{
+		$(data).each(function (i, o)	{
+			// TODO
+			// Add users to the list in proper format
+		});
 	});
 	 
 	$('#save-name-button').on('click', function ()	{
