@@ -41,9 +41,16 @@ $(document).ready(function ()	{
 	});
 	
 	$.get('/users', {action: 'getpeople'}, function (data)	{
+		var $select = $('#existing-users');
 		$(data).each(function (i, o)	{
-			// TODO
-			// Add users to the list in proper format
+			var $option = $('<option/>');
+			$option.data('email', o.email);
+			$option.data('name', o.name);
+			$option.data('type', o.usertype);
+			$option.attr('value', o.email);
+			$option.text(o.name + ' (' + o.email + ')');
+			
+			$select.append($option);
 		});
 	});
 	 
@@ -106,6 +113,25 @@ $(document).ready(function ()	{
 						$('#error').slideUp();
 					}, 5000);
 				}
+			}
+		});
+	});
+	
+	$('#remove-user').on('click', function ()	{
+		var opt =  $('#existing-users').find(':selected');
+		
+		$.post('/users', {action: 'removeuser', name: opt.data('name'), email: opt.data('email'), type: opt.data('type')}, function (data)	{
+			if (data.status == 'success')	{
+				$('#error').removeClass('alert-danger').addClass('alert-success');
+				$('#error').html(opt.data('name') + ' has been removed from the project successfully');
+				$('#error').slideDown();
+				setTimeout(function () {
+					$('#error').slideUp();
+				}, 5000);
+			} else if (data.status == 'failure')	{
+				$('#error').removeClass('alert-success').addClass('alert-danger');
+				$('#error').html('The server encountered an unexpected error while performing the operation. Please try again');
+				$('#error').slideDown();
 			}
 		});
 	});

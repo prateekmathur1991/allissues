@@ -94,8 +94,15 @@ public class Developer {
 	/**
 	 * Adds a project to the list of projects this developer is working on
 	 */
-	public void addProject(String projectKey)	{
-		this.allProjects.add(projectKey);
+	public boolean addProject(String projectKey)	{
+		return this.allProjects.add(projectKey);
+	}
+	
+	/**
+	 * Remove a project from this developer
+	 */
+	public boolean removeProject(String projectKey)	{
+		return this.allProjects.remove(projectKey);
 	}
 
 	/**

@@ -113,20 +113,24 @@ public class GetUsers extends HttpServlet {
 				} else	{
 				    if (!"".equals(query))	{
         				for (Key<Developer> devKey : developers)	{
-        				    if (!project.getAllDevelopers().contains(devKey.getString()))	{
-        					developer = ofy().load().key(devKey).now();
-        					if (developer.getName().toLowerCase().contains(query) || developer.getEmail().toLowerCase().contains(query))	{
-        					    arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Developer").add("name", developer.getName()).add("email", developer.getEmail()).build());
-        					}
+        				    if (devKey.getString().equals(Key.create(Developer.class, useremail).getString()) || project.getAllDevelopers().contains(devKey.getString()))	{
+        				    	continue;
+        				    } else {
+	        					developer = ofy().load().key(devKey).now();
+	        					if (developer.getName().toLowerCase().contains(query) || developer.getEmail().toLowerCase().contains(query))	{
+	        					    arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Developer").add("name", developer.getName()).add("email", developer.getEmail()).build());
+	        					}
         				    }
         				}
         					
         				for (Key<Customer> custKey : customers)	{
-        				    if (!project.getAllCustomers().contains(custKey.getString()))	{
-        					Customer customer = ofy().load().key(custKey).now();
-        					if (customer.getName().toLowerCase().contains(query) || customer.getEmail().toLowerCase().contains(query))	{
-        					    arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Customer").add("name", customer.getName()).add("email", customer.getEmail()).build());
-        					}
+        				    if (custKey.getString().equals(Key.create(Customer.class, useremail).getString()) || project.getAllCustomers().contains(custKey.getString()))	{
+        				    	continue;
+        				    } else {	
+	        				    Customer customer = ofy().load().key(custKey).now();
+	        					if (customer.getName().toLowerCase().contains(query) || customer.getEmail().toLowerCase().contains(query))	{
+	        					    arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Customer").add("name", customer.getName()).add("email", customer.getEmail()).build());
+	        					}
         				    }
         				}
         					
@@ -171,105 +175,153 @@ public class GetUsers extends HttpServlet {
 		PrintWriter pout = response.getWriter();
 		boolean error = false;
 		try	{
-        		if ("".equals(username) || "".equals(usertype) || "".equals(useremail))	{
-        			response.sendError(HttpServletResponse.SC_NOT_FOUND);
-        		} else {
-        		    	response.setContentType("application/json");
-        		    	JsonObjectBuilder objBuilder = Json.createObjectBuilder();
-        		    	
-        			String action = request.getParameter("action") == null ? "" : request.getParameter("action");
-        			logger.info("action:: " + action);
-        			
-        			if ("addusers".equalsIgnoreCase(action))	{
-        				String users = request.getParameter("users") == null ? "" : request.getParameter("users");
-        				logger.info(users);
-        				
-        				Developer developer = ofy().load().key(Key.create(Developer.class, useremail)).now();
-        				Project project = null;
-        				Key<Project> projKey = null;
-        				if (null != developer)	{
-        					projKey = developer.getProject();
-        					if (null != projKey)	{
-        						project = ofy().load().key(projKey).now();
-        						logger.info("Got project:: " + project);
-        					} else {
-        						logger.warning("project Key found null");
-        					}
-        					
-        				} else {
-        					logger.warning("developer found null");
-        				}
-        				
-        				reader = Json.createReader(new StringReader(users));
-        				
-        				JsonStructure structure = reader.read();
-        				if (structure.getValueType().equals(JsonValue.ValueType.ARRAY))	{
-        					JsonArray usersArr = (JsonArray) structure;
-        					Iterator<JsonValue> arrItr = usersArr.iterator();
-        					
-        					while (arrItr.hasNext())	{
-        						JsonValue value = arrItr.next();
-        						
-        						if (value.getValueType().equals(JsonValue.ValueType.OBJECT))	{
-        							JsonObject obj = usersArr.getJsonObject(usersArr.indexOf(value));
-        							String type = obj.getString("usertype", "").toLowerCase();
-        							String name = obj.getString("name", "");
-        							String email = obj.getString("email", "");
-        							
-        							logger.info("type:: " + type + " name:: " + name + " email:: " + email);
-        							
-        							if ("developer".equals(type))	{
-    							    	Key<Developer> devKey = Key.create(Developer.class, email);
-    							    	
-    							    	if (project.getAllDevelopers().contains(devKey.getString()))	{
-    							    	    error = true;
-    							    	    pout.println(objBuilder.add("status", "failure").add("message", "devExists").add("name", name).build().toString());
-    							    	    pout.flush();
-    							    	} else {
-    							    	    error = false;
-    							    	    project.addDeveloper(devKey.getString());
-            							    	
-    							    	    developer = ofy().load().key(devKey).now();
-            							    logger.info("Got developer:: " + developer.getName() + " Adding project now");
-            							    developer.addProject(projKey.getString());
-            								
-            							    logger.info("Saving project and developer entities now");
-            							    ofy().save().entities(project, developer).now();
-    							    	}
-        							} else if ("customer".equals(type))	{
-        								Key<Customer> custKey = Key.create(Customer.class, email);
+			if ("".equals(username) || "".equals(usertype) || "".equals(useremail))	{
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        	} else {
+        		response.setContentType("application/json");
+    		    JsonObjectBuilder objBuilder = Json.createObjectBuilder();
+    		    	
+    			String action = request.getParameter("action") == null ? "" : request.getParameter("action");
+    			logger.info("action:: " + action);
+    			
+    			if ("addusers".equalsIgnoreCase(action))	{
+    				String users = request.getParameter("users") == null ? "" : request.getParameter("users");
+    				logger.info(users);
+    				
+    				Developer developer = ofy().load().key(Key.create(Developer.class, useremail)).now();
+    				Project project = null;
+    				Key<Project> projKey = null;
+    				if (null != developer)	{
+    					projKey = developer.getProject();
+    					if (null != projKey)	{
+    						project = ofy().load().key(projKey).now();
+    						logger.info("Got project:: " + project);
+    					} else {
+    						logger.warning("project Key found null");
+    					}
+    					
+    				} else {
+    					logger.warning("developer found null");
+    				}
+    				
+    				reader = Json.createReader(new StringReader(users));
+    				
+    				JsonStructure structure = reader.read();
+    				if (structure.getValueType().equals(JsonValue.ValueType.ARRAY))	{
+    					JsonArray usersArr = (JsonArray) structure;
+    					Iterator<JsonValue> arrItr = usersArr.iterator();
+    					
+    					while (arrItr.hasNext())	{
+    						JsonValue value = arrItr.next();
+    						
+    						if (value.getValueType().equals(JsonValue.ValueType.OBJECT))	{
+    							JsonObject obj = usersArr.getJsonObject(usersArr.indexOf(value));
+    							String type = obj.getString("usertype", "").toLowerCase();
+    							String name = obj.getString("name", "");
+    							String email = obj.getString("email", "");
+    							
+    							logger.info("type:: " + type + " name:: " + name + " email:: " + email);
+    							
+    							if ("developer".equals(type))	{
+							    	Key<Developer> devKey = Key.create(Developer.class, email);
+							    	
+							    	if (project.getAllDevelopers().contains(devKey.getString()))	{
+							    	    error = true;
+							    	    pout.println(objBuilder.add("status", "failure").add("message", "devExists").add("name", name).build().toString());
+							    	    pout.flush();
+							    	} else {
+							    	    error = false;
+							    	    project.addDeveloper(devKey.getString());
         							    	
-        								if (project.getAllCustomers().contains(custKey.getString()))	{
-        								    error = true;
-        								    pout.println(objBuilder.add("status", "failure").add("message", "custExists").add("name", name).build().toString());
-        								    pout.flush();
-        								} else {
-        								    error = false;
-        								    project.addCustomer(Key.create(Customer.class, email).getString());
-                							    
-                							Customer customer = ofy().load().key(custKey).now();
-                							logger.info("Got customer " + customer.getName() + " Adding project now");
-                							customer.addProject(projKey.getString());
-                							    
-                							logger.info("Saving project and customer entities now");
-                							ofy().save().entities(project, customer).now();
-        								}
-        							}
-        							
-        							if (!error)	{
-        							    pout.println(objBuilder.add("status", "success").build().toString());
-        							    pout.flush();
-        							}
-        							
-        						} else if (value.getValueType().equals(JsonValue.ValueType.ARRAY))	{
-        							logger.info("Got object inside JSON Array");
-        						}
-        					}
-        				} else if (structure.getValueType().equals(JsonValue.ValueType.OBJECT))	{
-        					logger.info("Got object as a structure type");
-        				} 
-        			}
-        		}
+							    	    developer = ofy().load().key(devKey).now();
+        							    logger.info("Got developer:: " + developer.getName() + " Adding project now");
+        							    developer.addProject(projKey.getString());
+        								
+        							    logger.info("Saving project and developer entities now");
+        							    ofy().save().entities(project, developer).now();
+							    	}
+    							} else if ("customer".equals(type))	{
+    								Key<Customer> custKey = Key.create(Customer.class, email);
+    							    	
+    								if (project.getAllCustomers().contains(custKey.getString()))	{
+    								    error = true;
+    								    pout.println(objBuilder.add("status", "failure").add("message", "custExists").add("name", name).build().toString());
+    								    pout.flush();
+    								} else {
+    								    error = false;
+    								    project.addCustomer(Key.create(Customer.class, email).getString());
+            							    
+            							Customer customer = ofy().load().key(custKey).now();
+            							logger.info("Got customer " + customer.getName() + " Adding project now");
+            							customer.addProject(projKey.getString());
+            							    
+            							logger.info("Saving project and customer entities now");
+            							ofy().save().entities(project, customer).now();
+    								}
+    							}
+    							
+    							if (!error)	{
+    							    pout.println(objBuilder.add("status", "success").build().toString());
+    							    pout.flush();
+    							}
+    							
+    						} else if (value.getValueType().equals(JsonValue.ValueType.ARRAY))	{
+    							logger.info("Got object inside JSON Array");
+    						}
+    					}
+    				} else if (structure.getValueType().equals(JsonValue.ValueType.OBJECT))	{
+    					logger.info("Got object as a structure type");
+    				} 
+    			} else if ("removeuser".equals(action))	{
+    				String name = request.getParameter("name") == null ? "" : request.getParameter("name");
+    				String email = request.getParameter("email") == null ? "" : request.getParameter("email");
+    				String type = request.getParameter("type") == null ? "" : request.getParameter("type").toLowerCase();
+    				
+    				logger.info("name:: " + name + " email:: " + email + " type:: " + type);
+    				
+    				Developer developer = ofy().load().key(Key.create(Developer.class, useremail)).now();
+    				Key<Project> projKey = developer.getProject();
+    				Project project = ofy().load().key(projKey).now();
+    				
+    				if ("developer".equals(type))	{
+    					Key<Developer> devKey = Key.create(Developer.class, email);
+    					
+    					if (project.removeDeveloper(devKey.getString()))	{
+    						logger.info("developer removed from project");
+    					} else {
+    						logger.info("developer not removed from project");
+    					}
+    					
+    					developer = ofy().load().key(devKey).now();
+    					
+    					if (developer.removeProject(projKey.getString()))	{
+    						logger.info("project removed from developer");
+    					} else {
+    						logger.info("project not removed from developer");
+    					}
+    					
+    				} else if ("customer".equals(type))	{
+    					Key<Customer> custKey = Key.create(Customer.class, email);
+    					
+    					if (project.removeCustomer(custKey.getString()))	{
+    						logger.info("customer removed from project");
+    					} else {
+    						logger.info("customer not removed from project");
+    					}
+    					
+    					Customer customer = ofy().load().key(custKey).now();
+    					
+    					if (customer.removeProject(projKey.getString()))	{
+    						logger.info("project removed from customer");
+    					} else {
+    						logger.info("project not removed from customer");
+    					}
+    				}
+    				
+    				pout.println(objBuilder.add("status", "success").build().toString());
+    				pout.flush();
+    			}
+    		}
 		} catch (Exception e)	{
 		    logger.warning("Exception in GetUsers Servlet doPost method");
 		    e.printStackTrace();

@@ -88,16 +88,30 @@ public class Project {
 	 * representation of a developer key and adding to the list of
 	 * developers.
 	 */
-	public void addDeveloper(String developerKey)	{
-		this.allDevelopers.add(developerKey);
+	public boolean addDeveloper(String developerKey)	{
+		return this.allDevelopers.add(developerKey);
 	}
 	
 	/**
 	 * Add a customer to this project by accepting a String representation
 	 * of the customer key and adding it to the list of customers.
 	 */
-	public void addCustomer(String customerKey)	{
-		this.allCustomers.add(customerKey);
+	public boolean addCustomer(String customerKey)	{
+		return this.allCustomers.add(customerKey);
+	}
+	
+	/**
+	 * Removes a developer from this project
+	 */
+	public boolean removeDeveloper(String developerKey)	{
+		return this.allDevelopers.remove(developerKey);
+	}
+	
+	/**
+	 * Removes a customer from this project
+	 */
+	public boolean removeCustomer(String customerKey)	{
+		return this.allCustomers.remove(customerKey);
 	}
 	
 	/**

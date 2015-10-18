@@ -73,9 +73,16 @@ public class Customer {
 	/**
 	 * Add a project to this customer
 	 */
-	public void addProject(String projectKey)	{
-		this.allProjects.add(projectKey);
+	public boolean addProject(String projectKey)	{
+		return this.allProjects.add(projectKey);
 	}
+	
+	/**
+     * Removes a project from this Customer
+     */
+    public boolean removeProject(String projectKey)	{
+    	return this.allProjects.remove(projectKey);
+    }
 
     /**
      * Getter for Email

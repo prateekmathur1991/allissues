@@ -87,7 +87,7 @@
 <div class="container-fluid">
 	<form id="project-form" name="project-form" method="post">
 		<div style="margin-bottom: 30px;">
-  			<h4 class="text-info col-sm-12 col-sm-offset-2">Project Settings</h4>
+  			<h3 class="text-info">Project Settings</h3>
   		</div>
 		
 		<div id="display-name-group">	
@@ -97,17 +97,12 @@
 	        </div>
 	        
 	        <div style="margin-bottom: 30px;">
-	            <div class="col-sm-10 col-sm-offset-2">
-	                <button type="button" class="btn btn-success" id="save-name-button" name="save-name-button">Update</button>
-	            </div>
+	        	<button type="button" class="btn btn-success" id="save-name-button" name="save-name-button">Update</button>
 	        </div>
 	    </div>
         
-        <div id="people-group">
-			<div>
-		  		<h4 class="text-info col-sm-12 col-sm-offset-2">Add people to your Project</h4>
-		  	</div>
-		
+        <div id="people-group" style="margin-bottom: 30px;">
+			<h4 class="text-info">Add people to your Project</h4>
 		    <div id="add-people-group">
 				<div class="row">
 					<div class="col-sm-6">
@@ -125,17 +120,19 @@
 			            </div>
 		            </div>
 		            
-		            <div id="existing-users"  class="col-sm-6">
-						
+		            <div class="col-sm-6">
+						<h4 class="text-info" style="margin-top: -25px;">People currently on your Project</h4>
+						<select id="existing-users">
+							
+						</select>
+						<button type="button" class="btn btn-danger col-sm-offset-1" id="remove-user" name="remove-user">Remove This User</button>
 		            </div>
 		    	</div>
 		    </div>
         </div>
         
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <div class="alert alert-danger" id="error"></div>
-            </div>
+        <div>
+        	<div class="alert alert-danger" id="error"></div>
         </div>
 	</form>
 </div> <!-- .container-fluid -->
