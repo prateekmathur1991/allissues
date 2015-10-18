@@ -85,20 +85,18 @@
 </div>
 
 <div class="container-fluid">
-	<form class="form-horizontal" id="project-form" name="project-form" method="post">
-		<div class="form-group">
+	<form id="project-form" name="project-form" method="post">
+		<div style="margin-bottom: 30px;">
   			<h4 class="text-info col-sm-12 col-sm-offset-2">Project Settings</h4>
   		</div>
 		
 		<div id="display-name-group">	
 			<div class="form-group" id="name-group">
-	            <label for="name" class="col-sm-2 control-label" style="text-align: left;">Project Name</label>
-	            <div class="col-sm-10">
-	                <input type="text" class="form-control" id="name" name="name" value="<%= projectName %>" placeholder="Project Name" />
-	            </div>
+	            <label for="name">Project Name</label>
+	            <input type="text" class="form-control" id="name" name="name" value="<%= projectName %>" placeholder="Project Name" />
 	        </div>
 	        
-	        <div class="form-group">
+	        <div style="margin-bottom: 30px;">
 	            <div class="col-sm-10 col-sm-offset-2">
 	                <button type="button" class="btn btn-success" id="save-name-button" name="save-name-button">Update</button>
 	            </div>
@@ -106,15 +104,15 @@
 	    </div>
         
         <div id="people-group">
-			<div class="form-group">
-		  			<h4 class="text-info col-sm-12 col-sm-offset-2">Add people to your Project</h4>
+			<div>
+		  		<h4 class="text-info col-sm-12 col-sm-offset-2">Add people to your Project</h4>
 		  	</div>
 		
-		    <div class="form-group" id="add-people-group">
+		    <div id="add-people-group">
 				<div class="row">
 					<div class="col-sm-6">
-				        <p class="text-muted col-sm-10 col-sm-offset-2">Type Email IDs or names of developers or customers you want to add to this project</p>
-			            <div class="col-sm-10 col-sm-push-2">
+				        <p class="text-muted">Type Email IDs or names of developers or customers you want to add to this project</p>
+			            <div>
 			                <div class="row">
 			                	<div class="col-xs-6">
 			                		<input class="magicsuggest form-control" type="text" id="people" name="people" />
@@ -127,10 +125,8 @@
 			            </div>
 		            </div>
 		            
-		            <div class="col-sm-6">
-		            	<div id="existing-users" class="col-sm-6">
-					
-						</div>
+		            <div id="existing-users"  class="col-sm-6">
+						
 		            </div>
 		    	</div>
 		    </div>

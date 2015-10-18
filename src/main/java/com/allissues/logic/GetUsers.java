@@ -107,7 +107,7 @@ public class GetUsers extends HttpServlet {
 				    	arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Customer").add("name", customer.getName()).add("email", customer.getEmail()).build());
 				    }
 				    
-				    pout.println(arrBuilder.toString());
+				    pout.println(arrBuilder.build().toString());
 				    pout.flush();
 				    
 				} else	{
