@@ -86,7 +86,7 @@ public class GetUsers extends HttpServlet {
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			} else {
 				String query = request.getParameter("query") == null ? "" : request.getParameter("query").toLowerCase();
-				String query = request.getParameter("action") == null ? "" : request.getParameter("action").toLowerCase();
+				String action = request.getParameter("action") == null ? "" : request.getParameter("action").toLowerCase();
 				
 				logger.info("Query:: " + query + " action:: " + action);
 				
@@ -98,13 +98,13 @@ public class GetUsers extends HttpServlet {
 				    List<String> allCustomers = project.getAllCustomers();
 				    
 				    for (String devKey : allDevelopers)	{
-					Developer developer = ofy().load().key(Key.create(devKey)).now();
-					arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Developer").add("name", developer.getName()).add("email", developer.getEmail()).build());
+				    	developer = (Developer) ofy().load().key(Key.create(devKey)).now();
+				    	arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Developer").add("name", developer.getName()).add("email", developer.getEmail()).build());
 				    }
 				    
 				    for (String custKey : allCustomers)	{
-					Customer customer = ofy().load().key(Key.create(custKey)).now();
-					arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Customer").add("name", customer.getName()).add("email", customer.getEmail()).build());
+				    	Customer customer = (Customer) ofy().load().key(Key.create(custKey)).now();
+				    	arrBuilder = arrBuilder.add(objBuilder.add("usertype", "Customer").add("name", customer.getName()).add("email", customer.getEmail()).build());
 				    }
 				    
 				    pout.println(arrBuilder.toString());
