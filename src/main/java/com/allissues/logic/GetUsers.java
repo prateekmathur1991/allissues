@@ -300,6 +300,8 @@ public class GetUsers extends HttpServlet {
     						logger.info("project not removed from developer");
     					}
     					
+    					ofy().save().entities(project, developer).now();
+    					
     				} else if ("customer".equals(type))	{
     					Key<Customer> custKey = Key.create(Customer.class, email);
     					
@@ -316,6 +318,8 @@ public class GetUsers extends HttpServlet {
     					} else {
     						logger.info("project not removed from customer");
     					}
+    					
+    					ofy().save().entities(project, customer).now();
     				}
     				
     				pout.println(objBuilder.add("status", "success").build().toString());
