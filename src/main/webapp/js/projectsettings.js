@@ -33,7 +33,10 @@ $(document).ready(function ()	{
 		data: '/users',
 		groupBy: 'usertype',
 		valueField: 'email',
-		useCommaKey: true
+		useCommaKey: true,
+		renderer: function (data)	{
+			return '<p style="margin-bottom: -8px;">' + data.name + '</p> <p><small>' + data.email + '</small></p>'; 
+		}
 	});
 	
 	$(ms).on('selectionchange', function ()	{
