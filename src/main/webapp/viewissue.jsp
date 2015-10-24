@@ -69,9 +69,6 @@
 		<h2 id="issue-title" class="col-sm-10 text-primary">
 			<strong><%= null == issue ? "N/A" : issue.getTitle() %></strong>
 		</h2>
-		<div class="col-sm-2" style="margin-top: 21px;">
-			<a id="issue-edit" href="/createissue.jsp?action=edit&id=<%= id %>" class="btn btn-success">Edit This Issue</a>
-		</div>
 	</div>
 	
 	<div class="row">
