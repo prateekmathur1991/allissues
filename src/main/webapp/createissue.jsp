@@ -1,3 +1,7 @@
+<%@page import="java.util.Arrays"%>
+<%@page import="java.util.List"%>
+<%@page import="com.allissues.data.Project"%>
+<%@page import="com.allissues.data.Developer"%>
 <%@page import="com.googlecode.objectify.Key"%>
 <%@page import="com.allissues.data.Issue"%>
 <%@page import="com.googlecode.objectify.ObjectifyService"%>
@@ -13,17 +17,16 @@
 	String username = null, usertype = null, useremail = null;
 	
 	try	{
-		username = (String) session.getAttribute("username");
-		usertype = (String) session.getAttribute("usertype");
-		useremail = (String) session.getAttribute("useremail");
+		username = session.getAttribute("username") == null ? "" : (String) session.getAttribute("username");
+		usertype = session.getAttribute("usertype") == null ? "" : (String) session.getAttribute("usertype");
+		useremail = session.getAttribute("useremail") == null ? "" : (String) session.getAttribute("useremail");
 	} catch (Exception e)	{
 		logger.warning("Exception in Home.jsp while retrieving session variables");
 		e.printStackTrace();
 	}
 	
 	try	{
-		// The absence of session variables denotes that nobody is logged in
-		if (null == username || "".equals(username) || null == usertype || "".equals(usertype) || null == useremail || "".equals(useremail))	{
+		if ("".equals(username) || "".equals(usertype) || "".equals(useremail))	{
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		} else	{
 			String action = request.getParameter("action") == null ? "" : request.getParameter("action");
@@ -33,10 +36,25 @@
 				id = request.getParameter("id") == null ? 0 : Long.parseLong(request.getParameter("id"));
 				logger.info("Got ID:: " + id);
 				
-				Objectify ofy = ObjectifyService.ofy();
-				
 				if (id != 0)	{
-					issue = ofy.load().key(Key.create(Issue.class, id)).now();
+					issue = ObjectifyService.ofy().load().key(Key.create(Issue.class, id)).now();
+				}
+			}
+			
+			Developer developer = ObjectifyService.ofy().load().key(Key.create(Developer.class, useremail)).now();
+			Key<Project> projectKey = null;
+			Project project = null;
+			
+			List<String> allProjects = null;
+			
+			if (null != developer)	{
+				projectKey = developer.getProject();
+				project = ObjectifyService.ofy().load().key(projectKey).now();
+				
+				allProjects = developer.getProjects();
+				
+				for (String strProjectKey : allProjects)	{
+					Project workProject = (Project) ObjectifyService.ofy().load().key(Key.create(strProjectKey)).now();
 				}
 			}
 	
@@ -97,11 +115,29 @@
             </div>
         </div>
 
-        <div class="form-group" id="assigned-to-group">
-            <label for="assigned-to" class="col-sm-2 control-label">Assigned To</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" value="<%= issue == null ? "" : issue.getAssignedTo() %>" id="assigned-to" name="assigned-to" />
-            </div>
+        <% if ("developer".equalsIgnoreCase(usertype)) { %>
+	        <div class="form-group" id="assigned-to-group">
+	            <label for="assigned-to" class="col-sm-2 control-label">Assigned To</label>
+	            <div class="col-sm-10">
+	                <input type="text" class="form-control" value="<%= issue == null ? "" : issue.getAssignedTo() %>" id="assigned-to" name="assigned-to" />
+	            </div>
+	        </div>
+        <% } %>
+        
+        <div class="form-group" id="project-group">
+        	<label for="project" class="col-sm-2 control-label">Select Project</label>
+        	<div class="col-sm-10">
+	        	<select class="form-control">
+	        		<option value="0">- Select Project -</option>
+	        		<option value="<%= projectKey.getId() %>"><%= project.getName() %></option>
+	        		<% for (String strProjectKey : developer.getProjects())	{
+	        			Key<Project> workProjectKey = Key.create(strProjectKey);
+	        			Project workProject = (Project) ObjectifyService.ofy().load().key(workProjectKey).now();
+	        		%>
+	        			<option value="<%= workProjectKey.getId() %>"><%= workProject.getName() %></option>
+	        		<% } %>
+	        	</select>
+	        </div>
         </div>
         
         <div class="form-group" id="res-date-group">
