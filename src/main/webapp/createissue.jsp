@@ -1,3 +1,4 @@
+<%@page import="com.allissues.data.Customer"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.List"%>
 <%@page import="com.allissues.data.Project"%>
@@ -41,21 +42,31 @@
 				}
 			}
 			
-			Developer developer = ObjectifyService.ofy().load().key(Key.create(Developer.class, useremail)).now();
+			Customer customer = null;
+			Developer developer = null;
+			
 			Key<Project> projectKey = null;
 			Project project = null;
 			
 			List<String> allProjects = null;
 			
-			if (null != developer)	{
-				projectKey = developer.getProject();
-				project = ObjectifyService.ofy().load().key(projectKey).now();
+			if ("developer".equalsIgnoreCase(usertype))	{
+				developer = ObjectifyService.ofy().load().key(Key.create(Developer.class, useremail)).now();
 				
-				allProjects = developer.getProjects();
-				
-				for (String strProjectKey : allProjects)	{
-					Project workProject = (Project) ObjectifyService.ofy().load().key(Key.create(strProjectKey)).now();
+				if (null != developer)	{
+					projectKey = developer.getProject();
+					project = ObjectifyService.ofy().load().key(projectKey).now();
+					
+					allProjects = developer.getProjects();
 				}
+				
+			} else if ("customer".equalsIgnoreCase(usertype))	{
+				customer = ObjectifyService.ofy().load().key(Key.create(Customer.class, useremail)).now();
+				
+				if (null != customer)	{
+					allProjects = customer.getAllProjects(); 
+				}
+				
 			}
 	
 %>
@@ -119,7 +130,13 @@
 	        <div class="form-group" id="assigned-to-group">
 	            <label for="assigned-to" class="col-sm-2 control-label">Assigned To</label>
 	            <div class="col-sm-10">
-	                <input type="text" class="form-control" value="<%= issue == null ? "" : issue.getAssignedTo() %>" id="assigned-to" name="assigned-to" />
+	                <select class="form-control" id="assigned-to">
+	                	<% for (String workDeveloperStr : project.getAllDevelopers())	{
+	                		Developer workDeveloper = (Developer) ObjectifyService.ofy().load().key(Key.create(workDeveloperStr)).now();
+	                	%>
+	                		<option value="<%= workDeveloper.getEmail() %>"><%= workDeveloper.getName() %></option>
+	                	<% } %>
+	                </select>
 	            </div>
 	        </div>
         <% } %>
@@ -128,9 +145,11 @@
         	<label for="project" class="col-sm-2 control-label">Select Project</label>
         	<div class="col-sm-10">
 	        	<select class="form-control">
-	        		<option value="0">- Select Project -</option>
-	        		<option value="<%= projectKey.getId() %>"><%= project.getName() %></option>
-	        		<% for (String strProjectKey : developer.getProjects())	{
+	        		<% if ("developer".equalsIgnoreCase(usertype))	{ %>
+	        			<option value="<%= projectKey.getId() %>"><%= project.getName() %></option>
+	        		<% } %>
+	        		
+	        		<% for (String strProjectKey : allProjects)	{
 	        			Key<Project> workProjectKey = Key.create(strProjectKey);
 	        			Project workProject = (Project) ObjectifyService.ofy().load().key(workProjectKey).now();
 	        		%>
