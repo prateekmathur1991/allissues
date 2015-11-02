@@ -128,7 +128,7 @@
 
         <% if ("developer".equalsIgnoreCase(usertype)) { %>
 	        <div class="form-group" id="assigned-to-group">
-	            <label for="assigned-to" class="col-sm-2 control-label">Assigned To</label>
+	            <label for="assigned-to" class="col-sm-2 control-label">Assign To</label>
 	            <div class="col-sm-10">
 	                <select class="form-control" id="assigned-to">
 	                	<% for (String workDeveloperStr : project.getAllDevelopers())	{
