@@ -31,16 +31,16 @@ import com.allissues.data.Issue;
 import com.googlecode.objectify.Key;
 
 /**
- * Servlet implementation class CreateIssue
+ * Servlet implementation class IssueActions
  * 
  * Creates a new issues and saves it in the datastore.
  * 
  * @author Prateek Mathur
  */
-public class CreateIssue extends HttpServlet {
+public class IssueActions extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	static Logger logger = Logger.getLogger(CreateIssue.class.getName());
+	static Logger logger = Logger.getLogger(IssueActions.class.getName());
 	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -86,7 +86,7 @@ public class CreateIssue extends HttpServlet {
 				response.sendRedirect("/issue/" + title.toLowerCase().replaceAll(" ", "-") + "-" + Long.toString(id));
 			}
 		} catch (Exception e)	{
-			logger.warning("Exception in CreateIssue Servlet");
+			logger.warning("Exception in IssueActions Servlet");
 			e.printStackTrace();
 		}
 		

@@ -31,12 +31,12 @@
   </servlet-mapping>
   
   <servlet>
-    <display-name>CreateIssue</display-name>
-    <servlet-name>CreateIssue</servlet-name>
-    <servlet-class>com.allissues.logic.CreateIssue</servlet-class>
+    <display-name>IssueActions</display-name>
+    <servlet-name>IssueActions</servlet-name>
+    <servlet-class>com.allissues.logic.IssueActions</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>CreateIssue</servlet-name>
+    <servlet-name>IssueActions</servlet-name>
     <url-pattern>/AddIssue</url-pattern>
   </servlet-mapping>
   
