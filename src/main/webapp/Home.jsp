@@ -17,9 +17,9 @@
 	String username = null, usertype = null, useremail = null;
 
 	try	{
-		username = (String) session.getAttribute("username");
-		usertype = (String) session.getAttribute("usertype");
-		useremail = (String) session.getAttribute("useremail");
+		username = session.getAttribute("username") == null ? "" : (String) session.getAttribute("username");
+		usertype = session.getAttribute("usertype") == null ? "" : (String) session.getAttribute("usertype");
+		useremail = session.getAttribute("useremail") == null ? "" : (String) session.getAttribute("useremail");
 	} catch (Exception e)	{
 		logger.warning("Exception in Home.jsp while retrieving session variables");
 		e.printStackTrace();
@@ -27,7 +27,7 @@
 	
 	try	{
 		// The absence of session variables denotes that nobody is logged in
-		if (null == username || "".equals(username) || null == usertype || "".equals(usertype) || null == useremail || "".equals(useremail))	{
+		if ("".equals(username) || "".equals(usertype) || "".equals(useremail))	{
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		} else	{
 %>
@@ -136,29 +136,36 @@
 				
 				<tbody>
 				<%
-					Objectify ofy = ObjectifyService.ofy();
 					List<Key<Issue>> openIssues = null;
 					
 					if ("developer".equalsIgnoreCase(usertype))	{
-						// Key<Project> projectKey = Key.create(Key.create(Developer.class, useremail), Project.class, projectKeyHere);
-						openIssues = ofy.load().type(Issue.class).filter("status", "OPEN").keys().list();
-						// openIssues = ofy.load().ancestor(Key<Project>)
+						openIssues = ObjectifyService.ofy().load().type(Issue.class).filter("status", "OPEN").filter("assignedTo", useremail).keys().list();
 					} else if ("customer".equalsIgnoreCase(usertype))	{
-						openIssues = ofy.load().type(Issue.class).filter("status", "OPEN").filter("developerIssue", false).keys().list();
+						openIssues = ObjectifyService.ofy().load().type(Issue.class).filter("status", "OPEN").filter("createdBy", useremail).filter("developerIssue", false).keys().list();
 					}
 					
 					if (null != openIssues)	{
 						if (openIssues.size() > 0)	{
 							for (Key<Issue> issueKey : openIssues)	{
-								Issue issue = ofy.load().key(issueKey).now();
+								Issue issue = ObjectifyService.ofy().load().key(issueKey).now();
+								String issueUrl = "";
+								if (null != issue && null != issue.getProjectKey())	{
+									issueUrl = "/issue/" + issue.getTitle().toLowerCase().replace(" ", "-") + "-" + issueKey.getId() + "-" + issue.getProjectKey().getId();
+								}
 				%>
 				<tr>
 					<td><%= issueKey.getId() %></td>
-					<td><a target="_blank" href="<%= "/issue/" + issue.getTitle().toLowerCase().replaceAll(" ", "-") + "-" + issueKey.getId() %>"><%= issue.getTitle() %></a></td>
-					<td><%= issue.getPriority() == 1 ? "LOW" : (issue.getPriority() == 2 ? "MEDIUM" : "HIGH") %></td>
-					<td><%= issue.getCreatedBy() %></td>
-					<td><%= issue.getAssignedTo() %></td>
-					<td><%= issue.getEstimatedResolutionDate() %></td>
+					<td>
+						<% if ("".equals(issueUrl)) { %>
+							<span><%= null != issue ? issue.getTitle() : "N/A" %></span>
+						<% } else { %>
+							<a target="_blank" href="<%= issueUrl %>"><%= null != issue ? issue.getTitle() : "N/A" %></a>
+						<% } %>
+					</td>
+					<td><%= null != issue ? (issue.getPriority() == 1 ? "LOW" : (issue.getPriority() == 2 ? "MEDIUM" : "HIGH")) : "N/A" %></td>
+					<td><%= null != issue ? issue.getCreatedBy() : "N/A" %></td>
+					<td><%= null != issue ? issue.getAssignedTo() : "N/A" %></td>
+					<td><%= null != issue ? issue.getEstimatedResolutionDate() : "N/A" %></td>
 				</tr>
 				<%
 							}
