@@ -42,7 +42,7 @@
 			if (null != developer)	{
 				logger.info("Got developer:: " + developer.toString());
 				Key<Project> projKey = developer.getProject();
-				logger.info("Got proj key:: " + projKey.toString());
+				logger.info("Got proj key:: " + projKey);
 				if (null != projKey)	{
 					logger.info("Loading project now");
 					project = ofy.load().key(projKey).now();

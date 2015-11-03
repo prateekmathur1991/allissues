@@ -29,7 +29,7 @@ import com.allissues.data.Project;
 import com.googlecode.objectify.Key;
 
 /**
- * Servlet implementation class GetUsers
+ * Servlet implementation class UserActions
  * 
  * Used as a Server Side resource for MagicSuggest JS plugin,
  * which returns a JSON Array of all user display names and email IDs.
@@ -38,9 +38,9 @@ import com.googlecode.objectify.Key;
  * 
  * @author Prateek Mathur
  */
-public class GetUsers extends HttpServlet {
+public class UserActions extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(GetUsers.class.getName());
+	private static final Logger logger = Logger.getLogger(UserActions.class.getName());
 	
 	List<Key<Developer>> developers;
 	List<Key<Customer>> customers;
@@ -51,7 +51,7 @@ public class GetUsers extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetUsers() {
+    public UserActions() {
         super();
         
         developers = ofy().load().type(Developer.class).keys().list();
@@ -141,7 +141,7 @@ public class GetUsers extends HttpServlet {
 			}
 			
 		} catch (Exception e)	{
-			logger.warning("Exception in Servlet GetUsers. doGet() method");
+			logger.warning("Exception in Servlet UserActions. doGet() method");
 			e.printStackTrace();
 		} finally	{
 			try	{
@@ -327,7 +327,7 @@ public class GetUsers extends HttpServlet {
     			}
     		}
 		} catch (Exception e)	{
-		    logger.warning("Exception in GetUsers Servlet doPost method");
+		    logger.warning("Exception in UserActions Servlet doPost method");
 		    e.printStackTrace();
 		    
 		    pout.println(objBuilder.add("status", "failure").build().toString());

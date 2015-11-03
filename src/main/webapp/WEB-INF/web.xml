@@ -71,12 +71,12 @@
   </servlet-mapping>
   
   <servlet>
-    <display-name>GetUsers</display-name>
-    <servlet-name>GetUsers</servlet-name>
-    <servlet-class>com.allissues.logic.GetUsers</servlet-class>
+    <display-name>UserActions</display-name>
+    <servlet-name>UserActions</servlet-name>
+    <servlet-class>com.allissues.logic.UserActions</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>GetUsers</servlet-name>
+    <servlet-name>UserActions</servlet-name>
     <url-pattern>/users</url-pattern>
   </servlet-mapping>
   
