@@ -8,8 +8,8 @@
 <%@page import="com.googlecode.objectify.ObjectifyService"%>
 <%@page import="com.googlecode.objectify.Objectify"%>
 <%@ page import="java.util.logging.Logger"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%!
 	Logger logger = Logger.getLogger("createissue.jsp");    
 %>
@@ -112,7 +112,7 @@
 	        <div class="form-group" id="assigned-to-group">
 	            <label for="assigned-to" class="col-sm-2 control-label">Assign To</label>
 	            <div class="col-sm-10">
-	                <select class="form-control" id="assigned-to">
+	                <select class="form-control" id="assigned-to" name="assigned-to">
 	                	<% for (String workDeveloperStr : project.getAllDevelopers())	{
 	                		Developer workDeveloper = (Developer) ObjectifyService.ofy().load().key(Key.create(workDeveloperStr)).now();
 	                	%>
@@ -126,7 +126,7 @@
         <div class="form-group" id="project-group">
         	<label for="project" class="col-sm-2 control-label">Select Project</label>
         	<div class="col-sm-10">
-	        	<select class="form-control">
+	        	<select class="form-control" id="project" name="project">
 	        		<% if ("developer".equalsIgnoreCase(usertype))	{ %>
 	        			<option value="<%= projectKey.getId() %>"><%= project.getName() %></option>
 	        		<% } %>

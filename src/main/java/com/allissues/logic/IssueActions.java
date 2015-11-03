@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.allissues.data.Issue;
+import com.allissues.data.Project;
 import com.googlecode.objectify.Key;
 
 /**
@@ -74,16 +75,19 @@ public class IssueActions extends HttpServlet {
 				int priority = request.getParameter("priority") == null ? 0 : Integer.parseInt(request.getParameter("priority"));
 				String assignedTo = request.getParameter("assigned-to") == null ? "" : request.getParameter("assigned-to");
 				String deadline = request.getParameter("res-date") == null ? "" : request.getParameter("res-date");
+				String project = request.getParameter("project") == null ? "" : request.getParameter("project");
 				
-				logger.info("title:: " + title + " priority:: " + priority + " assignedTo:: " + assignedTo +  " deadline:: " + deadline);
+				logger.info("title:: " + title + " priority:: " + priority + " assignedTo:: " + assignedTo + " projectId:: " + project + " deadline:: " + deadline);
 				
-				Issue issue = new Issue(title, description, priority, useremail, assignedTo, deadline, "developer".equalsIgnoreCase(usertype) == true ? true : false);
+				Key<Project> projectKey = Key.create(Project.class, Long.parseLong(project));
+				Issue issue = new Issue(projectKey, title, description, priority, useremail, assignedTo, deadline, "developer".equalsIgnoreCase(usertype) == true ? true : false);
 				
 				Key<Issue> key = ofy().save().entity(issue).now();
 				long id = key.getId();
-				logger.info("Issue saved successfully. Generated ID:: " + id);
+
+				logger.info("Issue saved successfully. Generated ID:: " + id + " Parent project ID:: " + projectKey.getId());
 				
-				response.sendRedirect("/issue/" + title.toLowerCase().replaceAll(" ", "-") + "-" + Long.toString(id));
+				response.sendRedirect("/issue/" + title.toLowerCase().replaceAll(" ", "-") + "-" + id + "-" + projectKey.getId());
 			}
 		} catch (Exception e)	{
 			logger.warning("Exception in IssueActions Servlet");

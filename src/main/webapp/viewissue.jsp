@@ -1,3 +1,5 @@
+<%@page import="java.io.StringWriter"%>
+<%@page import="com.allissues.data.Project"%>
 <%@page import="com.googlecode.objectify.Key"%>
 <%@page import="com.allissues.data.Issue"%>
 <%@page import="com.googlecode.objectify.ObjectifyService"%>
@@ -13,9 +15,9 @@
 	String username = null, usertype = null, useremail = null;
 	
 	try	{
-		username = (String) session.getAttribute("username");
-		usertype = (String) session.getAttribute("usertype");
-		useremail = (String) session.getAttribute("useremail");
+		username = session.getAttribute("username") == null ? "" : (String) session.getAttribute("username");
+		usertype = session.getAttribute("usertype") == null ? "" : (String) session.getAttribute("usertype");
+		useremail = session.getAttribute("useremail") == null ? "" : (String) session.getAttribute("useremail");
 	} catch (Exception e)	{
 		logger.warning("Exception in Home.jsp while retrieving session variables");
 		e.printStackTrace();
@@ -23,7 +25,7 @@
 	
 	try	{
 		// The absence of session variables denotes that nobody is logged in
-		if ((null == username || "".equals(username)) && (null == usertype || "".equals(usertype)) && (null == useremail || "".equals(useremail)))	{
+		if ("".equals(username) || "".equals(usertype) || "".equals(useremail))	{
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		} else	{
 			if ("customer".equalsIgnoreCase(usertype))	{
@@ -31,14 +33,17 @@
 				response.sendError(HttpServletResponse.SC_FORBIDDEN);
 			} else {
 				long id = request.getParameter("id") == null ? 0 : Long.parseLong(request.getParameter("id"));
-				logger.info("Got ID:: " + id);
-				
-				Objectify ofy = ObjectifyService.ofy();
+				long projectid = request.getParameter("projectid") == null ? 0 : Long.parseLong(request.getParameter("projectid"));
+				logger.info("ID:: " + id + " Parent Project ID:: " + projectid);
 				
 				Key<Issue> issueKey = null;
 				Issue issue = null;
-				if (id != 0)	{
-					issue = ofy.load().key(Key.create(Issue.class, id)).now();
+				
+				if (id != 0 && projectid != 0)	{
+					Key<Project> projectKey = Key.create(Project.class, projectid);
+					logger.info("Created project Key:: " + projectKey);
+					issue = ObjectifyService.ofy().load().key(Key.create(projectKey, Issue.class, id)).now();
+					logger.info("Got issue:: " + issue);
 				}
 %>
 
@@ -97,7 +102,7 @@
 	
 	<div id="issue-desc" class="row" style="margin-top: 22px;">
 		<div class="col-sm-12">
-			<%= issue.getDescription() %>
+			<%= null == issue ? "N/A" : issue.getDescription() %>
 		</div>
 	</div>
 </div> <!-- .container-fluid -->

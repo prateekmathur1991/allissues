@@ -41,9 +41,13 @@ public class ViewIssue extends HttpServlet {
 				
 				if (null != issuePath && issuePath.length > 0) {
 					logger.info("Got issuePath:: " + Arrays.toString(issuePath));
-					String id = issuePath[issuePath.length - 1];
+					String id = issuePath[issuePath.length - 2];
 					logger.info("Got ID:: " + id);
-					String forwardUrl = "/viewissue.jsp?id=" + id;
+					
+					String projectid = issuePath[issuePath.length - 1];
+					logger.info("Got parent project ID:: " + projectid);
+					
+					String forwardUrl = "/viewissue.jsp?id=" + id + "&projectid=" + projectid;
 					logger.info("forwardUrl:: " + forwardUrl);
 					request.getRequestDispatcher(forwardUrl).forward(request, response);
 				}
