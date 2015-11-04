@@ -24,7 +24,7 @@
 
 $(document).ready(function ()	{
 	$('#error').hide();
-	var sel;
+	var sel = '';
 	
 	var ms = $('#people').magicSuggest({
 		allowFreeEntries: false,
@@ -63,6 +63,9 @@ $(document).ready(function ()	{
 			$('#error').slideDown();
 			$('#name-group').addClass('has-error');
 			$('#name').focus();
+			setTimeout(function () {
+				$('#error').slideUp();
+			}, 5000);
 			return false;
 		} else {
 			$('#name-group').removeClass('has-error');
@@ -85,39 +88,50 @@ $(document).ready(function ()	{
 	});
 	
 	$('#add-people-button').on('click', function ()	{
-		$.post('/users', {action: 'addusers', users: JSON.stringify(sel)}, function (data)	{
-			if (data.status == 'success')	{
-				$('#error').removeClass('alert-danger').addClass('alert-success');
-				$('#error').html('People added to project successfully');
-				$('#error').slideDown();
-				setTimeout(function () {
-					$('#error').slideUp();
-				}, 5000);
-			} else if (data.status == 'failure')	{
-				if (data.message == 'devExists')	{
-					$('#error').removeClass('alert-success').addClass('alert-danger');
-					$('#error').html('The developer ' + data.name + ' is already added to the project');
+		if (sel == '' || sel.length == 0)	{
+			$('#error').addClass('alert-danger').removeClass('alert-success');
+			$('#error').html('Please select atleast 1 person to add');
+			$('#error').slideDown();
+			ms.input.focus();
+			setTimeout(function ()	{
+				$('#error').slideUp();
+			}, 5000);
+			return false;
+		} else {
+			$.post('/users', {action: 'addusers', users: JSON.stringify(sel)}, function (data)	{
+				if (data.status == 'success')	{
+					$('#error').removeClass('alert-danger').addClass('alert-success');
+					$('#error').html('People added to project successfully');
 					$('#error').slideDown();
 					setTimeout(function () {
 						$('#error').slideUp();
 					}, 5000);
-				} else if (data.message == 'custExists')	{
-					$('#error').removeClass('alert-success').addClass('alert-danger');
-					$('#error').html('The customer ' + data.name + ' is already added to the project');
-					$('#error').slideDown();
-					setTimeout(function () {
-						$('#error').slideUp();
-					}, 5000);
-				} else {
-					$('#error').removeClass('alert-success').addClass('alert-danger');
-					$('#error').html('The server encountered an unexpected error while performing the operation. Please try again.');
-					$('#error').slideDown();
-					setTimeout(function () {
-						$('#error').slideUp();
-					}, 5000);
+				} else if (data.status == 'failure')	{
+					if (data.message == 'devExists')	{
+						$('#error').removeClass('alert-success').addClass('alert-danger');
+						$('#error').html('The developer ' + data.name + ' is already added to the project');
+						$('#error').slideDown();
+						setTimeout(function () {
+							$('#error').slideUp();
+						}, 5000);
+					} else if (data.message == 'custExists')	{
+						$('#error').removeClass('alert-success').addClass('alert-danger');
+						$('#error').html('The customer ' + data.name + ' is already added to the project');
+						$('#error').slideDown();
+						setTimeout(function () {
+							$('#error').slideUp();
+						}, 5000);
+					} else {
+						$('#error').removeClass('alert-success').addClass('alert-danger');
+						$('#error').html('The server encountered an unexpected error while performing the operation. Please try again.');
+						$('#error').slideDown();
+						setTimeout(function () {
+							$('#error').slideUp();
+						}, 5000);
+					}
 				}
-			}
-		});
+			});
+		}
 	});
 	
 	$('#remove-user').on('click', function ()	{
