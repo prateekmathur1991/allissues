@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-1.0-sdk</artifactId>
-            <version>1.9.23</version>
+            <version>1.9.28</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -115,7 +115,7 @@
             <plugin>
                 <groupId>com.google.appengine</groupId>
                 <artifactId>appengine-maven-plugin</artifactId>
-                <version>1.9.10</version>
+                <version>1.9.28</version>
                 <configuration>
                     <enableJarClasses>false</enableJarClasses>
                     <!-- Comment in the below snippet to bind to all IPs instead of just localhost -->
