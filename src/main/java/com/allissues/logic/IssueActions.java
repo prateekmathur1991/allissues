@@ -62,7 +62,10 @@ public class IssueActions extends HttpServlet {
 			usertype = session.getAttribute("usertype") == null ? "" : (String) session.getAttribute("usertype");
 			useremail = session.getAttribute("useremail") == null ? "" : (String) session.getAttribute("useremail");
 		} catch (Exception e)	{
-			logger.warning("Exception while getting session variables");
+		    	logger.warning("Exception while gettting session variables. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
+			for (StackTraceElement elem : e.getStackTrace()) {
+			    logger.warning(elem);
+			}
 			e.printStackTrace();
 		}
 		
@@ -90,7 +93,10 @@ public class IssueActions extends HttpServlet {
 				response.sendRedirect("/issue/" + title.toLowerCase().replaceAll(" ", "-") + "-" + id + "-" + projectKey.getId());
 			}
 		} catch (Exception e)	{
-			logger.warning("Exception in IssueActions Servlet");
+			logger.warning("Exception in IssueActions Servlet doPost method. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
+			for (StackTraceElement elem : e.getStackTrace()) {
+			    logger.warning(elem);
+			}
 			e.printStackTrace();
 		}
 		

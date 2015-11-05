@@ -1,4 +1,6 @@
 <%@page import="com.allissues.data.Customer"%>
+<%@page import="java.io.StringWriter"%>
+<%@page import="java.io.PrintWriter"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.List"%>
 <%@page import="com.allissues.data.Project"%>
@@ -55,7 +57,13 @@
 					allProjects = customer.getAllProjects(); 
 				}
 				
+				if (null != allProjects && allProjects.length() == 0)	{
+			    	logger.warning("Customer not added to any project.");
+			    	out.println("You need to be added to at-least 1 project before adding an issue");
+			    	return;
+				}
 			}
+			
 %>
 <!DOCTYPE html>
 <html>
@@ -183,7 +191,10 @@
 <% 
 		}
 	} catch (Exception e)	{
-		logger.warning("Exception on page createissue.jsp");
+		logger.warning("Exception on page createissue.jsp. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
+		for (StackTraceElement elem : e.getStackTrace())	{
+		    logger.warning(elem);
+		}
 		e.printStackTrace();
 	}
 %>

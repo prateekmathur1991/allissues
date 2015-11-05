@@ -116,7 +116,7 @@
 	<div class="row">
 	<div class="col-sm-12">
 		<div class="row">
-			<h3 class="col-sm-9">All Open Issues</h3>
+			<h3 class="col-sm-9">All Issues Assigned To Me</h3>
 			<div class="col-sm-3" style="margin-top: 15px;">
 				<a href="/createissue.jsp" class="btn btn-primary pull-right">Add new</a>
 			</div>
@@ -172,7 +172,7 @@
 						} else { logger.warning("openIssues list size is zero");
 				%>
 					<tr>
-						<td colspan="6">All Issues Closed!!</td>
+						<td colspan="6">No Issues Currently Open!!</td>
 					</tr>
 				<%
 						}
@@ -199,7 +199,10 @@
 <%
 		}
 	} catch (Exception e)	{
-		logger.warning("Exception on page Home.jsp");
+	    logger.warning("Exception on page Home.jsp. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
+		for (StackTraceElement elem : e.getStackTrace())	{
+		    logger.warning(elem);
+		}
 		e.printStackTrace();
 	}
 %>

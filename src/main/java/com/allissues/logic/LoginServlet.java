@@ -131,7 +131,11 @@ public class LoginServlet extends HttpServlet {
 				
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+		    	logger.warning("Exception in LoginServlet doPost method. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
+			for (StackTraceElement elem : e.getStackTrace()) {
+			    logger.warning(elem);
+			}
+		    	e.printStackTrace();
 		} finally	{
 			try	{
 				if (null != pout)	{

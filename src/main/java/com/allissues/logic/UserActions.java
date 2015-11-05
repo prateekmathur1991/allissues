@@ -75,7 +75,10 @@ public class UserActions extends HttpServlet {
 			usertype = session.getAttribute("usertype") == null ? "" : (String) session.getAttribute("usertype");
 			useremail = session.getAttribute("useremail") == null ? "" : (String) session.getAttribute("useremail");
 		} catch (Exception e)	{
-			logger.warning("Exception on page settings.jsp while retrieving session variables");
+			logger.warning("Exception while getting session variables. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
+			for (StackTraceElement elem : e.getStackTrace())	{
+			    logger.warning(elem);
+			}
 			e.printStackTrace();
 		}
 		
@@ -141,7 +144,10 @@ public class UserActions extends HttpServlet {
 			}
 			
 		} catch (Exception e)	{
-			logger.warning("Exception in Servlet UserActions. doGet() method");
+			logger.warning("Exception in UserActions Servlet doGet method. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
+			for (StackTraceElement elem : e.getStackTrace()) {
+			    logger.warning(elem);
+			}
 			e.printStackTrace();
 		} finally	{
 			try	{
@@ -167,7 +173,10 @@ public class UserActions extends HttpServlet {
 			usertype = session.getAttribute("usertype") == null ? "" : (String) session.getAttribute("usertype");
 			useremail = session.getAttribute("useremail") == null ? "" : (String) session.getAttribute("useremail");
 		} catch (Exception e)	{
-			logger.warning("Exception on page settings.jsp while retrieving session variables");
+			logger.warning("Exception while retrieving session variables. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
+			for (StackTraceElement elem : e.getStackTrace()) {
+			    logger.warning(elem);
+			}
 			e.printStackTrace();
 		}
 		
@@ -327,7 +336,10 @@ public class UserActions extends HttpServlet {
     			}
     		}
 		} catch (Exception e)	{
-		    logger.warning("Exception in UserActions Servlet doPost method");
+		    logger.warning("Exception in UserActions Servlet doPost method. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
+		    for (StackTraceElement elem : e.getStackTrace()) {
+			logger.warning(elem);
+		    }
 		    e.printStackTrace();
 		    
 		    pout.println(objBuilder.add("status", "failure").build().toString());
