@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class ViewIssueServlet
@@ -30,7 +31,7 @@ public class ViewIssue extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    	String username = null, usertype = null, useremail = null;
-		HttpSession session = request.getSession();
+	    	HttpSession session = request.getSession();
 
 		try	{
 			username = session.getAttribute("username") == null ? "" : (String) session.getAttribute("username");
@@ -39,7 +40,7 @@ public class ViewIssue extends HttpServlet {
 		} catch (Exception e)	{
 			logger.warning("Exception while getting session variables. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
 			for (StackTraceElement elem : e.getStackTrace())	{
-			    logger.warning(elem);
+logger.warning(elem.toString());
 			}
 			e.printStackTrace();
 		}
@@ -76,7 +77,7 @@ public class ViewIssue extends HttpServlet {
 	    	} catch (Exception e) {
 	    	    logger.warning("Exception in ViewIssue Servlet doGet method. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
 	    	    for (StackTraceElement elem : e.getStackTrace()) {
-	    		logger.warning(elem);
+logger.warning(elem.toString());
 	    	    }
 	    	    e.printStackTrace();
 	    	}

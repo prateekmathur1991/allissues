@@ -57,7 +57,7 @@
 					allProjects = customer.getAllProjects(); 
 				}
 				
-				if (null != allProjects && allProjects.length() == 0)	{
+				if (null != allProjects && allProjects.isEmpty())	{
 			    	logger.warning("Customer not added to any project.");
 			    	out.println("You need to be added to at-least 1 project before adding an issue");
 			    	return;
@@ -193,7 +193,7 @@
 	} catch (Exception e)	{
 		logger.warning("Exception on page createissue.jsp. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
 		for (StackTraceElement elem : e.getStackTrace())	{
-		    logger.warning(elem);
+logger.warning(elem.toString());
 		}
 		e.printStackTrace();
 	}

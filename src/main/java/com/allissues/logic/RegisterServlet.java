@@ -120,7 +120,7 @@ public class RegisterServlet extends HttpServlet {
 		} catch (Exception e) {
 		    	logger.warning("Exception in RegisterServlet doPost method. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
 			for (StackTraceElement elem : e.getStackTrace()) {
-			    logger.warning(elem);
+logger.warning(elem.toString());
 			}
 			e.printStackTrace();
 		} finally	{

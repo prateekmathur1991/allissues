@@ -64,7 +64,7 @@ public class IssueActions extends HttpServlet {
 		} catch (Exception e)	{
 		    	logger.warning("Exception while gettting session variables. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
 			for (StackTraceElement elem : e.getStackTrace()) {
-			    logger.warning(elem);
+				logger.warning(elem.toString());
 			}
 			e.printStackTrace();
 		}
@@ -95,7 +95,7 @@ public class IssueActions extends HttpServlet {
 		} catch (Exception e)	{
 			logger.warning("Exception in IssueActions Servlet doPost method. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
 			for (StackTraceElement elem : e.getStackTrace()) {
-			    logger.warning(elem);
+			    logger.warning(elem.toString());
 			}
 			e.printStackTrace();
 		}
