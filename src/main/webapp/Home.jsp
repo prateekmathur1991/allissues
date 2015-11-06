@@ -52,6 +52,9 @@
 </div>
 
 <div class="container-fluid">
+<%
+	List<Key<Issue>> closedIssues = ObjectifyService.ofy().load().type(Issue.class).filter("status", "CLOSED").filter("assignedTo", useremail).keys().list();
+%>
 	<div class="row">
 		<div class="col-lg-4 col-md-6">
 			<div class="panel panel-success">
@@ -61,8 +64,8 @@
 							<i class="fa fa-check-circle fa-5x"></i>
 						</div>
 						<div class="col-xs-9 text-right">	
-							<div style="font-size: 40px;">15</div>
-	                        <div>Issues Closed!</div>
+							<div style="font-size: 40px;"><%= closedIssues.size() %></div>
+	                        <div>Issue(s) Closed!</div>
 						</div>			
 					</div>
 				</div>
@@ -81,7 +84,7 @@
 						</div>
 						<div class="col-xs-9 text-right">	
 							<div style="font-size: 40px;">10</div>
-							<div>Issues Approaching Deadline</div>
+							<div>Issue(s) Approaching Deadline</div>
 						</div>		
 					</div>
 				</div>
@@ -100,7 +103,7 @@
 						</div>
 						<div class="col-xs-9 text-right">	
 							<div style="font-size: 40px;">20</div>
-	                        <div>New Issues Submitted!</div>
+	                        <div>New Issue(s) Submitted!</div>
 						</div>		
 					</div>
 				</div>
@@ -116,7 +119,7 @@
 	<div class="row">
 	<div class="col-sm-12">
 		<div class="row">
-			<h3 class="col-sm-9">All Issues Assigned To Me</h3>
+			<h3 class="col-sm-9"><%= "customer".equalsIgnoreCase(usertype) == true ? "Open Issues Created By Me" : "Open Issues Assigned To Me"%></h3>
 			<div class="col-sm-3" style="margin-top: 15px;">
 				<a href="/createissue.jsp" class="btn btn-primary pull-right">Add new</a>
 			</div>
@@ -187,6 +190,24 @@
 		</div>
 	</div> <!-- .row -->
 </div> <!-- .container-fluid -->
+
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	    	<div class="modal-header">
+	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        	<h4 class="modal-title">Issue Details</h4>
+	      	</div>
+	      	
+	      	<div class="modal-body">
+	        	
+	      	</div>
+	      	<div class="modal-footer">
+	        	<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+	      	</div>
+	    </div>
+	</div>
+</div>
 
 <!-- jQuery -->
 <script src="js/jquery.min.js"></script>
