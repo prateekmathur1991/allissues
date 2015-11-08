@@ -44,14 +44,14 @@ public class LoginServlet extends HttpServlet {
 	private static Logger logger = Logger.getLogger(LoginServlet.class.getName());
 
 	/**
-	 * doGet implementation for RegisterServlet
+	 * doGet implementation for LoginServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException	{
 		response.sendError(HttpServletResponse.SC_NOT_FOUND);
 	}
        
    /**
-	 * doPost implementation for RegisterServlet
+	 * doPost implementation for LoginServlet
 	 * 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -77,11 +77,11 @@ public class LoginServlet extends HttpServlet {
 			if (!email.equals("") && !password.equals("")) {
 				boolean loginSuccess = false;
 				logger.info("Trying to load customer entity");
-				customer = ofy().load().key(Key.create(Customer.class, email)).now();
+				customer = (Customer) ofy().load().key(Key.create(Customer.class, email)).now();
 				
 				if (null == customer) {
 					logger.info("customer entity not found. Trying to load developer entity");
-					developer = ofy().load().key(Key.create(Developer.class, email)).now();
+					developer = (Developer) ofy().load().key(Key.create(Developer.class, email)).now();
 					
 					if (developer != null) {
 						logger.info("developer entity found");

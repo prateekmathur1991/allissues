@@ -23,6 +23,8 @@
 
 package com.allissues.data;
 
+import java.util.Date;
+
 import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
@@ -83,13 +85,13 @@ public class Issue {
 	 * Estimated resolution date, set either by the customer or the developer
 	 */
 	@Index
-	private String estimatedResolutionDate;
+	private Date estimatedResolutionDate;
 	
 	/**
 	 * Actual resolution date, on which the issue was resolved
 	 */
 	@Index
-	private String actualResolutionDate;
+	private Date actualResolutionDate;
 	
 	/**
 	 *  Represents if this issue was created by a developer. Can be used to exclude the issue from a customer's search,
@@ -108,11 +110,11 @@ public class Issue {
 		this.priority = priority;
 		this.createdBy = createdBy;
 		this.assignedTo = assignedTo;
-		this.estimatedResolutionDate = deadline;
+		this.estimatedResolutionDate = new Date(deadline);
 		this.developerIssue = developerIssue;
 		
 		this.status = "OPEN";
-		this.actualResolutionDate = "";
+		this.actualResolutionDate = null;
 	}
 	
 	/**
@@ -161,14 +163,14 @@ public class Issue {
 	 * Getter for estimatedResolutionDate
 	 */
 	public String getEstimatedResolutionDate()	{
-		return estimatedResolutionDate;
+		return estimatedResolutionDate.toGMTString();
 	}
 	
 	/**
 	 * Getter for actualResolutionDate
 	 */
 	public String getActualResolutionDate()	{
-		return actualResolutionDate;
+		return actualResolutionDate.toGMTString();
 	}
 	
 	/**
@@ -183,37 +185,6 @@ public class Issue {
 	 */
 	public Key<Project> getProjectKey()	{
 		return this.projectKey;
-	}
-	
-	/**
-	 * Updates various parameters of the issue
-	 */
-	public void update(String title, String description, int priority, String status, String estimatedResolutionDate, 
-			String actualResolutionDate) {
-		
-		if (null != title) {
-			this.title = title;
-		}
-		
-		if (null != description) {
-			this.description = new Text(description);
-		}
-		
-		if (priority != 0) {
-			this.priority = priority;
-		}
-		
-		if (null != status) {
-			this.status = status;
-		}
-		
-		if (null != estimatedResolutionDate) {
-			this.estimatedResolutionDate = estimatedResolutionDate;
-		}
-		
-		if (null != actualResolutionDate) {
-			this.actualResolutionDate = actualResolutionDate;
-		}
 	}
 	
 	// Making the default constructor private
