@@ -1,3 +1,4 @@
+<%@page import="com.allissues.service.OfyService"%>
 <%@page import="com.allissues.data.Customer"%>
 <%@page import="java.io.StringWriter"%>
 <%@page import="java.io.PrintWriter"%>
@@ -7,7 +8,7 @@
 <%@page import="com.allissues.data.Developer"%>
 <%@page import="com.googlecode.objectify.Key"%>
 <%@page import="com.allissues.data.Issue"%>
-<%@page import="com.googlecode.objectify.ObjectifyService"%>
+<%@page import="com.allissues.service.OfyService"%>
 <%@page import="com.googlecode.objectify.Objectify"%>
 <%@ page import="java.util.logging.Logger"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -41,17 +42,17 @@
 			List<String> allProjects = null;
 			
 			if ("developer".equalsIgnoreCase(usertype))	{
-				developer = ObjectifyService.ofy().load().key(Key.create(Developer.class, useremail)).now();
+				developer = OfyService.ofy().load().key(Key.create(Developer.class, useremail)).now();
 				
 				if (null != developer)	{
 					projectKey = developer.getProject();
-					project = ObjectifyService.ofy().load().key(projectKey).now();
+					project = OfyService.ofy().load().key(projectKey).now();
 					
 					allProjects = developer.getProjects();
 				}
 				
 			} else if ("customer".equalsIgnoreCase(usertype))	{
-				customer = ObjectifyService.ofy().load().key(Key.create(Customer.class, useremail)).now();
+				customer = OfyService.ofy().load().key(Key.create(Customer.class, useremail)).now();
 				
 				if (null != customer)	{
 					allProjects = customer.getAllProjects(); 
@@ -122,10 +123,11 @@
 	            <div class="col-sm-10">
 	                <select class="form-control" id="assigned-to" name="assigned-to">
 	                	<% for (String workDeveloperStr : project.getAllDevelopers())	{
-	                		Developer workDeveloper = (Developer) ObjectifyService.ofy().load().key(Key.create(workDeveloperStr)).now();
+	                		Developer workDeveloper = (Developer) OfyService.ofy().load().key(Key.create(workDeveloperStr)).now();
 	                	%>
 	                		<option value="<%= workDeveloper.getEmail() %>"><%= workDeveloper.getName() %></option>
 	                	<% } %>
+	                	<option value="<%= useremail %>">-ASSIGN TO MYSELF-</option>
 	                </select>
 	            </div>
 	        </div>
@@ -141,7 +143,7 @@
 	        		
 	        		<% for (String strProjectKey : allProjects)	{
 	        			Key<Project> workProjectKey = Key.create(strProjectKey);
-	        			Project workProject = (Project) ObjectifyService.ofy().load().key(workProjectKey).now();
+	        			Project workProject = (Project) OfyService.ofy().load().key(workProjectKey).now();
 	        		%>
 	        			<option value="<%= workProjectKey.getId() %>"><%= workProject.getName() %></option>
 	        		<% } %>
@@ -182,9 +184,18 @@
 <!-- TinyMCE -->
 <script type="text/javascript" src="tinymce/tinymce.min.js"></script>
 
+<script type="text/javascript">
+	$('#project').on('change', function ()	{
+		if ($(this).find(':selected').val() == '<%= projectKey.getId() %>')	{
+			$('#assigned-to').attr('disabled', 'disabled');
+		} else {
+			$('#assigned-to').removeAttr('disabled');
+		}
+	});
+</script>
+
 <!-- Custom JavaScript -->
 <script type="text/javascript" src="js/createissue.js"></script>
-
 
 </body>
 </html>
