@@ -94,6 +94,12 @@ public class Issue {
 	private Date actualResolutionDate;
 	
 	/**
+	 * Date on which issue was created
+	 */
+	@Index
+	private Date createdOn;
+	
+	/**
 	 *  Represents if this issue was created by a developer. Can be used to exclude the issue from a customer's search,
 	 *  or hide it on the customer home page.
 	 */
@@ -104,6 +110,8 @@ public class Issue {
 	 * Public constructor for Issue
 	 */
 	public Issue(Key<Project> projectKey, String title, String description, int priority, String createdBy, String assignedTo, String deadline, boolean developerIssue)	{
+		this.createdOn = new Date();
+		
 		this.projectKey = projectKey;
 		this.title = title;
 		this.description = new Text(description);
@@ -163,14 +171,21 @@ public class Issue {
 	 * Getter for estimatedResolutionDate
 	 */
 	public String getEstimatedResolutionDate()	{
-		return estimatedResolutionDate.toGMTString();
+		return estimatedResolutionDate.toLocaleString();
 	}
 	
 	/**
 	 * Getter for actualResolutionDate
 	 */
 	public String getActualResolutionDate()	{
-		return actualResolutionDate.toGMTString();
+		return actualResolutionDate.toLocaleString();
+	}
+	
+	/**
+	 * Getter for createdOn
+	 */
+	public String getCreatedOn()	{
+		return createdOn.toLocaleString();
 	}
 	
 	/**

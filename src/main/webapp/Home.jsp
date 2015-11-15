@@ -1,3 +1,6 @@
+<%@page import="com.allissues.service.OfyService"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.util.Calendar"%>
 <%@page import="com.allissues.data.Project"%>
 <%@page import="com.googlecode.objectify.Key"%>
 <%@page import="com.googlecode.objectify.cmd.QueryKeys"%>
@@ -6,7 +9,6 @@
 <%@page import="com.allissues.data.Issue"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.logging.Logger"%>
-<%@page import="com.googlecode.objectify.ObjectifyService"%>
 <%@page import="com.googlecode.objectify.Objectify"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -53,7 +55,18 @@
 
 <div class="container-fluid">
 <%
-	List<Key<Issue>> closedIssues = ObjectifyService.ofy().load().type(Issue.class).filter("status", "CLOSED").filter("assignedTo", useremail).keys().list();
+	List<Key<Issue>> closedIssues = OfyService.ofy().load().type(Issue.class).filter("status", "CLOSED").filter("assignedTo", useremail).keys().list();
+	
+	Calendar cal = Calendar.getInstance();
+	cal.setTime(new Date());
+	cal.add(Calendar.DATE, 7);
+	
+	Calendar cal2 = Calendar.getInstance();
+	cal2.setTime(new Date());
+	cal2.add(Calendar.DATE, -7);
+	
+	List<Key<Issue>> approachingIssues = OfyService.ofy().load().type(Issue.class).filter("status", "OPEN").filter("assignedTo", useremail).filter("estimatedResolutionDate <=", cal.getTime()).keys().list();
+	List<Key<Issue>> submittedIssues = OfyService.ofy().load().type(Issue.class).filter("status", "OPEN").filter("assignedTo", useremail).filter("createdOn >=", cal2.getTime()).keys().list();
 %>
 	<div class="row">
 		<div class="col-lg-4 col-md-6">
@@ -83,7 +96,7 @@
 							<i class="fa fa-exclamation-circle fa-5x"></i>
 						</div>
 						<div class="col-xs-9 text-right">	
-							<div style="font-size: 40px;">10</div>
+							<div style="font-size: 40px;"><%= approachingIssues.size() %></div>
 							<div>Issue(s) Approaching Deadline</div>
 						</div>		
 					</div>
@@ -102,7 +115,7 @@
 							<i class="fa fa-tasks fa-5x"></i>
 						</div>
 						<div class="col-xs-9 text-right">	
-							<div style="font-size: 40px;">20</div>
+							<div style="font-size: 40px;"><%= submittedIssues.size() %></div>
 	                        <div>New Issue(s) Submitted!</div>
 						</div>		
 					</div>
@@ -132,7 +145,7 @@
 						<td>Title</td>
 						<td>Priority</td>
 						<td>Created By</td>
-						<td>Assigned To</td>
+						<td>Created On</td>
 						<td>Estimated Resolution Date</td>
 					</tr>		
 				</thead>
@@ -142,22 +155,33 @@
 					List<Key<Issue>> openIssues = null;
 					
 					if ("developer".equalsIgnoreCase(usertype))	{
-						openIssues = ObjectifyService.ofy().load().type(Issue.class).filter("status", "OPEN").filter("assignedTo", useremail).keys().list();
+						logger.info("developer logged in. Loading issues assigned to him");
+						openIssues = OfyService.ofy().load().type(Issue.class).filter("status", "OPEN").filter("assignedTo", useremail).keys().list();
 					} else if ("customer".equalsIgnoreCase(usertype))	{
-						openIssues = ObjectifyService.ofy().load().type(Issue.class).filter("status", "OPEN").filter("createdBy", useremail).filter("developerIssue", false).keys().list();
+						logger.info("customer logged in. Loading issues created by him");
+						openIssues = OfyService.ofy().load().type(Issue.class).filter("status", "OPEN").filter("createdBy", useremail).filter("developerIssue", false).keys().list();
 					}
 					
 					if (null != openIssues)	{
+						logger.info("openIssues not null");
 						if (openIssues.size() > 0)	{
+							logger.info("openIssues size zero. Startging issueKey loop");
 							for (Key<Issue> issueKey : openIssues)	{
-								Issue issue = ObjectifyService.ofy().load().key(issueKey).now();
+								logger.info("Inside issueKey loop. Loading issue now");
+								
+								Issue issue = OfyService.ofy().load().key(issueKey).now();
+								logger.info("Got issue:: " + issue);
+								
 								String issueUrl = "";
 								if (null != issue && null != issue.getProjectKey())	{
 									issueUrl = "/issue/" + issue.getTitle().toLowerCase().replace(" ", "-") + "-" + issueKey.getId() + "-" + issue.getProjectKey().getId();
 								}
+								logger.info("issueUrl:: " + issueUrl);
 				%>
 				<tr>
+					<% logger.info("printing key"); %>
 					<td><%= issueKey.getId() %></td>
+					<% logger.info("printing url"); %>
 					<td>
 						<% if ("".equals(issueUrl)) { %>
 							<span><%= null != issue ? issue.getTitle() : "N/A" %></span>
@@ -165,9 +189,13 @@
 							<a target="_blank" href="<%= issueUrl %>"><%= null != issue ? issue.getTitle() : "N/A" %></a>
 						<% } %>
 					</td>
+					<% logger.info("printing priority"); %>
 					<td><%= null != issue ? (issue.getPriority() == 1 ? "LOW" : (issue.getPriority() == 2 ? "MEDIUM" : "HIGH")) : "N/A" %></td>
+					<% logger.info("printing createdBy"); %>
 					<td><%= null != issue ? issue.getCreatedBy() : "N/A" %></td>
-					<td><%= null != issue ? issue.getAssignedTo() : "N/A" %></td>
+					<% logger.info("printing createdOn"); %>
+					<td><%= null != issue ? issue.getCreatedOn() : "N/A" %></td>
+					<% logger.info("printing estimatedResDate"); %>
 					<td><%= null != issue ? issue.getEstimatedResolutionDate() : "N/A" %></td>
 				</tr>
 				<%
