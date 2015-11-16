@@ -105,6 +105,28 @@
 			<%= null == issue ? "N/A" : issue.getDescription() %>
 		</div>
 	</div>
+	
+	<% 
+	   	if (null != issue) {
+			if (useremail.equals(issue.getAssignedTo()))	{ 
+	%>
+		<div class="row" style="margin-top: 22px;">
+			<div class="col-sm-12">
+				<button id="close" data-projectid="<%= projectid %>" data-issueid="<%= id %>" class="btn btn-danger" type="button">Close This Issue</button>
+			</div>
+		</div>
+	<% 
+			}
+		} 
+	%>
+	
+	<div class="row" style="margin-top: 22px;">
+		<div class="col-sm-12">
+			<div class="alert alert-success" id="issue-alert">
+				
+			</div>
+		</div>
+	</div>
 </div> <!-- .container-fluid -->
 
 <!-- jQuery -->
@@ -112,6 +134,9 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+<!-- Custom JavaScript -->
+<script type="text/javascript" src="/js/viewissue.js"></script>
 
 </body>
 </html>
@@ -121,7 +146,7 @@
 	} catch (Exception e)	{
 	    logger.warning("Exception on page viewissue.jsp. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
 		for (StackTraceElement elem : e.getStackTrace())	{
-logger.warning(elem.toString());
+			logger.warning(elem.toString());
 		}
 		e.printStackTrace();
 	}

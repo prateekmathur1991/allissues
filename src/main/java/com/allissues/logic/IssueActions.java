@@ -19,6 +19,7 @@ package com.allissues.logic;
 import static com.allissues.service.OfyService.ofy;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -73,24 +74,72 @@ public class IssueActions extends HttpServlet {
 			if ("".equals(username) || "".equals(usertype) || "".equals(useremail))	{
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			} else {
-				String title = request.getParameter("title") == null ? "" : request.getParameter("title");
-				String description = request.getParameter("description") == null ? "" : request.getParameter("description");
-				int priority = request.getParameter("priority") == null ? 0 : Integer.parseInt(request.getParameter("priority"));
-				String assignedTo = request.getParameter("assigned-to") == null ? "" : request.getParameter("assigned-to");
-				String deadline = request.getParameter("res-date") == null ? "" : request.getParameter("res-date");
-				String project = request.getParameter("project") == null ? "" : request.getParameter("project");
+				String action = request.getParameter("action") == null ? "" : request.getParameter("action");
 				
-				logger.info("title:: " + title + " priority:: " + priority + " assignedTo:: " + assignedTo + " projectId:: " + project + " deadline:: " + deadline);
-				
-				Key<Project> projectKey = Key.create(Project.class, Long.parseLong(project));
-				Issue issue = new Issue(projectKey, title, description, priority, useremail, assignedTo, deadline, "developer".equalsIgnoreCase(usertype) == true ? true : false);
-				
-				Key<Issue> key = ofy().save().entity(issue).now();
-				long id = key.getId();
-
-				logger.info("Issue saved successfully. Generated ID:: " + id + " Parent project ID:: " + projectKey.getId());
-				
-				response.sendRedirect("/issue/" + title.toLowerCase().replaceAll(" ", "-") + "-" + id + "-" + projectKey.getId());
+				if ("close".equals(action))	{
+					PrintWriter pout = null;
+					
+					try {
+						pout = response.getWriter();
+						
+						long id = request.getParameter("id") == null ? 0 : Long.parseLong(request.getParameter("id"));
+						long projectid = request.getParameter("projectid") == null ? 0 : Long.parseLong(request.getParameter("projectid"));
+						
+						if (id > 0 && projectid > 0)	{
+							Key<Project> projectKey = Key.create(Project.class, projectid);
+							logger.info("Got project key:: " + projectKey);
+							
+							Issue issue = null;
+							if (null != projectKey)	{
+								issue = ofy().load().key(Key.create(projectKey, Issue.class, id)).now();
+								logger.info("Got issue:: " + issue);
+							} else {
+								logger.warning("projectKey null");
+								pout.println("closeError");
+							}
+							
+							if (null != issue)	{
+								issue.close();
+								ofy().save().entity(issue).now();
+								pout.println("closeSuccess");
+							} else {
+								logger.warning("issue null");
+								pout.println("closeError");
+							}
+						}
+					} catch (Exception e) {
+						logger.warning("Exception in IssueActions Servlet doPost method while closing issue. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
+						for (StackTraceElement elem : e.getStackTrace()) {
+						    logger.warning(elem.toString());
+						}
+						pout.println("closeError");
+						e.printStackTrace();
+					} finally {
+						if (null != pout)	{
+							pout.close();
+							pout = null;
+						}
+					}
+				} else {
+					String title = request.getParameter("title") == null ? "" : request.getParameter("title");
+					String description = request.getParameter("description") == null ? "" : request.getParameter("description");
+					int priority = request.getParameter("priority") == null ? 0 : Integer.parseInt(request.getParameter("priority"));
+					String assignedTo = request.getParameter("assigned-to") == null ? "" : request.getParameter("assigned-to");
+					String deadline = request.getParameter("res-date") == null ? "" : request.getParameter("res-date");
+					String project = request.getParameter("project") == null ? "" : request.getParameter("project");
+					
+					logger.info("title:: " + title + " priority:: " + priority + " assignedTo:: " + assignedTo + " projectId:: " + project + " deadline:: " + deadline);
+					
+					Key<Project> projectKey = Key.create(Project.class, Long.parseLong(project));
+					Issue issue = new Issue(projectKey, title, description, priority, useremail, assignedTo, deadline, "developer".equalsIgnoreCase(usertype) == true ? true : false);
+					
+					Key<Issue> key = ofy().save().entity(issue).now();
+					long id = key.getId();
+	
+					logger.info("Issue saved successfully. Generated ID:: " + id + " Parent project ID:: " + projectKey.getId());
+					
+					response.sendRedirect("/issue/" + title.toLowerCase().replaceAll(" ", "-") + "-" + id + "-" + projectKey.getId());
+				}
 			}
 		} catch (Exception e)	{
 			logger.warning("Exception in IssueActions Servlet doPost method. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());

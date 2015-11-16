@@ -126,6 +126,13 @@ public class Issue {
 	}
 	
 	/**
+	 * Closes This Issue
+	 */
+	public void close()	{
+		this.status = "CLOSED";
+	}
+	
+	/**
 	 * Getter for Title
 	 */
 	public String getTitle()	{
