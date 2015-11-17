@@ -16,11 +16,11 @@
 
 package com.allissues.service;
 
+import com.allissues.data.Comment;
 import com.allissues.data.Customer;
 import com.allissues.data.Developer;
 import com.allissues.data.Issue;
 import com.allissues.data.Project;
-
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
@@ -37,6 +37,7 @@ public class OfyService {
         factory().register(Developer.class);
         factory().register(Issue.class);
         factory().register(Project.class);
+        factory().register(Comment.class);
     }
 
     /**
