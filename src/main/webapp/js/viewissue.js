@@ -65,7 +65,7 @@ $('#add-comment-button').on('click', function ()	{
 	}
 	
 	if (check)	{
-		$.post('/AddIssue', {action: 'addcomment', title: title, body: body}, function (response)	{
+		$.post('/AddIssue', {action: 'addcomment', title: title, body: body, issuekey: $('#issuekey').val()}, function (response)	{
 			
 		});
 	}

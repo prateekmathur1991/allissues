@@ -109,6 +109,8 @@
 	<h4 style="margin-top: 30px;">Add a Comment</h4>
 	
 	<form>
+	 	<input type="hidden" id="issuekey" name="issuekey" value="<%= Key.create(projectKey, Issue.class, id).getString() %>" />
+	 	
 	 	<div id="title-group" class="form-group">
 	    	<label for="comment-title">Title</label>
 	    	<input class="form-control" id="comment-title" name="comment-title" placeholder="Comment Title" type="text">

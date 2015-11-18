@@ -67,7 +67,8 @@ public class Comment {
 	/**
 	 * Public Constructor for Comment
 	 */
-	public Comment(String title, String body, String useremail)	{
+	public Comment(Key<Issue> issueKey, String title, String body, String useremail)	{
+		this.issueKey = issueKey;
 		this.title = title;
 		this.body = new Text(body);
 		this.useremail = useremail;

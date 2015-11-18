@@ -125,14 +125,15 @@ public class IssueActions extends HttpServlet {
 				} else if ("addcomment".equalsIgnoreCase(action)) {
 					 String commentTitle = request.getParameter("title") == null ? "" : request.getParameter("title");
 					 String commentBody = request.getParameter("body") == null ? "" : request.getParameter("body");
+					 String issuekeystr = request.getParameter("issuekey") == null ? "" : request.getParameter("issuekey");
 					 
-					 logger.info("Comment Title:: " + commentTitle + " Comment Body:: " + commentBody);
+					 logger.info("Comment Title:: " + commentTitle + " Comment Body:: " + commentBody + " issuekey:: " + issuekey);
 					 
-					 // TODO
-					 // Add a line to add Issue Key to Comment Constructor
-					 // Add the code to create and save a comment in datastore.
-					 Comment comment = new Comment(commentTitle, commentBody, useremail);
-					
+					 Key<Issue> issueKey = Key.create(issuekeystr);
+					 logger.info("Got issuekey:: " + issueKey);
+					 
+					 Comment comment = new Comment(issueKey, commentTitle, commentBody, useremail);
+					 ofy().save().entity(comment).now();
 				} else {
 					String title = request.getParameter("title") == null ? "" : request.getParameter("title");
 					String description = request.getParameter("description") == null ? "" : request.getParameter("description");
