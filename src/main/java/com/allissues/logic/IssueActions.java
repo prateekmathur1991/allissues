@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.allissues.data.Comment;
 import com.allissues.data.Issue;
 import com.allissues.data.Project;
 import com.googlecode.objectify.Key;
@@ -120,6 +121,18 @@ public class IssueActions extends HttpServlet {
 							pout = null;
 						}
 					}
+					
+				} else if ("addcomment".equalsIgnoreCase(action)) {
+					 String commentTitle = request.getParameter("title") == null ? "" : request.getParameter("title");
+					 String commentBody = request.getParameter("body") == null ? "" : request.getParameter("body");
+					 
+					 logger.info("Comment Title:: " + commentTitle + " Comment Body:: " + commentBody);
+					 
+					 // TODO
+					 // Add a line to add Issue Key to Comment Constructor
+					 // Add the code to create and save a comment in datastore.
+					 Comment comment = new Comment(commentTitle, commentBody, useremail);
+					
 				} else {
 					String title = request.getParameter("title") == null ? "" : request.getParameter("title");
 					String description = request.getParameter("description") == null ? "" : request.getParameter("description");
@@ -139,6 +152,7 @@ public class IssueActions extends HttpServlet {
 					logger.info("Issue saved successfully. Generated ID:: " + id + " Parent project ID:: " + projectKey.getId());
 					
 					response.sendRedirect("/issue/" + title.toLowerCase().replaceAll(" ", "-") + "-" + id + "-" + projectKey.getId());
+					
 				}
 			}
 		} catch (Exception e)	{

@@ -106,20 +106,22 @@
 		</div>
 	</div>
 	
-	<h2 style="margin-top: 30px;">Add a Comment</h2>
+	<h4 style="margin-top: 30px;">Add a Comment</h4>
 	
 	<form>
-	 	<div class="form-group">
+	 	<div id="title-group" class="form-group">
 	    	<label for="comment-title">Title</label>
 	    	<input class="form-control" id="comment-title" name="comment-title" placeholder="Comment Title" type="text">
 	  	</div>
 	  
-	  	<div class="form-group">
+	  	<div id="body-group" class="form-group">
 	    	<label for="comment-body">Comment</label>
 	    	<textarea class="form-control" id="comment-body"></textarea>
 	  	</div>
-	  
+
 	  	<button type="button" id="add-comment-button" class="btn btn-primary">Submit</button>
+	  		
+	  	</div>
 	</form>
 	
 	<% 
