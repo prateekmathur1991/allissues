@@ -65,8 +65,26 @@ $('#add-comment-button').on('click', function ()	{
 	}
 	
 	if (check)	{
+		$('#loader').removeClass('hidden');
 		$.post('/AddIssue', {action: 'addcomment', title: title, body: body, issuekey: $('#issuekey').val()}, function (response)	{
+			response = response.replace(/\n\r/g, '').replace(/\r/g, '').replace(/\n/g, '');
+			$('#loader').addClass('hidden');
 			
+			if (response == 'addCommentSuccess')	{
+				$('#issue-alert').addClass('alert-success').removeClass('alert-danger');
+				$('#issue-alert').html('Comment Added Successfully. Page will reload soon');
+				$('#issue-alert').slideDown();
+				setTimeout(function ()	{
+					document.location.reload();
+				}, 5000);
+			} else if (response == 'addCommentError')	{
+				$('#issue-alert').addClass('alert-danger').removeClass('alert-success');
+				$('#issue-alert').html('The server encountered an error while performing the operation. Please try again.');
+				$('#issue-alert').slideDown();
+				setTimeout(function ()	{
+					$('#issue-alert').slideUp();
+				}, 5000);
+			}
 		});
 	}
 });

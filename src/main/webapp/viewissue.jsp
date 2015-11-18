@@ -39,8 +39,9 @@
 				Key<Issue> issueKey = null;
 				Issue issue = null;
 				
+				Key<Project> projectKey = null;
 				if (id != 0 && projectid != 0)	{
-					Key<Project> projectKey = Key.create(Project.class, projectid);
+					projectKey = Key.create(Project.class, projectid);
 					logger.info("Created project Key:: " + projectKey);
 					issue = ObjectifyService.ofy().load().key(Key.create(projectKey, Issue.class, id)).now();
 					logger.info("Got issue:: " + issue);
@@ -106,6 +107,20 @@
 		</div>
 	</div>
 	
+	<% 
+	   	if (null != issue) {
+			if (useremail.equals(issue.getAssignedTo()) && issue.getStatus().equalsIgnoreCase("OPEN"))	{ 
+	%>
+		<div class="row" style="margin-top: 22px;">
+			<div class="col-sm-12">
+				<button id="close" data-projectid="<%= projectid %>" data-issueid="<%= id %>" class="btn btn-danger" type="button">Close This Issue</button>
+			</div>
+		</div>
+	<% 
+			}
+		} 
+	%>
+	
 	<h4 style="margin-top: 30px;">Add a Comment</h4>
 	
 	<form>
@@ -122,23 +137,8 @@
 	  	</div>
 
 	  	<button type="button" id="add-comment-button" class="btn btn-primary">Submit</button>
-	  		
-	  	</div>
-	</form>
-	
-	<% 
-	   	if (null != issue) {
-			if (useremail.equals(issue.getAssignedTo()) && issue.getStatus().equalsIgnoreCase("OPEN"))	{ 
-	%>
-		<div class="row" style="margin-top: 22px;">
-			<div class="col-sm-12">
-				<button id="close" data-projectid="<%= projectid %>" data-issueid="<%= id %>" class="btn btn-danger" type="button">Close This Issue</button>
-			</div>
-		</div>
-	<% 
-			}
-		} 
-	%>
+	  	<img id="loader" class="col-sm-offset-1 hidden" src="/img/ajax-loader.gif"/>	
+	  </form>
 	
 	<div class="row" style="margin-top: 22px;">
 		<div class="col-sm-12">

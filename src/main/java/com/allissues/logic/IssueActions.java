@@ -123,17 +123,41 @@ public class IssueActions extends HttpServlet {
 					}
 					
 				} else if ("addcomment".equalsIgnoreCase(action)) {
-					 String commentTitle = request.getParameter("title") == null ? "" : request.getParameter("title");
-					 String commentBody = request.getParameter("body") == null ? "" : request.getParameter("body");
-					 String issuekeystr = request.getParameter("issuekey") == null ? "" : request.getParameter("issuekey");
-					 
-					 logger.info("Comment Title:: " + commentTitle + " Comment Body:: " + commentBody + " issuekey:: " + issuekey);
-					 
-					 Key<Issue> issueKey = Key.create(issuekeystr);
-					 logger.info("Got issuekey:: " + issueKey);
-					 
-					 Comment comment = new Comment(issueKey, commentTitle, commentBody, useremail);
-					 ofy().save().entity(comment).now();
+					PrintWriter pout = null; 
+					
+					try {
+						pout = response.getWriter();
+						
+						String commentTitle = request.getParameter("title") == null ? "" : request.getParameter("title");
+						String commentBody = request.getParameter("body") == null ? "" : request.getParameter("body");
+						String issuekeystr = request.getParameter("issuekey") == null ? "" : request.getParameter("issuekey");
+						 
+						logger.info("Comment Title:: " + commentTitle + " Comment Body:: " + commentBody + " issuekey:: " + issuekeystr);
+						 
+						Key<Issue> issueKey = Key.create(issuekeystr);
+						logger.info("Got issuekey:: " + issueKey);
+						 
+						Comment comment = new Comment(issueKey, commentTitle, commentBody, useremail);
+						ofy().save().entity(comment).now();
+						
+						pout.println("addCommentSuccess");
+					} catch (Exception e) {
+						logger.warning("Exception while adding comment. Exception class:: " + e.getClass().getName() + " Exception message:: " + e.getLocalizedMessage());
+						for (StackTraceElement elem : e.getStackTrace())	{
+							logger.warning(elem.toString());
+						}
+						e.printStackTrace();
+						pout.println("addCommentError");
+					} finally {
+						try {
+							if (null != pout) {
+								pout.close();
+								pout = null;
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
 				} else {
 					String title = request.getParameter("title") == null ? "" : request.getParameter("title");
 					String description = request.getParameter("description") == null ? "" : request.getParameter("description");
