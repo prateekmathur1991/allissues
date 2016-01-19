@@ -6,3 +6,7 @@ customers and dev team, by providing a common platform to discuss about enhancem
 
 All Issues can be be used by customers and developers alike, wherein customers can open issues in the software that can be communicated to the dev team, and
 the dev team can start working on the issues to fix them.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/prateekmathur1991/allissues/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
